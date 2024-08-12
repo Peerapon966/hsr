@@ -1,0 +1,359 @@
+@import "../../../../globals.css";
+
+.login-overlay-dialog-container * {
+  font-family: Inter, "Microsoft YaHei", sans-serif !important;
+}
+
+.login-overlay-dialog-container {
+  position: fixed;
+  visibility: hidden;
+  background-color: var(--el-overlay-color-lighter);
+  opacity: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100vh;
+  width: 100%;
+  z-index: 999;
+  transition: opacity var(--el-transition-duration) var(--el-transition-function-ease-in-out-bezier), visibility var(--el-transition-duration) var(--el-transition-function-ease-in-out-bezier);
+}
+
+.auxiliary-overlay-dialog-container {
+  z-index: 1010;
+  transition: opacity var(--el-transition-duration) var(--el-transition-function-ease-in-out-bezier), visibility var(--el-transition-duration) var(--el-transition-function-ease-in-out-bezier);
+}
+
+.overlay-dialog-animation {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.dialog-container {
+  visibility: hidden;
+  opacity: 0;
+  border-radius: 28px;
+  background-color: var(--white);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -55%);
+  transition: opacity var(--el-transition-duration) var(--el-transition-function-ease-in-out-bezier), visibility var(--el-transition-duration) var(--el-transition-function-ease-in-out-bezier), transform var(--el-transition-duration) var(--el-transition-function-ease-in-out-bezier);
+}
+
+.login-dialog-container {
+  width: 450px;
+  padding: 32px;
+}
+
+.login-dialog-animation {
+  transform: translate(-50%, -50%) !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.auxiliary-dialog-container {
+  border-radius: 20px;
+  width: 400px;
+}
+
+.auxiliary-dialog-header {
+  padding: 24px 28px 0 28px;
+  margin-right: 24px;
+}
+
+.options {
+  box-sizing: border-box;
+  padding: 28px;
+  font-weight: 500;
+}
+
+.login-problems {
+  font-size: 16px;
+}
+
+.login-problem {
+  border-radius: 12px;
+  text-decoration: none;
+  margin-top: 16px;
+  padding: 12px;
+  background-color: var(--account-color-gray-1);
+  color: var(--account-color-gray-8);
+  border: none;
+  transition: background-color 0.1s;
+}
+
+.login-problem:hover {
+  background-color: var(--account-color-gray-2);
+}
+
+.agreement-body {
+  margin-top: 16px;
+  padding: 24px 28px;
+  font-size: 14px;
+  color: var(--account-color-gray-7);
+  line-height: 24px;
+}
+
+.agreement-body span a {
+  text-decoration: none;
+  color: var(--account-button-text-color);
+}
+
+.agreement-body a:hover {
+  color: var(--account-color-primary-4);
+}
+
+.agreement-options {
+  font-size: 14px;
+}
+
+.option {
+  border-radius: 12px;
+  text-decoration: none;
+  margin-top: 12px;
+  padding: 8px 20px;
+  height: 48px;
+  cursor: pointer;
+}
+
+.accept {
+  border: 1.5px solid var(--account-button-background-default);
+  background-color: var(--account-button-background-default);
+  color: var(--account-button-text-color);
+}
+
+.decline {
+  border: 1.5px solid var(--account-color-gray-3);
+  color: var(--account-color-gray-8);
+  background-color: transparent;
+  transition: border 0.1s, color 0.1s;
+}
+
+.decline:hover {
+  border: 1.5px solid var(--account-button-text-hover-color);
+  color: var(--account-button-text-hover-color);
+}
+
+.dialog-header {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--account-color-gray-9);
+  display: block;
+}
+
+.close-login-btn {
+  cursor: pointer;
+  position: absolute;
+  background-image: var(--close-btn);
+  background-size: cover;
+  border: none;
+  background-color: transparent;
+  border-radius: 8px;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  z-index: 990;
+}
+
+.close-login-btn:hover {
+  background-color: var(--account-color-gray-1);
+}
+
+.close-login-btn:active {
+  background-color: var(--account-color-gray-2);
+}
+
+.hyv-logo {
+  background-image: var(--hyv-logo);
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 200px;
+  height: 48px;
+  margin: 0px auto;
+}
+
+.login-form-header,
+.register-form-header {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: 0;
+  margin: 18px 0;
+  color: var(--account-color-gray-9);
+}
+
+.submit-btn {
+  margin-top: 40px;
+  padding: 12px;
+  border-radius: 12px;
+  min-height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  background-color: var(--account-button-background-default);
+  color: var(--account-button-text-color);
+  cursor: pointer;
+  transition: background-color 0.1s, color 0.1s, cursor 0s;
+}
+
+.submit-btn.disabled {
+  cursor: not-allowed;
+  background-color: var(--account-color-button-disabled);
+  color: var(--account-color-text-disabled);
+  transition: background-color 0.1s, color 0.1s, cursor 0s;
+}
+
+.hyv-link {
+  font-size: 14px;
+}
+
+.hyv-link span {
+  margin-top: 16px;
+}
+
+.hyv-link span a {
+  text-decoration: none;
+  color: var(--account-button-text-color);
+  cursor: pointer;
+}
+
+.hyv-link a:hover {
+  color: var(--account-color-primary-4);
+}
+
+.hyv-link.hyv-register-link {
+  justify-content: space-between;
+}
+
+.hyv-link.hyv-login-link {
+  justify-content: center;
+  color: var(--account-color-gray-9);
+}
+
+.hyv-checkbox {
+  margin-top: 16px;
+}
+
+.checkbox-label {
+  font-size: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox {
+  width: 0px;
+  height: 0px;
+  position: absolute;
+}
+
+.visible-checkbox {
+  width: 14px;
+  height: 14px;
+  margin-top: 2px;
+  box-sizing: border-box;
+  border-radius: 6px;
+  border: solid 1px var(--account-color-gray-3);
+  background-color: var(--white);
+  transition: border 0.25s cubic-bezier(.71, -.46, .29, 1.46), background-color 0.25s cubic-bezier(.71, -.46, .29, 1.46);
+}
+
+.checked.visible-checkbox {
+  border: solid 1px var(--account-color-primary);
+  background-color: var(--account-color-primary);
+}
+
+.visible-checkbox::after {
+  content: "L";
+  color: var(--white);
+  font-weight: 300;
+  transform: rotate3d(-0.4, 1, 1, 180deg);
+  position: absolute;
+  top: 1px;
+  left: 4px;
+  transition: transform 0.4s cubic-bezier(.71, -.46, .29, 1.46);
+}
+
+.checked.visible-checkbox::after {
+  transform: rotate3d(-0.4, 1, 0, 180deg);
+}
+
+.checkbox-label-text {
+  color: var(--account-color-gray-7);
+  line-height: 18px;
+  font-weight: 500;
+  margin-left: 8px;
+}
+
+.checkbox-label-text a {
+  text-decoration: none;
+  color: var(--account-button-text-color);
+}
+
+.checkbox-label-text a:hover {
+  color: var(--account-button-text-hover-color);
+}
+
+.third-party-login-container {
+  margin-top: 32px;
+  font-size: 12px;
+  color: var(--account-color-gray-6);
+}
+
+.section-text {
+  justify-content: space-between;
+}
+
+.section-text::before {
+  margin-right: 8px;
+}
+
+.section-text::after {
+  margin-left: 8px;
+}
+
+.section-text::before,
+.section-text::after {
+  content: '';
+  flex: 1 1 0;
+  display: block;
+  border: solid 1px var(--account-color-gray-2);
+  align-self: center;
+}
+
+.login-methods-container {
+  margin-top: 24px;
+  margin-bottom: 8px;
+  margin-left: auto;
+  margin-right: auto;
+  width: fit-content;
+}
+
+.third-party {
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.google-bg {
+  background-image: var(--google-bg-image);
+  margin-right: 12px;
+}
+
+.apple-bg {
+  background-image: var(--apple-bg-image);
+  margin: 0 12px;
+}
+
+.facebook-bg {
+  background-image: var(--facebook-bg-image);
+  margin: 0 12px;
+}
+
+.twitter-bg {
+  background-image: var(--twitter-bg-image);
+  margin-left: 12px;
+}

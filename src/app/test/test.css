@@ -1,0 +1,10 @@
+.test-wrapper {
+  height: 100px;
+  width: 0px;
+  background-color: red;
+  transition: width 0.5s ease-in-out;
+}
+
+.test-animation {
+  width: 200px;
+}

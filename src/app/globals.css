@@ -1,0 +1,190 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* nextjs default style */
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* nextjs default style */
+
+html {
+  font-size: clamp(50px, calc(100vw / 25.6), 60px);
+  overflow-x: hidden;
+}
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Microsoft YaHei", "Arial", "Helvetica", sans-serif;
+  word-break: break-word;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  /* Remove scrollbar space */
+  background: transparent;
+  /* Optional: just make scrollbar invisible */
+}
+
+body {
+  margin: 0;
+  font-family: "Microsoft YaHei", "Arial", "Helvetica", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+:root {
+  --blue: #307af7;
+  --white: #ffffff;
+  --transparent: transparent;
+  --account-color-black: #000;
+  --account-color-white: #fff;
+  --account-color-bg1: #fff;
+  --account-color-bg2: #fafafc;
+  --account-color-toast: #323339;
+  --account-color-gray-0: #fff;
+  --account-color-gray-1: #fafafc;
+  --account-color-gray-2: #f3f4f7;
+  --account-color-gray-3: #e7e8ee;
+  --account-color-gray-4: #d4d6dd;
+  --account-color-gray-5: #b9bcc6;
+  --account-color-gray-6: #9ea2ae;
+  --account-color-gray-7: #6b707b;
+  --account-color-gray-8: #3c3f44;
+  --account-color-gray-9: #242629;
+  --account-color-gray-10: #18191b;
+  --account-color-red-4: #f6675a;
+  --account-color-red-5: #ea473e;
+  --account-color-red-6: #da322f;
+  --account-color-orange-4: #ffb752;
+  --account-color-orange-5: #f49a34;
+  --account-color-orange-6: #e68123;
+  --account-color-green-4: #4eda99;
+  --account-color-green-5: #2cc98a;
+  --account-color-green-6: #2db47e;
+  --account-color-primary-4: #e8b86f;
+  --account-color-primary: #db9a45;
+  --account-color-primary-6: #b57731;
+  --account-button-background-hover: #101113;
+  --account-button-background-default: #020407;
+  --account-button-background-active: #0f1012;
+  --account-button-text-color: #db9a45;
+  --account-button-text-hover-color: #e8b86f;
+  --account-color-input-error: #9e2830;
+  --account-color-toast: #323339;
+  --el-overlay-color: rgba(0, 0, 0, .8);
+  --el-overlay-color-light: rgba(0, 0, 0, .7);
+  --el-overlay-color-lighter: rgba(0, 0, 0, .5);
+  --el-mask-color: hsla(0, 0%, 100%, .9);
+  --el-mask-color-extra-light: hsla(0, 0%, 100%, .3);
+}
+
+:root {
+  --external-link: url("/header/link.png");
+  --hyv-logo: url("/shared/hyv_logo.png");
+  --close-btn: url("/shared/close-btn.png");
+  --white-close-btn: url("/header/white_close_btn.png");
+  --download-bg: url("/header/download_bg.png");
+  --rating: url("/header/rating.png");
+  --qr-code: url("/header/download_qr.png");
+}
+
+:root {
+  --share-icon: url("/sidebar/share_icon.png");
+}
+
+:root {
+  --el-transition-duration: 0.3s;
+  --el-transition-duration-fast: 0.2s;
+  --el-transition-function-ease-in-out-bezier: cubic-bezier(0.645, 0.045, 0.355, 1);
+  --el-transition-function-fast-bezier: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+:root {
+  --account-color-text-disabled: var(--account-color-gray-5);
+  --account-color-button-disabled: var(--account-color-gray-3);
+}
+
+.login-methods {
+  --google-bg-image: url("./features/authentication/assets/media/google_bg.png");
+  --apple-bg-image: url("./features/authentication/assets/media/apple_bg.png");
+  --facebook-bg-image: url("./features/authentication/assets/media/facebook_bg.png");
+  --twitter-bg-image: url("./features/authentication/assets/media/twitter_bg.png");
+}
+
+.download-methods {
+  --epic-store: url("/header/epic_store.png");
+  --windows: url("/header/windows.png");
+  --app-store: url("/app_store.png");
+  --google-play: url("/header/google_play.png");
+  --ps5: url("/header/ps5.png");
+}
+
+.title-container {
+  --title-bg: url("/title/title_bg.png");
+}
+
+[data-flex] {
+  display: flex;
+  position: relative;
+}
+
+[data-flex-col] {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.visible {
+  display: block;
+}
+
+.main-axis-center {
+  justify-content: center;
+}
+
+.cross-axis-center {
+  align-items: center;
+}
+
+.text-center {
+  text-align: center;
+}

@@ -1,0 +1,294 @@
+@import "../../globals.css";
+
+.header-wrapper {
+  position: fixed;
+  left: 0;
+  display: flex;
+  z-index: 10;
+  min-width: 1270px;
+  width: 100%;
+  height: 57px;
+  background-color: #121212;
+  font-size: 15px;
+  justify-content: flex-start;
+  align-items: center;
+  box-sizing: border-box;
+  user-select: none;
+}
+
+.header-wrapper::after {
+  content: "";
+  width: 100%;
+  height: 2px;
+  background-color: #363636;
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+}
+
+.header-wrapper .flex-item {
+  height: 100%;
+}
+
+.header-wrapper .bgm {
+  align-items: center;
+  margin-right: auto;
+  margin-left: 0.64rem;
+}
+
+.header-wrapper .bgm .music-control {
+  align-items: center;
+  height: 0.26rem;
+  width: auto;
+  cursor: pointer;
+}
+
+.header-wrapper .bgm .music-control .rectangle {
+  height: 0.16rem;
+  width: 0.03rem;
+  background-color: #c9c9c9;
+  float: left;
+  margin-left: 3px;
+}
+
+.header-wrapper .bgm .music-control .rectangle-1 {
+  animation: rect-1 .5s 0s infinite alternate both;
+}
+
+.header-wrapper .bgm .music-control .rectangle-2 {
+  animation: rect-2 .5s 0s infinite alternate both;
+}
+
+.header-wrapper .bgm .music-control .rectangle-3 {
+  animation: rect-3 .5s 0s infinite alternate both;
+}
+
+.header-wrapper .bgm .music-control .rectangle-4 {
+  animation: rect-4 .5s 0s infinite alternate both;
+}
+
+.header-wrapper .bgm .music-control .rectangle-5 {
+  animation: rect-5 .5s 0s infinite alternate both;
+}
+
+@keyframes rect-1 {
+  0% {
+    height: 0.16rem;
+    transform: translateY(0.07rem);
+  }
+
+  100% {
+    height: 0.18rem;
+    transform: translateY(0.05rem);
+  }
+}
+
+@keyframes rect-2 {
+  0% {
+    height: 0.3rem;
+    transform: translateY(0.05rem);
+  }
+
+  100% {
+    height: 0.16rem;
+    transform: translateY(0rem);
+  }
+}
+
+@keyframes rect-3 {
+  0% {
+    height: 0.16rem;
+    transform: translateY(0.06rem);
+  }
+
+  100% {
+    height: 0.2rem;
+    transform: translateY(0.01rem);
+  }
+}
+
+@keyframes rect-4 {
+  0% {
+    height: 0.16rem;
+    transform: translateY(0.09rem);
+  }
+
+  100% {
+    height: 0.2rem;
+    transform: translateY(0.06rem);
+  }
+}
+
+@keyframes rect-5 {
+  0% {
+    height: 0.16rem;
+    transform: translateY(0.06rem);
+  }
+
+  100% {
+    height: 0.28rem;
+    transform: translateY(0rem);
+  }
+}
+
+.header-wrapper .nav-list {
+  margin-left: 0.3rem;
+  display: flex;
+  height: 100%;
+}
+
+.header-wrapper .nav-list a {
+  display: flex;
+  text-decoration: none;
+  color: var(--white);
+  cursor: pointer;
+}
+
+.header-wrapper .nav-list a:hover {
+  color: var(--blue);
+}
+
+.header-wrapper .nav-list .nav-item {
+  text-align: center;
+  font-size: 15px;
+  padding: 0 30px;
+  align-items: center;
+}
+
+.header-wrapper .nav-list a .top-up {
+  margin-left: 18px;
+}
+
+.header-wrapper .nav-list a .top-up::after {
+  content: '';
+  background-image: var(--external-link);
+  background-size: 100%;
+  height: 10px;
+  width: 10px;
+  position: absolute;
+  left: 12px;
+  top: 24px;
+}
+
+.header-wrapper .nav-list .active .nav-item {
+  color: var(--blue);
+}
+
+.header-wrapper .nav-list .active::after {
+  content: '';
+  display: block;
+  height: 2px;
+  width: 100%;
+  background-color: var(--blue);
+  position: absolute;
+  left: 0;
+  bottom: 2px;
+}
+
+.header-wrapper .nav-list .more::after {
+  content: '';
+  display: block;
+  border-top: 5px solid var(--white);
+  border-left: 4.5px solid transparent;
+  border-right: 4.5px solid transparent;
+  position: absolute;
+  margin-left: 9px;
+  right: 10px;
+  top: 40%;
+  transform: translate(0, 50%);
+}
+
+.header-wrapper .nav-list .more:hover::after {
+  content: '';
+  display: block;
+  border-top: 5px solid var(--blue);
+  border-left: 4.5px solid transparent;
+  border-right: 4.5px solid transparent;
+  position: absolute;
+  margin-left: 9px;
+  right: 10px;
+  top: 40%;
+  transform: translate(0, 50%);
+}
+
+.header-wrapper .nav-list .more:hover .menu-list {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.header-wrapper .nav-list .menu-list {
+  position: absolute;
+  z-index: 10;
+  top: 55px;
+  padding: 10px 20px;
+  background-color: #121212;
+  text-wrap: nowrap;
+  display: block;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  cursor: pointer;
+}
+
+.header-wrapper .nav-list .menu-list a {
+  height: 50px;
+  width: 100%;
+  align-items: center;
+  padding: 0 30px;
+}
+
+.header-wrapper .nav-list .menu-list a::after {
+  content: '';
+  background-image: var(--external-link);
+  background-size: 100%;
+  height: 10px;
+  width: 10px;
+  position: absolute;
+  left: 12px;
+  top: 20px;
+}
+
+.header-wrapper .login {
+  margin-left: auto;
+  margin-right: 0.3rem;
+  color: var(--white);
+  cursor: pointer;
+}
+
+.header-wrapper .login .login-content {
+  align-items: center;
+}
+
+.header-wrapper .login .login-content .logo-avatar {
+  width: 0.47rem;
+  margin-left: 0.2rem;
+}
+
+.header-wrapper .download {
+  cursor: pointer;
+  align-items: center;
+}
+
+.header-wrapper .download .download-content {
+  background-image: url("/header/download_btn.png");
+  background-repeat: no-repeat;
+  background-size: 100%;
+  width: 168px;
+  height: 62px;
+  padding-top: 5px;
+  margin-top: -8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 15px;
+  color: #121212;
+}
+
+.user-options-wrapper {
+  display: none;
+}
+
+.user-button-wrapper:hover .user-options-wrapper {
+  display: flex;
+}

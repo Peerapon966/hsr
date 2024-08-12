@@ -1,0 +1,71 @@
+@import "../../globals.css";
+
+.container {
+    position: fixed;
+    z-index: 9999;
+    min-width: 100%;
+    min-height: 100%;
+    background-color: #32373b;
+}
+
+.close-button-wrapper {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    padding: 20px;
+}
+
+.close-button {
+    position: relative;
+    top: 20px;
+}
+
+.close-button:hover {
+    cursor: pointer;
+}
+
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 45%;
+    transform: translate(0, -50%);
+    min-width: 100%;
+}
+
+.phone-icon {
+    height: 194px;
+    user-select: none;
+    animation-name: rotate;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-timing-function: ease;
+}
+  
+@keyframes rotate {
+    0% {
+        transform: rotate(-90deg);
+    }
+    30% {
+        transform: rotate(-90deg);
+    }
+    70% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(0deg)
+    }
+}
+
+.text {
+    display: block;
+    color: white;
+    width: 100%;
+    font-size: 16px;
+    font-family: "Microsoft YaHei", "Arial", "Helvetica", sans-serif;
+    line-height: 200%;
+    text-align: center;
+    user-select: none;
+}

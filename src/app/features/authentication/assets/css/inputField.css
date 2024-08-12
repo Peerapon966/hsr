@@ -1,0 +1,124 @@
+.hyv-input {
+    position: relative;
+}
+
+.input-container {
+    box-sizing: border-box;
+    height: 50px;
+    border-radius: 12px;
+    border: solid 1px #e7e8ee;
+    background-color: #fafafc;
+    margin-top: 16px;
+}
+
+.input-container.focused {
+    border: solid 1px var(--account-color-primary-4);
+}
+
+.input-container.error {
+    border: solid 1px var(--account-color-input-error);
+}
+
+.input-field:not([type=checkbox]) {
+    box-sizing: border-box;
+    height: 100%;
+    padding: 12px 72px 0px 12px;
+    background-color: var(--transparent);
+    border: none;
+    outline: none;
+    z-index: 10;
+    box-shadow: none;
+    font-size: 14px;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 32px;
+    color: var(--account-color-gray-9);
+}
+
+.input-field:not([type=checkbox]):focus {
+    outline: none;
+}
+
+.input-suffix {
+    height: 100%;
+    position: absolute;
+    right: 12px;
+    top: 0;
+    z-index: 20;
+}
+
+.suffix-icon {
+    align-items: center;
+}
+
+.svg-icon {
+    width: 0.25em;
+    height: 0.25em;
+    margin: 0 8px;
+    color: var(--account-color-gray-6);
+}
+
+.svg-icon.clear-input:hover {
+    color: var(--account-color-gray-5);
+}
+
+.svg-icon.icon-lock, .svg-icon.icon-question {
+    width: 24px;
+    height: 24px;
+    margin-right: 12px;
+    color: var(--account-color-primary);
+}
+
+.register-send-email {
+    font-size: 14px;
+    font-weight: 400;
+    margin: 0 10px;
+    color: var(--account-color-primary);
+    cursor: pointer;
+    user-select: none;
+}
+
+.register-send-email:hover {
+    color: var(--account-button-text-hover-color);
+}
+
+.register-send-email-container::before {
+    content: "";
+    display: block;
+    height: 16px;
+    margin-left: 5px;
+    border-left: 1px solid var(--account-color-gray-3);
+}
+
+.input-label {
+    color: var(--account-color-gray-6);
+    position: absolute;
+    font-size: 16px;
+    left: 13px;
+    top: 29px;
+    transition: top 0.15s, font-size 0.15s, color 0.15s;
+    user-select: none;
+}
+
+.input-label.focused {
+    top: 22px;
+    font-size: 10px;
+    color: var(--account-color-primary-4);
+}
+
+.input-label.hasValue {
+    top: 22px;
+    font-size: 10px;
+}
+
+.input-label.focused.error {
+    color: var(--account-color-input-error);
+}
+
+.err-text {
+    margin-top: 4px;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    color: var(--account-color-input-error);
+}

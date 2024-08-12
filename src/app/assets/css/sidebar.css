@@ -1,0 +1,62 @@
+.sidebar-wrapper {
+    position: absolute;
+    top: 0;
+    right: 0.4rem;
+    width: 0.6rem;
+    height: 100vh;
+    z-index: 9;
+    border-left: 1px solid rgba(255, 255, 255, 0.4);
+    align-items: center;
+    padding-left: .34rem;
+    padding-top: 1.06rem;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+.sidebar-share {
+    background-image: var(--share-icon);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 0.4rem;
+    height: 0.4rem;
+    display: block;
+    cursor: pointer;
+}
+
+.sidebar-follow {
+    font-size: 0.3rem;
+    width: 1.4rem;
+    margin-top: 1.2rem;
+    margin-left: 0.04rem;
+    transform: rotate(90deg);
+    color: #e6e6e6;
+    user-select: none;
+}
+
+.sidebar-line::before {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 0.8rem;
+    background-color: #e6e6e6;
+    margin-top: 0.45rem; 
+    margin-bottom: 0.3rem;
+    margin-right: 0;
+}
+
+.sidebar-social {
+    font-size: 0.6rem !important;
+
+}
+
+.sidebar-social-item {
+    cursor: pointer;
+    margin: 0px 0.25em 0.1em;
+    width: 1em;
+    height: 1em;
+}
+
+.sidebar-social-item > svg {
+    width: 100%;
+    height: 100%;
+}

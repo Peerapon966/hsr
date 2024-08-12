@@ -1,0 +1,65 @@
+version: '3.9'
+
+services:
+  # next:
+  #   container_name: next
+  #   build: .
+  #   ports:
+  #     - 3000:3000
+  #   volumes:
+  #     - ./src:/app/src
+  #     - ./public:/app/public
+  #   restart: always
+  #   env_file:
+  #     - .env.local
+  #   networks:
+  #     - app-network
+
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin:latest
+    restart: unless-stopped
+    environment:
+      - PMA_HOSTS=db
+      - PMA_USER=admin
+      - PMA_PASSWORD=P@ssw0rd
+      - PMA_ARBITRARY=1
+      - PMA_PORT=3306
+    ports:
+      - 8080:80
+    networks:
+      - app-network
+
+  db:
+    container_name: mysql
+    image: mysql:8.0.38
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=P@ssw0rd
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=P@ssw0rd
+      - MYSQL_DATABASE=starrail
+      - TZ='Asia/Bangkok'
+    ports:
+      - 3308:3306
+    volumes:
+      - mysql_volume:/var/lib/mysql
+    networks:
+      - app-network
+
+  mailhog:
+    container_name: mailhog
+    image: mailhog/mailhog
+    ports:
+      - 1025:1025
+      - 8025:8025
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    name: app-network
+
+volumes:
+  mysql_volume:
+    driver: local

@@ -1,0 +1,98 @@
+@import "../../globals.css";
+
+.download-overlay-dialog-container * {
+  font-family: "Microsoft YaHei", "Arial", "Helvetica", sans-serif !important;
+}
+
+.download-overlay-dialog-container {
+  position: fixed;
+  visibility: hidden;
+  background-color: var(--el-overlay-color-lighter);
+  opacity: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100vh;
+  width: 100%;
+  z-index: 999;
+  transition: opacity var(--el-transition-duration-fast) var(--el-transition-function-ease-in-out-bezier), visibility var(--el-transition-duration-fast) var(--el-transition-function-ease-in-out-bezier);
+}
+
+.download-overlay-dialog-animation {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.download-close-btn {
+  cursor: pointer;
+  position: absolute;
+  background-image: var(--white-close-btn);
+  background-size: cover;
+  border: none;
+  background-color: transparent;
+  border-radius: 8px;
+  top: -50px;
+  right: 0px;
+  width: 30px;
+  height: 30px;
+  z-index: 1020;
+}
+
+.download-dialog {
+  box-sizing: border-box;
+  padding-top: 45px;
+  width: 796px;
+  height: 353px;
+  background-image: var(--download-bg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: 1010;
+}
+
+.download-dialog-header {
+  margin: 0 10px;
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 34px;
+  color: #e7ce98;
+  padding-bottom: 47px;
+}
+
+.download-dialog-content {
+  margin: 0 auto;
+}
+
+.download-qr {
+  width: 124px;
+  height: 124px;
+  background-image: var(--qr-code);
+  background-repeat: no-repeat;
+  background-size: contain;
+  margin-right: 22px;
+}
+
+.download-methods-row {
+  height: 51px;
+  font-size: 0;
+}
+
+.download-methods-upper-row {
+  margin-bottom: 23px;
+}
+
+.download-methods-row img {
+  width: auto;
+  height: 100%;
+}
+
+.game-rating {
+  position: absolute;
+  right: 42px;
+  bottom: 162px;
+  max-height: 160px;
+}
+
+.mr-22 {
+  margin-right: 22px;
+}

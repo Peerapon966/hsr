@@ -1,0 +1,8 @@
+@import "../../globals.css";
+
+.home-download-container {
+    position: absolute;
+    z-index: 100;
+    bottom: 1.21rem;
+    left: 2rem;
+}
