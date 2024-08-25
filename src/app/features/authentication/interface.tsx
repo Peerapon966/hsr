@@ -1,42 +1,41 @@
 export type errorMsg = {
-  empty?: string,
-  invalid?: string,
-}
+  empty?: string;
+  invalid?: string;
+};
 
-export type inputRegex = 'email' | 'password' | 'matched' | 'not-empty';
-export type inputConstraints = 'numericOnly'
+export type inputRegex = "email" | "password" | "matched" | "not-empty";
+export type inputConstraints = "numericOnly";
 
 export type Form = {
-  isOpen: boolean
-  closeModal: Function
-  swapFormContent: Function
-}
+  isOpen: boolean;
+  closeModal: Function;
+  swapFormContent: Function;
+};
 
-export interface ILoginForm extends Form {
-}
+export interface LoginFormProps extends Form {}
 
-export interface IRegisterForm extends Form {
-}
+export interface RegisterFormProps extends Form {}
 
-export type UserRegisterData = {
-  email: string
-  verification_code: string
-  password: string
-}
+export type RegisterFormData = {
+  email: string;
+  verification_code: string;
+  password: string;
+  confirm_password: string;
+  agreement: "on" | "off";
+};
 
 export type LoginWithUsernameCred = {
-  username: string
-  password: string
-}
+  username: string;
+  password: string;
+};
 
 export type LoginWithEmailCred = {
-  email: string
-  password: string
-}
+  email: string;
+  password: string;
+};
 
-export type UserLoginCred = LoginWithUsernameCred | LoginWithEmailCred
+export type UserLoginCred = LoginWithUsernameCred | LoginWithEmailCred;
 
 export type IModal = {
-  closeModal: Function
-}
-
+  closeModal: Function;
+};

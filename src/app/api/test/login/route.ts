@@ -1,35 +1,40 @@
-"use server"
+"use server";
 
-import { NextRequest, NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
-import { useSearchParams } from '@/api/utils';
-import { randomUUID } from 'crypto';
+import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
+import { useSearchParams } from "@/api/utils/useSearchParams";
+import { randomUUID } from "crypto";
 
 type SuccessLoginResponse = {
-  status: 'success'
-  username: string
-}
+  status: "success";
+  username: string;
+};
 
 type FailedLoginResponse = {
-  status: 'error'
-  message: string
-}
+  status: "error";
+  message: string;
+};
 
-type LoginResponse = SuccessLoginResponse | FailedLoginResponse
+type LoginResponse = SuccessLoginResponse | FailedLoginResponse;
 
-export async function POST(req: NextRequest): Promise<NextResponse<LoginResponse>> {
+export async function POST(
+  req: NextRequest
+): Promise<NextResponse<LoginResponse>> {
   const body = await req.json();
-  const user = { username: 'fff', password: 'f', session: '' };
+  const user = { username: "fff", password: "f", session: "" };
 
   if (body.username !== user.username || body.password !== user.password) {
-    return NextResponse.json({ status: 'error', message: 'incorrect username or password' })
+    return NextResponse.json({
+      status: "error",
+      message: "incorrect username or password",
+    });
   }
 
-  user.session = randomUUID()
+  user.session = randomUUID();
   cookies().set({
-    name: 'sid',
-    value: user.session
+    name: "sid",
+    value: user.session,
   });
 
-  return NextResponse.json({ status: 'success', username: user.username })
+  return NextResponse.json({ status: "success", username: user.username });
 }

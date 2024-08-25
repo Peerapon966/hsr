@@ -1,98 +1,128 @@
-import { useState, useEffect, useContext, FormEvent, useCallback } from "react";
+import {
+  useState,
+  useEffect,
+  useContext,
+  FormEvent,
+  useCallback,
+  useRef,
+} from "react";
 import { useNavigate } from "react-router-dom";
-import { InputField } from "@/features/authentication/components/InputField";
-import { ILoginForm } from "@/features/authentication/interface";
+import { InputField } from "@/features/authentication/components/InputField/InputField";
+import { LoginFormProps } from "@/features/authentication/interface";
 import { useLoginContext } from "@/components/Header/Header";
-import LoginProblems from "./LoginProblems";
-import { useDOMObject } from "@/hooks";
+import { LoginProblems } from "@/features/authentication/components/Login/LoginProblems";
 
-export default function LoginForm(props: ILoginForm) {
+export function LoginForm(props: LoginFormProps) {
   // const navigate = useNavigate();
-  const [showLoginProblemsModal, setShowLoginProblemsModal] = useState<boolean>(false);
-  const setIsAuth = useLoginContext()
+  const [showLoginProblemsModal, setShowLoginProblemsModal] =
+    useState<boolean>(false);
+  const setIsAuth = useLoginContext();
   const usernameInput = InputField({
-    for: 'login',
-    fieldName: 'username',
-    label: 'Username/Email',
-    type: 'text',
+    for: "login",
+    fieldName: "username",
+    label: "Username/Email",
+    type: "text",
     options: {
       realtimeUpdate: false,
-      regex: ['not-empty'],
+      regex: ["not-empty"],
       errorMsg: {
-        empty: 'Account cannot be empty'
+        empty: "Account cannot be empty",
       },
-    }
+    },
   });
   const passwordInput = InputField({
-    for: 'login',
-    fieldName: 'password',
-    label: 'Password',
-    type: 'password',
+    for: "login",
+    fieldName: "password",
+    label: "Password",
+    type: "password",
     options: {
       realtimeUpdate: false,
-      regex: ['not-empty'],
+      regex: ["not-empty"],
       errorMsg: {
-        empty: 'Password cannot be empty'
-      }
-    }
+        empty: "Password cannot be empty",
+      },
+    },
   });
   const errors = [usernameInput.error, passwordInput.error];
   const values = [usernameInput.value, passwordInput.value];
-  const [loginForm] = useDOMObject<[HTMLDivElement]>([{ from: 'id', value: 'login-main-container' }]);
+  const form = useRef<HTMLFormElement | null>(null);
+  const submitBtn = useRef<HTMLButtonElement | null>(null);
+  const loginFormContainer = useRef<HTMLDivElement | null>(null);
   const [isDisabled, setisDisabled] = useState<boolean>(true);
   const loginHandler = (e: FormEvent) => {
     e.preventDefault();
-    setIsAuth(true)
-    const form = document.getElementById('login-form') as HTMLFormElement;
-    const loginCredential = new FormData(form as HTMLFormElement);
+    if (!form.current) return;
+    const loginCredential = new FormData(form.current);
     for (const [key, value] of loginCredential) {
-      console.log(key, value)
+      console.log(key, value);
     }
+    setIsAuth(true);
     // form.submit()
     // navigate('/news');
-  }
+  };
   const closeLoginProblemsModal = useCallback(() => {
-    setShowLoginProblemsModal(false)
-  }, [showLoginProblemsModal])
+    setShowLoginProblemsModal(false);
+  }, [showLoginProblemsModal]);
 
   useEffect(
     function disableLoginBtn() {
-      const submitBtn = document.getElementById('login-submit-btn');
-      const noError = errors.every((error) => error === '');
-      const allHasValue = values.every((value) => value !== '' && value !== undefined && value !== null)
+      const noError = errors.every((error) => error === "");
+      const allHasValue = values.every(
+        (value) => value !== "" && value !== undefined && value !== null
+      );
 
       if (noError && allHasValue) {
-        submitBtn?.classList.remove('disabled');
+        submitBtn.current?.classList.remove("disabled");
         setisDisabled(false);
       } else {
-        submitBtn?.classList.add('disabled');
+        submitBtn.current?.classList.add("disabled");
         setisDisabled(true);
       }
-    }, [errors, values]
+    },
+    [errors, values]
   );
 
-  (!props.isOpen) ? loginForm?.classList.add('hidden') : loginForm?.classList.remove('hidden')
+  !props.isOpen
+    ? loginFormContainer.current?.classList.add("hidden")
+    : loginFormContainer.current?.classList.remove("hidden");
 
   return (
-    <div id="login-main-container">
-      <form data-flex-col className="login-form" id="login-form" method="GET" onSubmit={(e) => loginHandler(e)}>
+    <div ref={loginFormContainer} id="login-main-container">
+      <form
+        data-flex-col
+        ref={form}
+        className="login-form"
+        id="login-form"
+        method="GET"
+        onSubmit={(e) => loginHandler(e)}
+      >
         <div className="hyv-logo"></div>
-        <div className="login-form-header text-center">
-          Account Log In
-        </div>
+        <div className="login-form-header text-center">Account Log In</div>
         {usernameInput.component}
         {passwordInput.component}
-        <button type="submit" disabled={isDisabled} className="submit-btn disabled" id="login-submit-btn">Log in</button>
+        <button
+          ref={submitBtn}
+          type="submit"
+          disabled={isDisabled}
+          className="submit-btn disabled"
+          id="login-submit-btn"
+        >
+          Log in
+        </button>
         <div data-flex className="hyv-link hyv-register-link">
           <span>
-            <a onClick={() => setShowLoginProblemsModal(true)}>Having Problems?</a>
+            <a onClick={() => setShowLoginProblemsModal(true)}>
+              Having Problems?
+            </a>
           </span>
           <span>
             <a onClick={() => props.swapFormContent()}>Register Now</a>
           </span>
         </div>
       </form>
-      {(showLoginProblemsModal) ? <LoginProblems closeModal={closeLoginProblemsModal} /> : null}
+      {showLoginProblemsModal && (
+        <LoginProblems closeModal={closeLoginProblemsModal} />
+      )}
     </div>
-  )
+  );
 }

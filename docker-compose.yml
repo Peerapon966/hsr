@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 
 services:
   # next:
@@ -12,6 +12,14 @@ services:
   #   restart: always
   #   env_file:
   #     - .env.local
+  #     - .env.development
+  #     - .env.test
+  #     - .env.production
+  #   depends_on:
+  #     mysql:
+  #       condition: service_healthy
+  #     redis:
+  #       condition: service_healthy
   #   networks:
   #     - app-network
 
@@ -20,17 +28,20 @@ services:
     image: phpmyadmin:latest
     restart: unless-stopped
     environment:
-      - PMA_HOSTS=db
+      - PMA_HOSTS=mysql
       - PMA_USER=admin
       - PMA_PASSWORD=P@ssw0rd
       - PMA_ARBITRARY=1
       - PMA_PORT=3306
     ports:
       - 8080:80
+    depends_on:
+      mysql:
+        condition: service_healthy
     networks:
       - app-network
 
-  db:
+  mysql:
     container_name: mysql
     image: mysql:8.0.38
     restart: unless-stopped
@@ -42,8 +53,34 @@ services:
       - TZ='Asia/Bangkok'
     ports:
       - 3308:3306
+    healthcheck:
+      test: "mysql -h127.0.0.1 -u$$MYSQL_USER -p$$MYSQL_PASSWORD -e'show databases;'"
+      interval: 10s
+      timeout: 30s
+      retries: 3
+      start_period: 15s
     volumes:
       - mysql_volume:/var/lib/mysql
+    networks:
+      - app-network
+
+  redis:
+    container_name: redis
+    image: redis:alpine
+    restart: always
+    ports:
+      - 6379:6379
+    environment:
+      - REDIS_PASSWORD=P@ssw0rd
+    command: /bin/sh -c "redis-server --requirepass $$REDIS_PASSWORD --save 60 1 --loglevel warning"
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a $$REDIS_PASSWORD"]
+      interval: 5s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    volumes:
+      - redis_volume:/data
     networks:
       - app-network
 
@@ -62,4 +99,6 @@ networks:
 
 volumes:
   mysql_volume:
+    driver: local
+  redis_volume:
     driver: local

@@ -1,29 +1,45 @@
 import { IModal } from "@/features/authentication/interface";
-import { useDOMObject } from "@/hooks";
+import { useDOMObject } from "@/hooks/useDOMObject";
 
-export default function LoginProblems(props: IModal) {
-  const [loginProblemsOverlay, loginProblems] = useDOMObject<[HTMLDivElement, HTMLDivElement]>([
-    { from: 'id', value: 'login-problem-overlay-dialog-container' },
-    { from: 'id', value: 'login-problem-dialog-container' }
-  ])
+export function LoginProblems(props: IModal) {
+  const [loginProblemsOverlay, loginProblems] = useDOMObject<
+    [HTMLDivElement, HTMLDivElement]
+  >([
+    { from: "id", value: "login-problem-overlay-dialog-container" },
+    { from: "id", value: "login-problem-dialog-container" },
+  ]);
   const closeModal = () => {
     setTimeout(() => props.closeModal(), 300);
-    loginProblemsOverlay?.classList.remove('overlay-dialog-animation');
-    loginProblems?.classList.remove('login-dialog-animation');
-  }
+    loginProblemsOverlay?.classList.remove("overlay-dialog-animation");
+    loginProblems?.classList.remove("login-dialog-animation");
+  };
 
-  loginProblemsOverlay?.classList.add('overlay-dialog-animation');
-  loginProblems?.classList.add('login-dialog-animation');
+  loginProblemsOverlay?.classList.add("overlay-dialog-animation");
+  loginProblems?.classList.add("login-dialog-animation");
 
   return (
-    <div className="login-overlay-dialog-container auxiliary-overlay-dialog-container" id="login-problem-overlay-dialog-container">
+    <div
+      className="login-overlay-dialog-container auxiliary-overlay-dialog-container"
+      id="login-problem-overlay-dialog-container"
+    >
       <div className="overlay-dialog">
-        <div data-flex-col className="dialog-container auxiliary-dialog-container" id="login-problem-dialog-container">
-          <button type="button" className="close-login-btn" onClick={() => closeModal()}></button>
+        <div
+          data-flex-col
+          className="dialog-container auxiliary-dialog-container"
+          id="login-problem-dialog-container"
+        >
+          <button
+            type="button"
+            className="close-login-btn"
+            onClick={() => closeModal()}
+          ></button>
           <div className="auxiliary-dialog-header login-problem-dialog-header">
             <span className="dialog-header">Having Problems?</span>
           </div>
-          <div data-flex-col className="auxiliary-dialog-option login-problem-dialog-option">
+          <div
+            data-flex-col
+            className="auxiliary-dialog-option login-problem-dialog-option"
+          >
             <div className="options login-problems">
               <a
                 data-flex
@@ -58,5 +74,5 @@ export default function LoginProblems(props: IModal) {
         </div>
       </div>
     </div>
-  )
+  );
 }
