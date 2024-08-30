@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
 
   // register the registrant
   try {
-    const result = await registerUser(registerData);
+    await registerUser(registerData);
   } catch (error) {
     return NextResponse.json(
       response.error(registerError).internalErrorOccurred(),

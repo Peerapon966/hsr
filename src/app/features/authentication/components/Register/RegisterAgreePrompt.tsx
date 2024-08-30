@@ -1,37 +1,47 @@
 import { IModal } from "@/features/authentication/interface";
-import { useDOMObject } from "@/hooks/useDOMObject";
-import ReactDOM from "react-dom";
+import { useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 
 export function RegisterAgreePrompt(props: IModal & { callback: Function }) {
-  const [registerAgreePromptOverlay, registerAgreePrompt] = useDOMObject<
-    [HTMLDivElement, HTMLDivElement]
-  >([
-    { from: "id", value: "register-agree-prompt-overlay-dialog-container" },
-    { from: "id", value: "register-agree-prompt-dialog-container" },
-  ]);
+  const registerAgreePromptOverlay = useRef<HTMLDivElement | null>(null);
+  const registerAgreePrompt = useRef<HTMLDivElement | null>(null);
   const closeModal = () => {
     setTimeout(() => props.closeModal(), 300);
-    registerAgreePromptOverlay?.classList.remove("overlay-dialog-animation");
-    registerAgreePrompt?.classList.remove("login-dialog-animation");
+    registerAgreePromptOverlay.current?.classList.remove(
+      "overlay-dialog-animation"
+    );
+    registerAgreePrompt.current?.classList.remove("login-dialog-animation");
   };
   const userAgreeHandler = () => {
     props.callback();
     closeModal();
   };
 
-  registerAgreePromptOverlay?.classList.add("overlay-dialog-animation");
-  registerAgreePrompt?.classList.add("login-dialog-animation");
+  useEffect(() => {
+    setTimeout(
+      () =>
+        registerAgreePromptOverlay.current?.classList.add(
+          "overlay-dialog-animation"
+        ),
+      50
+    );
+    setTimeout(
+      () =>
+        registerAgreePrompt.current?.classList.add("login-dialog-animation"),
+      50
+    );
+  }, []);
 
   const component = (
     <div
+      ref={registerAgreePromptOverlay}
       className="login-overlay-dialog-container auxiliary-overlay-dialog-container"
-      id="register-agree-prompt-overlay-dialog-container"
     >
       <div className="overlay-dialog">
         <div
           data-flex-col
+          ref={registerAgreePrompt}
           className="dialog-container auxiliary-dialog-container"
-          id="register-agree-prompt-dialog-container"
         >
           <button
             type="button"
@@ -96,7 +106,7 @@ export function RegisterAgreePrompt(props: IModal & { callback: Function }) {
   );
 
   if (typeof window === "object") {
-    return ReactDOM.createPortal(
+    return createPortal(
       component,
       document.querySelector("body") as HTMLElement
     );

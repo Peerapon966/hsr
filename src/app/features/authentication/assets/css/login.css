@@ -16,12 +16,14 @@
   height: 100vh;
   width: 100%;
   z-index: 999;
-  transition: opacity var(--el-transition-duration) var(--el-transition-function-ease-in-out-bezier), visibility var(--el-transition-duration) var(--el-transition-function-ease-in-out-bezier);
+  transition: opacity var(--el-transition-duration)
+      var(--el-transition-function-ease-in-out-bezier),
+    visibility var(--el-transition-duration)
+      var(--el-transition-function-ease-in-out-bezier);
 }
 
 .auxiliary-overlay-dialog-container {
-  z-index: 1010;
-  transition: opacity var(--el-transition-duration) var(--el-transition-function-ease-in-out-bezier), visibility var(--el-transition-duration) var(--el-transition-function-ease-in-out-bezier);
+  z-index: 1010 !important;
 }
 
 .overlay-dialog-animation {
@@ -38,7 +40,12 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -55%);
-  transition: opacity var(--el-transition-duration) var(--el-transition-function-ease-in-out-bezier), visibility var(--el-transition-duration) var(--el-transition-function-ease-in-out-bezier), transform var(--el-transition-duration) var(--el-transition-function-ease-in-out-bezier);
+  transition: opacity var(--el-transition-duration)
+      var(--el-transition-function-ease-in-out-bezier),
+    visibility var(--el-transition-duration)
+      var(--el-transition-function-ease-in-out-bezier),
+    transform var(--el-transition-duration)
+      var(--el-transition-function-ease-in-out-bezier);
 }
 
 .login-dialog-container {
@@ -256,7 +263,8 @@
   border-radius: 6px;
   border: solid 1px var(--account-color-gray-3);
   background-color: var(--white);
-  transition: border 0.25s cubic-bezier(.71, -.46, .29, 1.46), background-color 0.25s cubic-bezier(.71, -.46, .29, 1.46);
+  transition: border 0.25s cubic-bezier(0.71, -0.46, 0.29, 1.46),
+    background-color 0.25s cubic-bezier(0.71, -0.46, 0.29, 1.46);
 }
 
 .checked.visible-checkbox {
@@ -272,7 +280,7 @@
   position: absolute;
   top: 1px;
   left: 4px;
-  transition: transform 0.4s cubic-bezier(.71, -.46, .29, 1.46);
+  transition: transform 0.4s cubic-bezier(0.71, -0.46, 0.29, 1.46);
 }
 
 .checked.visible-checkbox::after {
@@ -315,7 +323,7 @@
 
 .section-text::before,
 .section-text::after {
-  content: '';
+  content: "";
   flex: 1 1 0;
   display: block;
   border: solid 1px var(--account-color-gray-2);

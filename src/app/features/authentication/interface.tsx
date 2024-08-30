@@ -12,7 +12,9 @@ export type Form = {
   swapFormContent: Function;
 };
 
-export interface LoginFormProps extends Form {}
+export interface LoginFormProps extends Form {
+  username?: string;
+}
 
 export interface RegisterFormProps extends Form {}
 

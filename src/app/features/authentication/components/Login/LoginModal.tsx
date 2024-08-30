@@ -10,6 +10,7 @@ export function LoginModal(props: IModal) {
   const [componentDidMount, setComponentDidMount] = useState<boolean>(false);
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const [isRegister, setIsRegister] = useState<boolean>(false);
+  const [username, setUsername] = useState<string | undefined>();
   const [loginModal, overlay] = useDOMObject<[HTMLDivElement, HTMLDivElement]>([
     { from: "id", value: "login-dialog-container" },
     { from: "id", value: "overlay-dialog-container" },
@@ -19,9 +20,12 @@ export function LoginModal(props: IModal) {
     overlay?.classList.remove("overlay-dialog-animation");
     loginModal?.classList.remove("login-dialog-animation");
   };
-  const swapFormContent = () => {
+  const swapFormContent = (username?: string) => {
     setIsLogin(!isLogin);
     setIsRegister(!isRegister);
+    if (username) {
+      setUsername(username);
+    }
   };
 
   overlay?.classList.add("overlay-dialog-animation");
@@ -55,6 +59,7 @@ export function LoginModal(props: IModal) {
             <div data-flex-col className="login-dialog-body">
               <div className="login-form-container">
                 <LoginForm
+                  username={username}
                   isOpen={isLogin}
                   closeModal={closeLoginModal}
                   swapFormContent={swapFormContent}

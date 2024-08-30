@@ -12,7 +12,7 @@ import { LoginFormProps } from "@/features/authentication/interface";
 import { useLoginContext } from "@/components/Header/Header";
 import { LoginProblems } from "@/features/authentication/components/Login/LoginProblems";
 
-export function LoginForm(props: LoginFormProps) {
+export function LoginForm(props: LoginFormProps & { username?: string }) {
   // const navigate = useNavigate();
   const [showLoginProblemsModal, setShowLoginProblemsModal] =
     useState<boolean>(false);
@@ -23,6 +23,7 @@ export function LoginForm(props: LoginFormProps) {
     label: "Username/Email",
     type: "text",
     options: {
+      initialValue: props.username,
       realtimeUpdate: false,
       regex: ["not-empty"],
       errorMsg: {

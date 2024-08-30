@@ -8,8 +8,8 @@ import {
 import { sendOTP } from "@/services/auth/sendOTP";
 import { register } from "@/services/auth/register";
 import { callPopupToast } from "@/features/authentication/utils/callPopupToast";
-import { useDOMObject } from "@/hooks/useDOMObject";
 import { RegisterAgreePrompt } from "@/features/authentication/components/Register/RegisterAgreePrompt";
+import { LoginPrompt } from "@/features/authentication/components/Register/LoginPrompt";
 
 export function RegisterForm(props: RegisterFormProps) {
   const emailInput = InputField({
@@ -69,7 +69,9 @@ export function RegisterForm(props: RegisterFormProps) {
     },
   });
   const [agreement, setAgreement] = useState<boolean>(false);
-  const [promptUser, setPromptUser] = useState<boolean>(false);
+  const [promptUserAgreement, setPromptUserAgreement] =
+    useState<boolean>(false);
+  const [promptLogin, setPromptLogin] = useState<boolean>(false);
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
   const registerForm = useRef<HTMLDivElement | null>(null);
   const submitBtn = useRef<HTMLButtonElement | null>(null);
@@ -89,12 +91,55 @@ export function RegisterForm(props: RegisterFormProps) {
     confirmPasswordInput.value,
   ];
   const closeAgreePromptModal = useCallback(() => {
-    setPromptUser(false);
-  }, [promptUser]);
-
-  function agreeOnPromptHandler() {
+    setPromptUserAgreement(false);
+  }, [promptUserAgreement]);
+  const agreeOnPromptHandler = useCallback(() => {
     agreeLabel.current?.click();
     submitBtn.current?.click();
+  }, [promptUserAgreement]);
+  const closeLoginPromptModal = useCallback(() => {
+    setPromptLogin(false);
+  }, [promptLogin]);
+  const agreeToLoginHandler = useCallback(() => {
+    props.swapFormContent(emailInput.value);
+  }, [promptLogin]);
+
+  async function sendOTPHandler() {
+    if (document.getElementById("toast")) return;
+
+    const email = emailInput.value;
+    const error = emailInput.error;
+
+    if (email === "") {
+      callPopupToast("Email cannot be empty");
+      return;
+    }
+
+    if (error !== "" && error !== undefined && error !== null) {
+      callPopupToast("Invalid email format");
+      return;
+    }
+
+    const payload = {
+      email: email,
+    };
+    const response = await sendOTP({
+      payload: payload,
+    });
+
+    if (!response.success) {
+      if (response.causes.isEmailTaken) {
+        setPromptLogin(true);
+      } else {
+        callPopupToast(response.messageToUser);
+      }
+
+      return;
+    }
+
+    callPopupToast(response.messageToUser);
+
+    return response;
   }
 
   async function submitHandler(e: FormEvent) {
@@ -104,7 +149,7 @@ export function RegisterForm(props: RegisterFormProps) {
     const formData = new FormData(form.current);
 
     if (!formData.has("agreement")) {
-      setPromptUser(true);
+      setPromptUserAgreement(true);
       return;
     }
 
@@ -131,42 +176,14 @@ export function RegisterForm(props: RegisterFormProps) {
     const registerResult = await register(registerFormData);
 
     if (!registerResult.success) {
-      callPopupToast(registerResult.messageToUser);
+      if (registerResult.causes.isEmailTaken) {
+        setPromptLogin(true);
+      } else {
+        callPopupToast(registerResult.messageToUser);
+      }
+
       return;
     }
-
-    // props.swapFormContent();
-  }
-
-  async function sendOTPHandler() {
-    if (document.getElementById("toast")) return;
-
-    const email = emailInput.value;
-    const error = emailInput.error;
-
-    if (email === "") {
-      callPopupToast("Email cannot be empty");
-      return;
-    }
-
-    if (error !== "" && error !== undefined && error !== null) {
-      callPopupToast("Invalid email format");
-      return;
-    }
-
-    const payload = {
-      email: email,
-    };
-    const response = await sendOTP({
-      payload: payload,
-    });
-
-    if (!response.success) {
-      callPopupToast(response.messageToUser);
-      return;
-    }
-
-    return response;
   }
 
   useEffect(
@@ -278,12 +295,18 @@ export function RegisterForm(props: RegisterFormProps) {
           </span>
         </div>
       </form>
-      {promptUser ? (
+      {promptUserAgreement && (
         <RegisterAgreePrompt
           closeModal={closeAgreePromptModal}
           callback={agreeOnPromptHandler}
         />
-      ) : null}
+      )}
+      {promptLogin && (
+        <LoginPrompt
+          closeModal={closeLoginPromptModal}
+          callback={agreeToLoginHandler}
+        />
+      )}
     </div>
   );
 }

@@ -28,9 +28,9 @@ export async function registerUser(
   let username: string;
 
   try {
-    const user_no = await redisClient.get("user_no");
-    redisClient.set("user_no", Number(user_no) + 1);
-    username = "USER" + user_no?.padStart(6, "0");
+    const user_id = await redisClient.get("user_id");
+    redisClient.set("user_id", Number(user_id) + 1);
+    username = "USER" + user_id?.padStart(6, "0");
   } catch (error) {
     Logger.error(error, "An error occurred at registerUser.ts");
     throw error;
@@ -49,6 +49,7 @@ export async function registerUser(
     throw error;
   } finally {
     await prisma.$disconnect();
+    await redisClient.disconnect();
   }
 
   return response.success();

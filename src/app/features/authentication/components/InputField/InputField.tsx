@@ -15,6 +15,7 @@ interface inputField {
   label: string;
   type: "text" | "password";
   options?: {
+    initialValue?: string;
     realtimeUpdate?: boolean;
     regex?: inputRegex[];
     errorMsg?: errorMsg;
@@ -26,14 +27,15 @@ interface inputField {
 
 export function InputField(props: inputField) {
   const [componentDidMount, setComponentDidMount] = useState<boolean>(false);
-  const inputField = useRef<HTMLDivElement | null>(null);
+  const inputFieldWrapper = useRef<HTMLDivElement | null>(null);
+  const inputField = useRef<HTMLInputElement | null>(null);
   const [initialized, setInitialized] = useState<boolean>(false);
   const [type, setType] = useState<string>(props.type);
   const [pwdIcon, setPwdIcon] = useState<string>("#icon-passwordHide");
   const [value, setValue] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [focus, setFocus] = useFocus({
-    element: inputField.current,
+    element: inputFieldWrapper.current,
   });
   const showPwdIcon = (
     <span data-flex className="suffix-icon">
@@ -88,7 +90,7 @@ export function InputField(props: inputField) {
   };
   const clearInputHandler = () => {
     setValue("");
-    const label = inputField.current?.querySelector(
+    const label = inputFieldWrapper.current?.querySelector(
       ".input-label"
     ) as HTMLLabelElement;
     label?.classList.remove("hasValue");
@@ -101,7 +103,7 @@ export function InputField(props: inputField) {
           const error =
             props.options?.errorMsg && props.options?.regex
               ? getError({
-                  element: inputField.current,
+                  element: inputFieldWrapper.current,
                   status: focus,
                   inputValue: value,
                   regex: props.options?.regex,
@@ -122,7 +124,7 @@ export function InputField(props: inputField) {
           const error =
             props.options?.errorMsg && props.options?.regex
               ? getError({
-                  element: inputField.current,
+                  element: inputFieldWrapper.current,
                   status: focus,
                   inputValue: value,
                   regex: props.options?.regex,
@@ -136,13 +138,24 @@ export function InputField(props: inputField) {
     }
   }, [focus, value]);
 
+  useEffect(
+    function setInitialValue() {
+      if (props.options?.initialValue) {
+        inputField.current?.focus();
+        setValue(props.options.initialValue);
+        inputField.current?.blur();
+      }
+    },
+    [props.options?.initialValue]
+  );
+
   useEffect(() => {
     setComponentDidMount(true);
   }, []);
 
   const component = (
     <div
-      ref={inputField}
+      ref={inputFieldWrapper}
       className="hyv-input"
       id={`${props.for}-${props.fieldName}-input-wrapper`}
     >
@@ -152,6 +165,7 @@ export function InputField(props: inputField) {
         id={`${props.for}-${props.fieldName}-container`}
       >
         <input
+          ref={inputField}
           onFocus={(e) => setFocus(true)}
           onBlur={(e) => setFocus(false)}
           onChange={(e) => {

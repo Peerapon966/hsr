@@ -25,5 +25,7 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  return NextResponse.json(response.success(), { status: 200 });
+  return NextResponse.json(response.success({ messageToUser: "OTP Sent" }), {
+    status: 200,
+  });
 }
