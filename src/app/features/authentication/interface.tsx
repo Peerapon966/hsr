@@ -26,17 +26,10 @@ export type RegisterFormData = {
   agreement: "on" | "off";
 };
 
-export type LoginWithUsernameCred = {
+export type UserLoginCred = {
   username: string;
   password: string;
 };
-
-export type LoginWithEmailCred = {
-  email: string;
-  password: string;
-};
-
-export type UserLoginCred = LoginWithUsernameCred | LoginWithEmailCred;
 
 export type IModal = {
   closeModal: Function;

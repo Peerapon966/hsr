@@ -162,13 +162,15 @@ export function RegisterForm(props: RegisterFormProps) {
     };
 
     for (const [key, value] of formData) {
-      const convertedKey = key.replaceAll("-", "_").slice(key.indexOf("-") + 1);
-      if (convertedKey in registerFormData) {
-        convertedKey === "agreement"
-          ? (registerFormData[convertedKey as keyof RegisterFormData] =
+      const transformedKey = key
+        .replaceAll("-", "_")
+        .slice(key.indexOf("-") + 1);
+      if (transformedKey in registerFormData) {
+        transformedKey === "agreement"
+          ? (registerFormData[transformedKey as keyof RegisterFormData] =
               value as "on" | "off")
           : (registerFormData[
-              convertedKey as keyof Omit<RegisterFormData, "agreement">
+              transformedKey as keyof Omit<RegisterFormData, "agreement">
             ] = value as string);
       }
     }

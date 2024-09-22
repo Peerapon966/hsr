@@ -22,8 +22,11 @@
       var(--el-transition-function-ease-in-out-bezier);
 }
 
-.auxiliary-overlay-dialog-container {
-  z-index: 1010 !important;
+.over-dialog-container {
+  transition: opacity var(--el-transition-duration)
+      var(--el-transition-function-ease-in-out-bezier),
+  visibility var(--el-transition-duration)
+      var(--el-transition-function-ease-in-out-bezier);
 }
 
 .overlay-dialog-animation {

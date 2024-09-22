@@ -3,7 +3,7 @@ import {
   ApiSuccessResponse,
 } from "@/api/utils/response/apiResponse";
 import { OtpError } from "@/api/utils/response/otpError";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/api/utils/prisma";
 import { Logger } from "@/logger";
 
 /**
@@ -17,7 +17,6 @@ export async function verifyEmail(
 ): Promise<ApiSuccessResponse | OtpError> {
   const response = new ApiResponse();
   const otpError = new OtpError();
-  const prisma = new PrismaClient();
 
   // check if the email is valid or not (bad reputation, etc.)
   // should be replaced with proper tools later

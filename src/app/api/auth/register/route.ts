@@ -4,7 +4,6 @@ import { verifyData } from "./verifyData";
 import { registerUser } from "./registerUser";
 import { RegisterError } from "@/api/utils/response/registerError";
 import { ApiResponse } from "@/api/utils/response/apiResponse";
-import { Logger } from "@/logger";
 
 export async function POST(req: NextRequest) {
   const response = new ApiResponse();
@@ -34,5 +33,5 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  return NextResponse.json(response.success(), { status: 200 });
+  return NextResponse.redirect(new URL("/api/auth/login", req.url));
 }

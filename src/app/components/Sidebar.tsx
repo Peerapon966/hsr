@@ -1,31 +1,18 @@
+"use client";
+
 import "@/assets/css/sidebar.css";
-import { useEffect, useState } from "react";
-import { useDOMObject } from "@/hooks/useDOMObject";
+import { useEffect, useRef } from "react";
+import { disableScroll } from "@/utils/disableScroll";
 
 export function Sidebar() {
-  const [componentDidMount, setComponentDidMount] = useState<boolean>(false);
-  const [sidebar] = useDOMObject<[HTMLDivElement]>([
-    { from: "id", value: "sidebar-wrapper" },
-  ]);
-  const disableScroll = (e: Event) => {
-    e.preventDefault();
-  };
-
-  if (sidebar) {
-    sidebar.addEventListener("wheel", disableScroll, false);
-    sidebar.addEventListener("scroll", disableScroll, false);
-  }
+  const sidebar = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    setComponentDidMount(true);
+    if (sidebar.current) disableScroll(sidebar.current);
   }, []);
 
   return (
-    <div
-      data-flex-col
-      className="sidebar-wrapper main-axis-center"
-      id="sidebar-wrapper"
-    >
+    <div ref={sidebar} className="sidebar-wrapper main-axis-center">
       <div className="sidebar-item sidebar-share"></div>
       <div
         data-flex

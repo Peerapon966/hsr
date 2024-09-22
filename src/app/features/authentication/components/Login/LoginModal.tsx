@@ -1,24 +1,28 @@
 import "@/features/authentication/assets/css/login.css";
 import { createPortal } from "react-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LoginForm } from "@/features/authentication/components/Login/LoginForm";
 import { RegisterForm } from "@/features/authentication/components/Register/RegisterForm";
 import { useDOMObject } from "@/hooks/useDOMObject";
 import { IModal } from "@/features/authentication/interface";
+import { disableScroll, enableScroll } from "@/utils/disableScroll";
 
-export function LoginModal(props: IModal) {
+export function LoginModal(props: IModal & { showModal: boolean }) {
   const [componentDidMount, setComponentDidMount] = useState<boolean>(false);
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const [isRegister, setIsRegister] = useState<boolean>(false);
   const [username, setUsername] = useState<string | undefined>();
-  const [loginModal, overlay] = useDOMObject<[HTMLDivElement, HTMLDivElement]>([
+  const [loginModal] = useDOMObject<[HTMLDivElement, HTMLDivElement]>([
     { from: "id", value: "login-dialog-container" },
-    { from: "id", value: "overlay-dialog-container" },
   ]);
+  const overlay = useRef<HTMLDivElement | null>(null);
   const closeLoginModal = () => {
     setTimeout(() => props.closeModal(), 300);
-    overlay?.classList.remove("overlay-dialog-animation");
+    overlay.current?.classList.remove("overlay-dialog-animation");
     loginModal?.classList.remove("login-dialog-animation");
+    if (overlay.current) {
+      enableScroll(overlay.current);
+    }
   };
   const swapFormContent = (username?: string) => {
     setIsLogin(!isLogin);
@@ -28,23 +32,22 @@ export function LoginModal(props: IModal) {
     }
   };
 
-  overlay?.classList.add("overlay-dialog-animation");
+  overlay.current?.classList.add("overlay-dialog-animation");
   loginModal?.classList.add("login-dialog-animation");
-
-  if (overlay) {
-    overlay.addEventListener("wheel", (e) => e.preventDefault(), false);
-  }
 
   useEffect(() => {
     setComponentDidMount(true);
   }, []);
 
+  useEffect(() => {
+    if (props.showModal && overlay.current) {
+      disableScroll(overlay.current);
+    }
+  }, [props.showModal]);
+
   const component = (
     <>
-      <div
-        className="login-overlay-dialog-container"
-        id="overlay-dialog-container"
-      >
+      <div ref={overlay} className="login-overlay-dialog-container">
         <div className="overlay-dialog">
           <div
             data-flex-col

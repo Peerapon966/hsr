@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/api/utils/prisma";
 import { RegisterFormData, RegistrantData, UserData } from "@/api/ApiInterface";
 import {
   ApiResponse,
@@ -19,7 +19,6 @@ export async function verifyData(
 ): Promise<ApiSuccessResponse | RegisterError> {
   const response = new ApiResponse();
   const registerError = new RegisterError();
-  const prisma = new PrismaClient();
   let registrant: RegistrantData | null;
   let user: Pick<UserData, "email" | "username"> | null;
   let isOTPIncorrect: boolean = true;
@@ -68,7 +67,6 @@ export async function verifyData(
   // check register form data sent from the client (in case the client try to do something funny, e.g., bypassing disabled Register button)
   try {
     const formDataVerifyResults = formDataSchema.safeParse(formData);
-    Logger.info(formDataVerifyResults, "user input");
     if (!formDataVerifyResults.success) {
       return response.error(registerError).invalidInputFormData({
         messageToUser: formDataVerifyResults.error.issues[0].message,

@@ -4,20 +4,8 @@
     min-width: 1270px;
 }
 
-.video-wrapper {
-    background-color: black;
-    overflow: hidden;
-}
-
-.video {
-    min-width: 1270px;
-    width: 100vw;
-    height: 100vh;
-    object-position: bottom;
-    object-fit: cover;
-}
-
 .swiper-wrapper {
+    max-height: 100vh;
     transform: translate3d(0, 0, 0);
     transition: transform 0.3s;
 }

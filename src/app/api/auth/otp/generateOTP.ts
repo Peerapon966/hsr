@@ -2,12 +2,11 @@ import {
   ApiResponse,
   ApiSuccessResponse,
 } from "@/api/utils/response/apiResponse";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/api/utils/prisma";
 import { Logger } from "@/logger";
 
 export async function generateOTP(email: string): Promise<ApiSuccessResponse> {
   const response = new ApiResponse();
-  const prisma = new PrismaClient();
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
   try {

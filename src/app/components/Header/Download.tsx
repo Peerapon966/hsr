@@ -1,10 +1,11 @@
 "use client";
 
 import "@/assets/css/download.css";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDOMObject } from "@/hooks/useDOMObject";
 import { createPortal } from "react-dom";
 import Image from "next/image";
+import { disableScroll, enableScroll } from "@/utils/disableScroll";
 
 interface modal {
   openModal: boolean;
@@ -14,34 +15,42 @@ interface modal {
 
 export default function Download({ openModal, closeModal }: modal) {
   const [componentDidMount, setComponentDidMount] = useState<boolean>(false);
-  const [downloadModal, overlay] = useDOMObject<
-    [HTMLDivElement, HTMLDivElement]
-  >([
+  const [downloadModal] = useDOMObject<[HTMLDivElement]>([
     { from: "id", value: "download-dialog-container" },
-    { from: "id", value: "download-overlay-dialog-container" },
   ]);
+  const overlay = useRef<HTMLDivElement | null>(null);
   const closeModalHandler = () => {
     setTimeout(() => {
       closeModal();
     }, 300);
     downloadModal?.classList.remove("download-dialog-animation");
-    overlay?.classList.remove("download-overlay-dialog-animation");
+    overlay.current?.classList.remove("download-overlay-dialog-animation");
+    if (overlay.current) {
+      enableScroll(overlay.current);
+    }
   };
+
+  if (openModal) {
+    downloadModal?.classList.add("download-dialog-animation");
+    overlay.current?.classList.add("download-overlay-dialog-animation");
+  }
+
   useEffect(() => {
     setComponentDidMount(true);
   }, []);
 
-  if (openModal) {
-    downloadModal?.classList.add("download-dialog-animation");
-    overlay?.classList.add("download-overlay-dialog-animation");
-  }
+  useEffect(() => {
+    if (openModal && overlay.current) {
+      disableScroll(overlay.current);
+    }
+  }, [openModal]);
 
   const component = (
     <>
       <div
         data-flex
+        ref={overlay}
         className="download-overlay-dialog-container main-axis-center cross-axis-center"
-        id="download-overlay-dialog-container"
         onClick={() => closeModalHandler()}
       >
         <div className="download-overlay-dialog">

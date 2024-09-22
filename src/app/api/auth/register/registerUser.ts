@@ -1,5 +1,4 @@
 import argon2 from "argon2";
-import { PrismaClient } from "@prisma/client";
 import { createClient } from "redis";
 import { RegisterFormData } from "@/api/ApiInterface";
 import {
@@ -7,13 +6,13 @@ import {
   ApiSuccessResponse,
 } from "@/api/utils/response/apiResponse";
 import { RegisterError } from "@/api/utils/response/registerError";
+import { prisma } from "@/api/utils/prisma";
 import { Logger } from "@/logger";
 
 export async function registerUser(
   registerData: RegisterFormData
 ): Promise<ApiSuccessResponse | RegisterError> {
   const response = new ApiResponse();
-  const prisma = new PrismaClient();
   const redisClient = await createClient({
     password: process.env.REDIS_PASSWORD,
   }).connect();

@@ -34,8 +34,8 @@ export function RegisterAgreePrompt(props: IModal & { callback: Function }) {
 
   const component = (
     <div
+      className="fixed invisible bg-[var(--el-overlay-color-lighter)] opacity-0 top-0 left-0 right-0 bottom-0 h-screen w-full z-[1010] over-dialog-container"
       ref={registerAgreePromptOverlay}
-      className="login-overlay-dialog-container auxiliary-overlay-dialog-container"
     >
       <div className="overlay-dialog">
         <div

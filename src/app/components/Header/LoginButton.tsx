@@ -26,7 +26,10 @@ export default function LoginButton(props: LogginButtonProps) {
         </span>
       </div>
       {props.showLoginModal && (
-        <LoginModal closeModal={props.closeLoginModal} />
+        <LoginModal
+          showModal={props.showLoginModal}
+          closeModal={props.closeLoginModal}
+        />
       )}
     </div>
   );

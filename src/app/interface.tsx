@@ -1,5 +1,7 @@
-import { ReactNode } from "react"
+import { ReactNode } from "react";
 
 export type ReactBaseProps = {
-    children?: ReactNode
+  children?: ReactNode;
 };
+
+export type TOrientation = "landscape" | "portrait";

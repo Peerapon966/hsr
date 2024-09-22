@@ -11,6 +11,8 @@ import { InputField } from "@/features/authentication/components/InputField/Inpu
 import { LoginFormProps } from "@/features/authentication/interface";
 import { useLoginContext } from "@/components/Header/Header";
 import { LoginProblems } from "@/features/authentication/components/Login/LoginProblems";
+// import { signIn } from "@/api/auth/login/[...nextauth]/route";
+import { signIn } from "next-auth/react";
 
 export function LoginForm(props: LoginFormProps & { username?: string }) {
   // const navigate = useNavigate();
@@ -50,14 +52,32 @@ export function LoginForm(props: LoginFormProps & { username?: string }) {
   const submitBtn = useRef<HTMLButtonElement | null>(null);
   const loginFormContainer = useRef<HTMLDivElement | null>(null);
   const [isDisabled, setisDisabled] = useState<boolean>(true);
-  const loginHandler = (e: FormEvent) => {
+  const loginHandler = async (e: FormEvent) => {
     e.preventDefault();
     if (!form.current) return;
-    const loginCredential = new FormData(form.current);
-    for (const [key, value] of loginCredential) {
-      console.log(key, value);
+
+    const loginFormData = new FormData(form.current);
+    const loginCredentials = {
+      username: "",
+      password: "",
+    };
+    console.log(typeof signIn);
+    for (const [key, value] of loginFormData) {
+      const transformedKey = key
+        .replaceAll("-", "_")
+        .slice(key.indexOf("-") + 1);
+      loginCredentials[transformedKey as keyof typeof loginCredentials] =
+        value as string;
     }
-    setIsAuth(true);
+
+    console.log(loginCredentials);
+    const res = await signIn("Credential", {
+      redirect: false,
+      username: loginCredentials.username,
+      password: loginCredentials.password,
+    });
+    console.log(res);
+    // setIsAuth(true);
     // form.submit()
     // navigate('/news');
   };

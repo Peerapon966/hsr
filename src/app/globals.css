@@ -155,7 +155,7 @@ code {
 }
 
 .title-container {
-  --title-bg: url("/title/title_bg.png");
+  --title-bg: url("/shared/title_bg.png");
 }
 
 [data-flex] {
