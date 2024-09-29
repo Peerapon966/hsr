@@ -44,7 +44,6 @@ html {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Microsoft YaHei", "Arial", "Helvetica", sans-serif;
   word-break: break-word;
 }
 
@@ -65,6 +64,112 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+:root {
+  --global-color-coolgrey-0: #adb5d0;
+  --global-color-coolgrey-1: #8a91a5;
+  --global-color-coolgrey-2: #676c7b;
+  --global-color-pink-0: #dc8ac7;
+  --global-color-pink-1: #ae6f9e;
+  --global-color-pink-2: #805576;
+  --global-color-cyan-0: #75d6dd;
+  --global-color-cyan-1: #5fa9af;
+  --global-color-cyan-2: #497d82;
+  --global-color-green-0: #172824;
+  --global-color-green-1: #193c31;
+  --global-color-green-2: #1e4e3c;
+  --global-color-green-3: #21684d;
+  --global-color-green-4: #258b63;
+  --global-color-green-5: #29af79;
+  --global-color-green-6: #26bf82;
+  --global-color-green-7: #46c38e;
+  --global-color-green-8: #76d9aa;
+  --global-color-green-9: #a4eac7;
+  --global-color-green-10: #d1f2e2;
+  --global-color-red-0: #2c191b;
+  --global-color-red-1: #431e1f;
+  --global-color-red-2: #572726;
+  --global-color-red-3: #772e2b;
+  --global-color-red-4: #a13732;
+  --global-color-red-5: #cb4039;
+  --global-color-red-6: #e0564f;
+  --global-color-red-7: #e16b60;
+  --global-color-red-8: #f3998e;
+  --global-color-red-9: #f8c2b8;
+  --global-color-red-10: #fae6e2;
+  --global-color-purple-0: #8779dd;
+  --global-color-purple-1: #6d62af;
+  --global-color-purple-2: #534c82;
+  --global-color-orange-0: #2e221a;
+  --global-color-orange-1: #46311d;
+  --global-color-orange-2: #5a4023;
+  --global-color-orange-3: #7b5326;
+  --global-color-orange-4: #a76d2b;
+  --global-color-orange-5: #d38730;
+  --global-color-orange-6: #e09238;
+  --global-color-orange-7: #e8a957;
+  --global-color-orange-8: #f3c682;
+  --global-color-orange-9: #f8dcac;
+  --global-color-orange-10: #faeed5;
+  --global-color-basic-white: #fff;
+  --global-color-basic-black: #000;
+  --global-color-primary-0: #1b2336;
+  --global-color-primary-1: #1e263b;
+  --global-color-primary-2: #212a40;
+  --global-color-primary-3: #1f2d4a;
+  --global-color-primary-4: #273a5f;
+  --global-color-primary-5: #2f4b80;
+  --global-color-primary-6: #3961ad;
+  --global-color-primary-7: #4377da;
+  --global-color-primary-8: #4a88fc;
+  --global-color-primary-9: #6a9be8;
+  --global-color-primary-10: #95bcf4;
+  --global-color-grey-0: #18191b;
+  --global-color-grey-1: #212226;
+  --global-color-grey-2: #2d2e33;
+  --global-color-grey-3: #323339;
+  --global-color-grey-4: #4f5159;
+  --global-color-grey-5: #61636b;
+  --global-color-grey-6: #7b7f8a;
+  --global-color-grey-7: #a0a4ac;
+  --global-color-grey-8: #ccd0d2;
+  --global-color-grey-9: #e6e7e9;
+  --global-color-grey-10: #fafafa;
+  --global-color-stroke: var(--global-color-grey-3);
+  --global-surface-mask: rgba(0, 0, 0, .7);
+  --global-surface-1: var(--global-color-grey-0);
+  --global-surface-2: #121214;
+  --brand-color-hover: var(--global-color-primary-6);
+  --brand-color-enabled: var(--global-color-primary-7);
+  --brand-color-pressed: var(--global-color-primary-8);
+  --brand-color-hover-dark: #b57731;
+  --brand-color-enabled-dark: #db9a45;
+  --brand-color-pressed-dark: #e8b86f;
+  --brand-button-filled-enabled-container: var(--global-color-primary-7);
+  --brand-button-filled-enabled-element: var(--global-color-basic-white);
+  --brand-icon: var(--global-color-primary-7);
+  --brand-button-filled-hover-container: var(--global-color-primary-6);
+  --brand-color-error: var(--global-color-red-7);
+  --brand-button-filled-hover-element: var(--global-color-basic-white);
+  --brand-button-filled-pressed-container: var(--global-color-primary-8);
+  --brand-button-filled-pressed-element: var(--global-color-basic-white);
+  --brand-button-filled-disabled-container: var(--global-color-grey-3);
+  --brand-button-filled-disabled-element: var(--global-color-grey-5);
+  --brand-radius-container: 12px;
+  --brand-padding-input: 12px;
+  --brand-button-outlined-enabled-border: var(--global-color-grey-3);
+  --brand-button-outlined-enabled-element: var(--global-color-grey-8);
+  --brand-button-outlined-hover-border: var(--brand-color-hover);
+  --brand-button-outlined-hover-element: var(--brand-color-hover);
+  --brand-button-outlined-pressed-border: var(--brand-color-pressed);
+  --brand-button-ghost-hover-element: var(--brand-color-hover);
+  --brand-button-ghost-enabled-element: var(--brand-color-enabled);
+  --brand-button-ghost-pressed-element: var(--brand-color-pressed);
+  --brand-button-ghost-disabled-element: var(--global-color-grey-5);
+  --brand-button-outlined-pressed-element: var(--brand-color-pressed);
+  --brand-button-outlined-disabled-border: var(--global-color-grey-2);
+  --brand-button-outlined-disabled-element: var(--global-color-grey-5);
 }
 
 :root {

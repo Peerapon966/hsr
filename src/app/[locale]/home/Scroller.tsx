@@ -1,11 +1,10 @@
 "use client";
 
-import Title from "@/components/Title";
 import { ReactBaseProps } from "@/interface";
-import { useContext, useEffect, useRef, useState } from "react";
-import { SwiperContext, type TSwiperContext } from "./Swiper";
+import { useState, useContext, useRef, useEffect } from "react";
+import { SwiperContext, TSwiperContext } from "./Swiper";
 
-export function Content({ children }: ReactBaseProps) {
+export function Scroller({ children }: ReactBaseProps) {
   const [componentDidMount, setComponentDidMount] = useState<boolean>(false);
   const { minimumScrollDistance } = useContext(SwiperContext) as TSwiperContext;
   const content = useRef<HTMLElement | null>(null);
@@ -28,7 +27,6 @@ export function Content({ children }: ReactBaseProps) {
     if (scrollAmount < 0) e.stopPropagation();
 
     const maxScrollAmount = window.innerHeight - content.current?.clientHeight;
-    console.log(maxScrollAmount);
     e.deltaY > 0
       ? (scrollAmount -= Math.min(
           Math.abs(maxScrollAmount - scrollAmount),
@@ -96,18 +94,5 @@ export function Content({ children }: ReactBaseProps) {
     setComponentDidMount(true);
   }, []);
 
-  return (
-    <section ref={content}>
-      <div className="home-content">
-        {/* <Title title={"Voice of the Galaxy"} />
-        <Title title={"Characters"} /> */}
-        <div
-          style={{ width: "100%", height: "1000px", backgroundColor: "black" }}
-        ></div>
-        <div
-          style={{ width: "100%", height: "1000px", backgroundColor: "blue" }}
-        ></div>
-      </div>
-    </section>
-  );
+  return <section ref={content}>{children}</section>;
 }

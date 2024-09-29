@@ -16,7 +16,7 @@ export function Sidebar() {
       <div className="sidebar-item sidebar-share"></div>
       <div
         data-flex
-        className="sidebar-item sidebar-follow main-axis-center cross-axis-center"
+        className="sidebar-item sidebar-follow main-axis-center cross-axis-center font-yahei"
       >
         Follow
       </div>

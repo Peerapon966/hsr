@@ -17,7 +17,8 @@ import UserButton from "@/components/Header/UserButton";
 import { useDOMObject } from "@/hooks/useDOMObject";
 import { disableScroll } from "@/utils/disableScroll";
 import { useParams, usePathname } from "next/navigation";
-import Link from "next/link";
+// import Link from "next/link";
+import { Link } from "i18n/routing";
 
 type TPages = {
   pagename: string;
@@ -31,8 +32,6 @@ export function useLoginContext() {
 }
 
 export function Header(): JSX.Element {
-  const params = useParams();
-  const lang = params.lang;
   const currentPage = usePathname().split("/").slice(2)[0];
   const pages: TPages[] = [
     { pagename: "Home", pathname: "home" },
@@ -84,7 +83,7 @@ export function Header(): JSX.Element {
   return (
     // <Suspense fallback={<h1>Loading...</h1>} >
     <LoginContext.Provider value={setIsAuth}>
-      <div ref={header} className="header-container">
+      <div ref={header} className="header-container font-yahei">
         <div className="header-wrapper">
           <div data-flex className="flex-item bgm">
             <div
@@ -106,7 +105,7 @@ export function Header(): JSX.Element {
                 data-flex
                 className={pathname === currentPage ? "active" : ""}
               >
-                <Link href={`/${lang}/${pathname}`}>
+                <Link href={pathname}>
                   <div data-flex className="nav-item">
                     {pagename}
                   </div>

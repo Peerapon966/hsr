@@ -1,38 +1,39 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-import { cookies } from "next/headers";
+import { NextResponse, type NextRequest } from "next/server";
+import { cookies, headers } from "next/headers";
+import { routing } from "./i18n/routing";
+import createMiddleware from "next-intl/middleware";
 
-const allowedOrigins = ["http://localhost:3000", "http://sub.hsr.com:3001"];
+const handleI18nRouting = createMiddleware(routing);
 
-// This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
-  // const res = NextResponse.next();
-  // const origin = request.headers.get("origin") as string;
+  const pathname = request.nextUrl.pathname;
 
-  // if (allowedOrigins.includes(origin)) {
-  //   console.log(origin);
-  //   res.headers.set("Access-Control-Allow-Origin", origin);
-  // }
-  // res.headers.set(
-  //   "Access-Control-Allow-Methods",
-  //   "GET, POST, PUT, DELETE, OPTIONS"
-  // );
-  // res.headers.set("Access-Control-Allow-Headers", "Content-Type");
-  // res.headers.set("Access-Control-Allow-Credentials", "true");
-
-  if (request.nextUrl.pathname === "/") {
-    return NextResponse.redirect(new URL("/home", request.url));
+  // Check if the request is for a static asset or an api
+  if (
+    pathname.includes(".") || // This catches most file extensions
+    pathname.startsWith("/_next") ||
+    pathname.startsWith("/api")
+  ) {
+    // If it's a static asset, don't apply the i18n middleware
+    return NextResponse.next();
   }
 
-  if (request.nextUrl.pathname === "/test/content") {
+  // Request for the root will be redirected to the home page
+  if (pathname === "/") {
+    return NextResponse.redirect(new URL(`/home`, request.url));
+  }
+
+  // This is for learning, experimenting purposes
+  if (pathname === "/test/content") {
     if (!cookies().get("sid")) {
       return NextResponse.redirect(new URL("/test/login", request.url));
     }
   }
 
-  // return res;
+  return handleI18nRouting(request);
 }
 
 export const config = {
-  matcher: "/:path*",
+  // This matcher will run the middleware on all routes
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };

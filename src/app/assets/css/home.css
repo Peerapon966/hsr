@@ -1,9 +1,5 @@
 @import "../../globals.css";
 
-.home-container {
-    min-width: 1270px;
-}
-
 .swiper-wrapper {
     max-height: 100vh;
     transform: translate3d(0, 0, 0);
@@ -12,8 +8,4 @@
 
 .swiper-wrapper.active {
     transform: translate3d(0, -100vh, 0);
-}
-
-.home-content {
-    margin-top: 1.4rem;
 }

@@ -10,6 +10,7 @@ import { register } from "@/services/auth/register";
 import { callPopupToast } from "@/features/authentication/utils/callPopupToast";
 import { RegisterAgreePrompt } from "@/features/authentication/components/Register/RegisterAgreePrompt";
 import { LoginPrompt } from "@/features/authentication/components/Register/LoginPrompt";
+import { Checkbox } from "@/features/authentication/components/InputField/Checkbox";
 
 export function RegisterForm(props: RegisterFormProps) {
   const emailInput = InputField({
@@ -68,7 +69,6 @@ export function RegisterForm(props: RegisterFormProps) {
       },
     },
   });
-  const [agreement, setAgreement] = useState<boolean>(false);
   const [promptUserAgreement, setPromptUserAgreement] =
     useState<boolean>(false);
   const [promptLogin, setPromptLogin] = useState<boolean>(false);
@@ -76,8 +76,6 @@ export function RegisterForm(props: RegisterFormProps) {
   const registerForm = useRef<HTMLDivElement | null>(null);
   const submitBtn = useRef<HTMLButtonElement | null>(null);
   const form = useRef<HTMLFormElement | null>(null);
-  const agreeLabel = useRef<HTMLLabelElement | null>(null);
-  const visibleCheckbox = useRef<HTMLDivElement | null>(null);
   const errors = [
     emailInput.error,
     verificationInput.error,
@@ -94,7 +92,7 @@ export function RegisterForm(props: RegisterFormProps) {
     setPromptUserAgreement(false);
   }, [promptUserAgreement]);
   const agreeOnPromptHandler = useCallback(() => {
-    agreeLabel.current?.click();
+    document.getElementById("register-policy-agreement")?.click();
     submitBtn.current?.click();
   }, [promptUserAgreement]);
   const closeLoginPromptModal = useCallback(() => {
@@ -148,7 +146,7 @@ export function RegisterForm(props: RegisterFormProps) {
     if (!form.current) return;
     const formData = new FormData(form.current);
 
-    if (!formData.has("agreement")) {
+    if (!formData.has("register-policy-agreement")) {
       setPromptUserAgreement(true);
       return;
     }
@@ -158,19 +156,22 @@ export function RegisterForm(props: RegisterFormProps) {
       verification_code: "",
       password: "",
       confirm_password: "",
-      agreement: "off",
+      policy_agreement: "on",
     };
 
     for (const [key, value] of formData) {
-      const transformedKey = key
+      const prefixRemovedKey = key
         .replaceAll("-", "_")
         .slice(key.indexOf("-") + 1);
-      if (transformedKey in registerFormData) {
-        transformedKey === "agreement"
-          ? (registerFormData[transformedKey as keyof RegisterFormData] =
-              value as "on" | "off")
+      if (prefixRemovedKey in registerFormData) {
+        prefixRemovedKey === "policy_agreement"
+          ? (registerFormData[prefixRemovedKey as keyof RegisterFormData] =
+              value as "on")
           : (registerFormData[
-              transformedKey as keyof Omit<RegisterFormData, "agreement">
+              prefixRemovedKey as keyof Omit<
+                RegisterFormData,
+                "policy_agreement"
+              >
             ] = value as string);
       }
     }
@@ -206,15 +207,6 @@ export function RegisterForm(props: RegisterFormProps) {
     [errors, values]
   );
 
-  useEffect(
-    function agreeHandler() {
-      agreement
-        ? visibleCheckbox.current?.classList.add("checked")
-        : visibleCheckbox.current?.classList.remove("checked");
-    },
-    [agreement]
-  );
-
   !props.isOpen
     ? registerForm.current?.classList.add("hidden")
     : registerForm.current?.classList.remove("hidden");
@@ -234,53 +226,39 @@ export function RegisterForm(props: RegisterFormProps) {
         {verificationInput.component}
         {passwordInput.component}
         {confirmPasswordInput.component}
-        <div className="hyv-checkbox">
-          <label
-            data-flex
-            ref={agreeLabel}
-            htmlFor="register-agree"
-            className="checkbox-label"
-            id="register-agree-label"
-          >
-            <div className="checkbox-container" id="register-agree-container">
-              <input
-                onChange={() => setAgreement(!agreement)}
-                type="checkbox"
-                className="checkbox"
-                id="register-agree"
-                aria-hidden="true"
-                name="agreement"
-              ></input>
-              <div
-                ref={visibleCheckbox}
-                className="visible-checkbox"
-                id="visible-checkbox"
-              ></div>
-            </div>
-            <div className="checkbox-label-text">
-              <span>I have read and agree to the </span>
-              <span>
-                <a
-                  href="https://account.hoyoverse.com/index.html?hide_back=1&hide_header=1&hide_sidebar=1&hide_footer=1&lang=en-us#/about/userAgreement"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  <span>HoYoverse Account Terms of Service</span>
-                </a>
-              </span>
-              <span> and </span>
-              <span>
-                <a
-                  href="https://account.hoyoverse.com/index.html?hide_back=1&hide_header=1&hide_sidebar=1&hide_footer=1&lang=en-us#/about/privacy"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  <span>HoYoverse Account Privacy Policy</span>
-                </a>
-              </span>
-            </div>
-          </label>
-        </div>
+        <Checkbox for="register" fieldName="policy-agreement">
+          <span>I have read and agree to the </span>
+          <span>
+            <a
+              href="https://account.hoyoverse.com/index.html?hide_back=1&hide_header=1&hide_sidebar=1&hide_footer=1&lang=en-us#/about/userAgreement"
+              target="_blank"
+              rel="noopener"
+            >
+              <span>Terms of Service</span>
+            </a>
+          </span>
+          <span> and </span>
+          <span>
+            <a
+              href="https://account.hoyoverse.com/index.html?hide_back=1&hide_header=1&hide_sidebar=1&hide_footer=1&lang=en-us#/about/privacy"
+              target="_blank"
+              rel="noopener"
+            >
+              <span>Privacy Policy</span>
+            </a>
+          </span>
+        </Checkbox>
+        <Checkbox
+          for="register"
+          fieldName="promotions"
+          options={{ checkedByDefault: true }}
+        >
+          <span>
+            Agree to subscribe to promotional messages (You may unsubscribe at
+            any time)
+          </span>
+          <span>&nbsp;(Optional)</span>
+        </Checkbox>
         <button
           ref={submitBtn}
           type="submit"

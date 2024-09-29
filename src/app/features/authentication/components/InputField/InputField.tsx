@@ -9,12 +9,13 @@ import {
   inputConstraints,
 } from "@/features/authentication/interface";
 
-interface inputField {
+interface InputFieldProps {
   for: "login" | "register";
   fieldName: string;
   label: string;
   type: "text" | "password";
   options?: {
+    theme?: "dark" | "light";
     initialValue?: string;
     realtimeUpdate?: boolean;
     regex?: inputRegex[];
@@ -25,10 +26,11 @@ interface inputField {
   };
 }
 
-export function InputField(props: inputField) {
+export function InputField(props: InputFieldProps) {
   const [componentDidMount, setComponentDidMount] = useState<boolean>(false);
   const inputFieldWrapper = useRef<HTMLDivElement | null>(null);
   const inputField = useRef<HTMLInputElement | null>(null);
+  const theme = props.options?.theme ?? "light";
   const [initialized, setInitialized] = useState<boolean>(false);
   const [type, setType] = useState<string>(props.type);
   const [pwdIcon, setPwdIcon] = useState<string>("#icon-passwordHide");
@@ -51,11 +53,19 @@ export function InputField(props: inputField) {
   const clearInputIcon = (
     <span data-flex className="suffix-icon">
       <svg
-        className="svg-icon clear-input"
+        className={
+          theme === "light"
+            ? "svg-icon clear-input"
+            : "svg-icon clear-input dark text-[1.25em]"
+        }
         aria-hidden="true"
         onClick={(e) => clearInputHandler()}
       >
-        <use href="#icon-clearInput"></use>
+        <use
+          href={
+            theme === "light" ? "#icon-clearInput" : "#icon-clearInput-dark"
+          }
+        ></use>
       </svg>
     </span>
   );
@@ -161,7 +171,11 @@ export function InputField(props: inputField) {
     >
       <div
         data-flex-col
-        className="input-container"
+        className={
+          theme === "light"
+            ? "input-container bg-[#fafafc] border border-solid border-[#e7e8ee]"
+            : "input-container bg-[color:var(--global-color-grey-1)] border border-solid border-[color:var(--global-color-grey-3)]"
+        }
         id={`${props.for}-${props.fieldName}-container`}
       >
         <input
@@ -185,7 +199,11 @@ export function InputField(props: inputField) {
           type={type}
           maxLength={props.options?.maxLength}
           autoComplete="off"
-          className="input-field"
+          className={
+            theme === "light"
+              ? "input-field text-[color:var(--account-color-gray-9)]"
+              : "input-field text-[color:var(--global-color-grey-8)]"
+          }
           id={`${props.for}-${props.fieldName}`}
           name={`${props.for}-${props.fieldName}`}
         ></input>

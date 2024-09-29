@@ -5,6 +5,7 @@ import { Footer } from "@/components/Footer/Footer";
 import { Preview } from "./Preview";
 import { Content } from "./Content";
 import { Swiper } from "./Swiper";
+import { Scroller } from "./Scroller";
 
 export default function Home() {
   return (
@@ -12,8 +13,10 @@ export default function Home() {
       <Sidebar />
       <Swiper>
         <Preview />
-        <Content />
-        <Footer />
+        <Scroller>
+          <Content />
+          <Footer />
+        </Scroller>
       </Swiper>
     </PageLayout>
   );

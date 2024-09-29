@@ -10,7 +10,7 @@ export type RegisterFormData = {
   verification_code: string;
   password: string;
   confirm_password: string;
-  agreement: "on" | "off";
+  policy_agreement: "on";
 };
 
 export type UserLoginData = {

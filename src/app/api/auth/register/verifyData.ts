@@ -46,7 +46,7 @@ export async function verifyData(
       confirm_password: z
         .string()
         .min(1, { message: "Password confirmation cannot be empty" }),
-      agreement: z.literal("on", {
+      policy_agreement: z.literal("on", {
         message:
           "Please agree to the HoYoverse Account Terms of Service and Privacy Policy",
       }),
