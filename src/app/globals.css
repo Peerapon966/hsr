@@ -147,7 +147,9 @@ code {
   --brand-color-enabled-dark: #db9a45;
   --brand-color-pressed-dark: #e8b86f;
   --brand-button-filled-enabled-container: var(--global-color-primary-7);
+  --brand-button-filled-enabled-container-dark: #db9a45;
   --brand-button-filled-enabled-element: var(--global-color-basic-white);
+  --brand-button-filled-enabled-element-dark: var(--global-color-basic-black);
   --brand-icon: var(--global-color-primary-7);
   --brand-button-filled-hover-container: var(--global-color-primary-6);
   --brand-color-error: var(--global-color-red-7);
@@ -224,7 +226,7 @@ code {
   --close-btn: url("/shared/close-btn.png");
   --white-close-btn: url("/header/white_close_btn.png");
   --download-bg: url("/header/download_bg.png");
-  --rating: url("/header/rating.png");
+  --rating: url("/shared/rating.png");
   --qr-code: url("/header/download_qr.png");
 }
 

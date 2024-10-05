@@ -89,10 +89,10 @@ export function HomeDownload() {
       </div>
       <div className="flex ml-[0.12em]">
         <Image
-          src={"/header/rating.png"}
-          alt="teen rated ESRB logo"
-          width={159}
-          height={96}
+          src={"/shared/rating.png"}
+          alt="game rating image"
+          width={194}
+          height={115}
           className="h-[1.14em] w-auto"
         />
       </div>

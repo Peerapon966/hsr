@@ -1,12 +1,22 @@
 "use client";
 
+import "@/assets/css/footer.css";
 import { Checkbox } from "@/features/authentication/components/InputField/Checkbox";
 import { InputField } from "@/features/authentication/components/InputField/InputField";
 import { useLocale, useTranslations } from "next-intl";
+import Image from "next/image";
+import { AVAILABLE_LOCALES } from "const";
+import { FormEvent, useRef, useState } from "react";
+import { useRouter } from "i18n/routing";
 
 export function Footer() {
-  const locale = useLocale();
+  const currLocale = useLocale();
+  const router = useRouter();
   const t = useTranslations("Footer");
+  const [isLocaleListVisible, setIsLocaleListVisible] =
+    useState<boolean>(false);
+  const localeSelector = useRef<HTMLDivElement | null>(null);
+  const submitBtn = useRef<HTMLButtonElement | null>(null);
   const { component } = InputField({
     for: "register",
     fieldName: "newsletter",
@@ -17,10 +27,20 @@ export function Footer() {
       theme: "dark",
     },
   });
+  const subscribeHandler = (e: FormEvent) => {
+    e.preventDefault();
+    alert(
+      "Congrat! We will begin sending spam advertise emails to your address starting today"
+    );
+  };
+  const showLocaleListHandler = () => {
+    setIsLocaleListVisible((isLocaleListVisible) => !isLocaleListVisible);
+    localeSelector.current?.classList.toggle("active");
+  };
   return (
-    <div id="footer" className="flex-col relative">
+    <div className="flex-col relative select-none">
       <div className="bg-[#111] py-[40px] border-t border-solid border-[#323232]">
-        <form>
+        <form onSubmit={subscribeHandler}>
           <div className="text-[100px] max-w-[1560px] w-[90%] m-auto">
             <div className="flex justify-between">
               <div className="select-none text-[color:var(--global-color-grey-8)] grow-0 shrink-0 basis-[35%]">
@@ -39,28 +59,161 @@ export function Footer() {
                     fieldName="newsletter"
                     options={{ theme: "dark" }}
                   >
-                    <span>
+                    <span className="text-[color:var(--global-color-grey-8)]">
                       I agree for my personal data to be collected and used to
                       receive event invitations and other game info.
                     </span>
                     <a
                       target="__blank"
-                      href={`https://hsr.hoyoverse.com/${locale}/company/privacy`}
+                      href={`https://hsr.hoyoverse.com/${currLocale}/company/privacy`}
                     >
                       &nbsp;Read details &gt;&gt;
                     </a>
                   </Checkbox>
                 </div>
                 <div className="flex grow-0 shrink-0 basis-[30%]">
-                  <button>Subscribe Now</button>
+                  <button
+                    ref={submitBtn}
+                    type="submit"
+                    className="footer-submit-btn"
+                  >
+                    <span>Subscribe Now</span>
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         </form>
       </div>
-      <div className="bg-black px-[30px] h-[100px]">
-        <div className="pt-[30px] pb-[40px] flex flex-col"></div>
+      <div className="bg-black px-[30px]">
+        <footer className="pt-[30px] pb-[40px] flex justify-center relative">
+          <div className="footer-wrapper flex flex-col text-[#919191] text-[12px] font-sans text-center font-[500]">
+            <div className="footer-details flex justify-center items-center mt-[10px] max-w-full">
+              <a>
+                <Image
+                  src={"/shared/hsr_logo.png"}
+                  alt="honkai starrail logo"
+                  width={333}
+                  height={166}
+                  draggable={false}
+                ></Image>
+              </a>
+              <a>
+                <Image
+                  src={"/shared/sr_world_tour_logo.png"}
+                  alt="starrail world tour logo"
+                  width={1108}
+                  height={528}
+                  draggable={false}
+                ></Image>
+              </a>
+            </div>
+            <div className="footer-details flex justify-center items-center mt-[10px] max-w-full">
+              <div className="flex flex-wrap justify-between">
+                <a className="text-[#bbb] mx-[10px] no-underline hover:underline cursor-pointer">
+                  Privacy Policy
+                </a>
+                <a className="text-[#bbb] mx-[10px] no-underline hover:underline cursor-pointer">
+                  Terms of Service
+                </a>
+                <a className="text-[#bbb] mx-[10px] no-underline hover:underline cursor-pointer">
+                  About Us
+                </a>
+                <a className="text-[#bbb] mx-[10px] no-underline hover:underline cursor-pointer">
+                  Contact Us
+                </a>
+                <a className="text-[#bbb] mx-[10px] no-underline hover:underline cursor-pointer">
+                  Help Center
+                </a>
+              </div>
+            </div>
+            <div className="footer-details flex justify-center items-center mt-[10px] max-w-full">
+              <a>
+                <Image
+                  src={"/shared/rating.png"}
+                  alt="game rating image"
+                  width={194}
+                  height={115}
+                  draggable={false}
+                ></Image>
+              </a>
+            </div>
+            <div className="footer-details flex flex-col justify-center items-center mt-[10px] max-w-full leading-[1.6]">
+              <p className="whitespace-pre-wrap">
+                “PlayStation Family Mark”, “PlayStation” and “PS5 logo” are
+                registered trademarks or trademarks of Sony Interactive
+                Entertainment Inc.
+              </p>
+              <p className="whitespace-pre-wrap">
+                Epic, Epic Games, Epic Games Store, the Epic Games Store logo,
+                and Epic Online Services are trademarks and/or registered
+                trademarks of Epic Games. All other trademarks are the property
+                of their respective owners.
+              </p>
+            </div>
+            <div className="footer-details flex justify-center items-center mt-[10px] max-w-full">
+              <a>
+                <Image
+                  src={"/shared/hyv_logo_dark.png"}
+                  alt="hoyoverse logo"
+                  width={384}
+                  height={69}
+                  className="rescaled"
+                  draggable={false}
+                ></Image>
+              </a>
+            </div>
+            <div className="footer-details flex justify-center items-center mt-[10px] max-w-full">
+              <p className="text-white">
+                Copyright © COGNOSPHERE. All Rights Reserved.
+              </p>
+            </div>
+          </div>
+          <div className="flex absolute locale-wrapper font-sans font-[500]">
+            <div
+              className={`locale-options-wrapper flex flex-col items-center absolute ${
+                isLocaleListVisible || "hidden"
+              }`}
+            >
+              <div className="bg-[#1c1c1c] p-[8px] rounded-[6px] w-full">
+                <div className="locale-options pl-[8px] text-[12px]">
+                  {Object.entries(AVAILABLE_LOCALES).map(([lang, locale]) => (
+                    <div
+                      key={locale}
+                      className={`locale-option relative pl-[12px] cursor-pointer leading-[2.57] ${
+                        currLocale === locale
+                          ? "text-white active"
+                          : "text-[#919191]"
+                      } hover:text-white`}
+                      onClick={() => router.push("/home", { locale: locale })}
+                    >
+                      {lang}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div
+              ref={localeSelector}
+              onClick={showLocaleListHandler}
+              className="locale-selector flex cursor-pointer items-center overflow-hidden box-content"
+            >
+              <div className="locale-selector-sub flex items-center h-full w-full">
+                <div className="globe-icon-wrapper flex items-center justify-center relative">
+                  <div className="globe-icon bg-[url('/footer/globe_icon.png')]"></div>
+                </div>
+                <div className="locale text-[#919191] text-[12px] leading flex items-center justify-between">
+                  English
+                  <div
+                    className={`arrow-icon ${
+                      isLocaleListVisible && "rotate-180"
+                    }`}
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
       </div>
     </div>
   );

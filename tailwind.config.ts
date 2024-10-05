@@ -25,6 +25,7 @@ const config: Config = {
     fontFamily: {
       inter: "Inter, Microsoft YaHei, sans-serif",
       yahei: '"Microsoft YaHei", "Arial", "Helvetica", sans-serif',
+      sans: "sans-serif",
     },
   },
   plugins: [],
