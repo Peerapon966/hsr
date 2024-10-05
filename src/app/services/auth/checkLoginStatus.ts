@@ -1,3 +1,3 @@
-export default async function checkLoginStatus(): Promise<boolean> {
-  return false
+export async function checkLoginStatus(): Promise<boolean> {
+  return false;
 }

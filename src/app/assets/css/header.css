@@ -71,6 +71,10 @@
   animation: rect-5 .5s 0s infinite alternate both;
 }
 
+.rectangle.paused {
+  animation-play-state: paused !important;
+}
+
 @keyframes rect-1 {
   0% {
     height: 0.16rem;

@@ -1,36 +1,34 @@
-import "@/assets/css/page.css"
+"use client";
+
 import Svg from "@/assets/Svg";
-import { Header } from "@/components";
-import { Outlet, useLocation } from "react-router-dom";
-import { ReactBaseProps } from "@/interface";
-import { useBOMObject } from "@/hooks";
-import { useState } from "react";
+import { Header } from "@/components/Header/Header";
+import { useOrientation } from "@/hooks/useOrientation";
+import { ReactBaseProps, TOrientation } from "@/interface";
 import dynamic from "next/dynamic";
+import { createContext, Suspense, useState } from "react";
 
-const ChangeView = dynamic(() => import("src/app/components/index").then((module) => ({ default: module.ChangeView })))
+const ChangeOrientation = dynamic(() =>
+  import("@/components/ChangeOrientation").then((module) => ({
+    default: module.ChangeOrientation,
+  }))
+);
 
-export default function PageLayout(props: ReactBaseProps) {
-  const [displayChangeViewPrompt, setDisplayChangeViewPrompt] = useState<boolean>(false);
-  const [innerWidth, innerHeight] = useBOMObject<[number, number]>([
-    { object: 'window', property: 'innerWidth' },
-    { object: 'window', property: 'innerHeight' }
-  ]);
-  const layout: string = (innerWidth < innerHeight) ? 'portrait' : 'landscape';
-  const closeChangeViewPrompt = () => {
-    setDisplayChangeViewPrompt(false)
-  }
-  const displayChangeView = () => {
-    setDisplayChangeViewPrompt(true)
-  }
+export const OrientationContext = createContext<TOrientation | null>(null);
 
-  useBOMObject([{ object: 'window', property: 'addEventListener', args: { event: 'orientationchange', callback: displayChangeView } }])
+export function PageLayout(props: ReactBaseProps) {
+  const [optimalOrientation, getCurrentOrientation] = useOrientation();
+  const [isUserIgnore, setIsUserIgnore] = useState<boolean>(false);
 
   return (
-    <div className="page-container">
-      <Svg />
-      {(displayChangeViewPrompt) ? <ChangeView layout={layout} closePrompt={closeChangeViewPrompt} /> : null}
-      <Header />
-      {props.children}
-    </div>
-  )
+    <OrientationContext.Provider value={optimalOrientation}>
+      <div className="bg-[url('/shared/star_bg.a353121.jpg')] bg-no-repeat bg-fixed sticky top-0 min-w-[1270px]">
+        <Svg />
+        {!isUserIgnore && (
+          <ChangeOrientation setIsUserIgnore={setIsUserIgnore} />
+        )}
+        <Header />
+        {props.children}
+      </div>
+    </OrientationContext.Provider>
+  );
 }

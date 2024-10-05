@@ -93,6 +93,11 @@
   max-height: 160px;
 }
 
+.game-rating img {
+  width: auto;
+  height: 100%;
+}
+
 .mr-22 {
   margin-right: 22px;
 }

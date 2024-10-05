@@ -1,32 +1,33 @@
-import { PrismaClient } from "@prisma/client";
-import { customizeError } from "@/api/utils";
-import Logger from "@/logger";
+import {
+  ApiResponse,
+  ApiSuccessResponse,
+} from "@/api/utils/response/apiResponse";
+import { prisma } from "@/api/utils/prisma";
+import { Logger } from "@/logger";
 
-type getOTP = {
-  registrantEmail: string
-}
-
-export default async function generateOTP(props: getOTP): Promise<string> {
-  const prisma = new PrismaClient();
+export async function generateOTP(email: string): Promise<ApiSuccessResponse> {
+  const response = new ApiResponse();
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
   try {
     await prisma.register_users.upsert({
       where: {
-        email: props.registrantEmail
+        email: email,
       },
       update: {
-        verification_code: otp
+        verification_code: otp,
       },
       create: {
-        email: props.registrantEmail,
-        verification_code: otp
-      }
+        email: email,
+        verification_code: otp,
+      },
     });
   } catch (error) {
-    Logger.error(error, 'An error occurred at: generateOTP.ts')
-    throw error
+    Logger.error(error, "An error occurred at: generateOTP.ts");
+    throw error;
+  } finally {
+    await prisma.$disconnect();
   }
 
-  return otp
+  return response.success({ data: { otp: otp } });
 }

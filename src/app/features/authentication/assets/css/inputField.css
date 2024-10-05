@@ -6,8 +6,6 @@
     box-sizing: border-box;
     height: 50px;
     border-radius: 12px;
-    border: solid 1px #e7e8ee;
-    background-color: #fafafc;
     margin-top: 16px;
 }
 
@@ -30,9 +28,8 @@
     box-shadow: none;
     font-size: 14px;
     font-family: inherit;
-    font-weight: 500;
+    font-weight: 400;
     line-height: 32px;
-    color: var(--account-color-gray-9);
 }
 
 .input-field:not([type=checkbox]):focus {
@@ -49,17 +46,26 @@
 
 .suffix-icon {
     align-items: center;
+    font-size: 16px;
 }
 
 .svg-icon {
-    width: 0.25em;
-    height: 0.25em;
+    width: 1em;
+    height: 1em;
     margin: 0 8px;
     color: var(--account-color-gray-6);
 }
 
-.svg-icon.clear-input:hover {
+.svg-icon.dark {
+    color: var(--global-color-grey-5);
+}
+
+.svg-icon:hover {
     color: var(--account-color-gray-5);
+}
+
+.svg-icon.dark:hover {
+    color: var(--global-color-grey-4);
 }
 
 .svg-icon.icon-lock, .svg-icon.icon-question {

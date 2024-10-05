@@ -1,0 +1,80 @@
+.hyv-checkbox {
+  margin-top: 16px;
+}
+
+.checkbox-label {
+  font-size: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox {
+  width: 0px;
+  height: 0px;
+  position: absolute;
+}
+
+.visible-checkbox {
+  width: 14px;
+  height: 14px;
+  margin-top: 3px;
+  box-sizing: border-box;
+  border-radius: 6px;
+  border: solid 1px var(--account-color-gray-3);
+  background-color: var(--white);
+  transition: border 0.25s cubic-bezier(0.71, -0.46, 0.29, 1.46),
+    background-color 0.25s cubic-bezier(0.71, -0.46, 0.29, 1.46);
+}
+
+.visible-checkbox.dark {
+  background-color: #111;
+  border-color: var(--global-color-grey-4);
+}
+
+.visible-checkbox.dark:hover {
+  border-color: var(--brand-color-enabled-dark);
+}
+
+.checked.visible-checkbox {
+  border: solid 1px var(--account-color-primary);
+  background-color: var(--account-color-primary);
+}
+
+.visible-checkbox::after {
+  content: "L";
+  color: var(--white);
+  font-weight: 300;
+  transform: rotate3d(-0.4, 1, 1, 180deg);
+  position: absolute;
+  top: 1px;
+  left: 4px;
+  opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.71, -0.46, 0.29, 1.46),
+    opacity 0.1s cubic-bezier(0.71, -0.46, 0.29, 1.46);
+}
+
+.checked.visible-checkbox::after {
+  opacity: 1;
+  transform: rotate3d(-0.4, 1, 0, 180deg);
+}
+
+.checkbox-label-text {
+  color: var(--account-color-gray-7);
+  line-height: 1.5em;
+  font-weight: 500;
+  margin-left: 8px;
+}
+
+.checkbox-label-text.dark {
+  color: var(--white);
+  font-weight: 400;
+}
+
+.checkbox-label-text a {
+  text-decoration: none;
+  color: var(--account-button-text-color);
+}
+
+.checkbox-label-text a:hover {
+  color: var(--account-button-text-hover-color);
+}

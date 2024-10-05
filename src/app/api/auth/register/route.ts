@@ -1,19 +1,37 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { UserRegisterData } from '@/api/ApiInterface';
-import { CustomResponse } from '@/api/utils';
-import verifyData from './verifyData';
-import registerUser from './registerUser';
+import { NextRequest, NextResponse } from "next/server";
+import { RegisterFormData } from "@/api/ApiInterface";
+import { verifyData } from "./verifyData";
+import { registerUser } from "./registerUser";
+import { RegisterError } from "@/api/utils/response/registerError";
+import { ApiResponse } from "@/api/utils/response/apiResponse";
 
 export async function POST(req: NextRequest) {
+  const response = new ApiResponse();
+  const registerError = new RegisterError();
+  const registerData: RegisterFormData = await req.json();
+
+  // validate data filled in the register form
   try {
-
+    const checkDataValidity = await verifyData(registerData);
+    if (!checkDataValidity.success) {
+      return NextResponse.json(checkDataValidity, { status: 400 });
+    }
   } catch (error) {
-
+    return NextResponse.json(
+      response.error(registerError).internalErrorOccurred(),
+      { status: 500 }
+    );
   }
-  const registerData: UserRegisterData = await req.json();
-  const checkDataValidity = await verifyData(registerData);
 
-  if (!checkDataValidity.result) return NextResponse.json(CustomResponse.error(checkDataValidity.message));
+  // register the registrant
+  try {
+    await registerUser(registerData);
+  } catch (error) {
+    return NextResponse.json(
+      response.error(registerError).internalErrorOccurred(),
+      { status: 500 }
+    );
+  }
 
-  const result = await registerUser(registerData);
+  return NextResponse.redirect(new URL("/api/auth/login", req.url));
 }
