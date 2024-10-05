@@ -98,7 +98,11 @@ export function Footer() {
                   draggable={false}
                 ></Image>
               </a>
-              <a>
+              <a
+                href={`https://hsr.hoyoverse.com/worldtour?lang=${currLocale}&utm_source=officialweb&utm_medium=footer`}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
                 <Image
                   src={"/shared/sr_world_tour_logo.png"}
                   alt="starrail world tour logo"
@@ -110,19 +114,44 @@ export function Footer() {
             </div>
             <div className="footer-details flex justify-center items-center mt-[10px] max-w-full">
               <div className="flex flex-wrap justify-between">
-                <a className="text-[#bbb] mx-[10px] no-underline hover:underline cursor-pointer">
+                <a
+                  href={`https://hsr.hoyoverse.com/${currLocale}/company/privacy`}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  className="text-[#bbb] mx-[10px] no-underline hover:underline cursor-pointer"
+                >
                   Privacy Policy
                 </a>
-                <a className="text-[#bbb] mx-[10px] no-underline hover:underline cursor-pointer">
+                <a
+                  href={`https://hsr.hoyoverse.com/${currLocale}/company/terms`}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  className="text-[#bbb] mx-[10px] no-underline hover:underline cursor-pointer"
+                >
                   Terms of Service
                 </a>
-                <a className="text-[#bbb] mx-[10px] no-underline hover:underline cursor-pointer">
+                <a
+                  href={`https://hsr.hoyoverse.com/${currLocale}/about-us?utm_source=hsr&utm_medium=footer`}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  className="text-[#bbb] mx-[10px] no-underline hover:underline cursor-pointer"
+                >
                   About Us
                 </a>
-                <a className="text-[#bbb] mx-[10px] no-underline hover:underline cursor-pointer">
+                <a
+                  href="mailto:hsrcs_en@hoyoverse.com"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  className="text-[#bbb] mx-[10px] no-underline hover:underline cursor-pointer"
+                >
                   Contact Us
                 </a>
-                <a className="text-[#bbb] mx-[10px] no-underline hover:underline cursor-pointer">
+                <a
+                  href={`https://cs.hoyoverse.com/static/hoyoverse-new-csc-service-hall-fe/index.html?page_id=19&login_type=visitor&game_biz=platform_hyvpass&lang=${currLocale}&utm_source=genshin&utm_medium=footer#/home`}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  className="text-[#bbb] mx-[10px] no-underline hover:underline cursor-pointer"
+                >
                   Help Center
                 </a>
               </div>
@@ -152,7 +181,11 @@ export function Footer() {
               </p>
             </div>
             <div className="footer-details flex justify-center items-center mt-[10px] max-w-full">
-              <a>
+              <a
+                href={`https://www.hoyoverse.com/${currLocale}?utm_source=hsr&utm_medium=footer`}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
                 <Image
                   src={"/shared/hyv_logo_dark.png"}
                   alt="hoyoverse logo"
