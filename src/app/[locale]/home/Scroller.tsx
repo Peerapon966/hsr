@@ -9,9 +9,11 @@ export function Scroller({ children }: ReactBaseProps) {
   const { minimumScrollDistance } = useContext(SwiperContext) as TSwiperContext;
   const content = useRef<HTMLElement | null>(null);
   const scrollAmountPerScroll: number = 50;
+  let isSwiperReady: boolean = true;
   let scrollAmount: number = 0;
   let initialClientY: number = 0;
   let finalClientY: number = 0;
+  let timeout: NodeJS.Timeout;
 
   const wheelScrollHandler = (e: WheelEvent) => {
     e.preventDefault();
@@ -20,6 +22,17 @@ export function Scroller({ children }: ReactBaseProps) {
     // propagate event back to the Swiper component
     if (scrollAmount >= 0 && e.deltaY < 0) {
       scrollAmount = 0;
+
+      // users need to stop scrolling for 500ms to trigger the swiper
+      // this prevent the users from accidentally triggering the swiper while scrolling to the top
+      if (!isSwiperReady) {
+        e.stopPropagation();
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+          isSwiperReady = true;
+        }, 500);
+      }
+
       return;
     }
 
@@ -27,6 +40,7 @@ export function Scroller({ children }: ReactBaseProps) {
     if (scrollAmount < 0) e.stopPropagation();
 
     const maxScrollAmount = window.innerHeight - content.current?.clientHeight;
+    isSwiperReady = false;
     e.deltaY > 0
       ? (scrollAmount -= Math.min(
           Math.abs(maxScrollAmount - scrollAmount),
@@ -37,6 +51,7 @@ export function Scroller({ children }: ReactBaseProps) {
           scrollAmountPerScroll
         ));
     content.current.style.transform = `translate3d(0, ${scrollAmount}px, 0)`;
+    console.log(scrollAmount);
   };
   const setInitialClientY = (e: TouchEvent) => {
     initialClientY = e.touches[0].clientY;
@@ -53,13 +68,27 @@ export function Scroller({ children }: ReactBaseProps) {
     // memorize current scrollAmount
     scrollAmount -= initialClientY - finalClientY;
 
-    if (scrollAmount <= 0) e.stopPropagation();
+    if (scrollAmount <= 0) {
+      e.stopPropagation();
+      isSwiperReady = false;
+    }
 
     if (scrollAmount > 0) {
       content.current.style.transitionDuration = "300ms";
       content.current.style.transform = "translate3d(0, 0, 0)";
-      if (scrollAmount < 2 * minimumScrollDistance) e.stopPropagation();
+      if (scrollAmount < 2 * minimumScrollDistance || !isSwiperReady)
+        e.stopPropagation();
       scrollAmount = 0;
+
+      // users need to stop scrolling for 500ms to trigger the swiper
+      // this prevent the users from accidentally triggering the swiper while scrolling to the top
+      if (!isSwiperReady) {
+        e.stopPropagation();
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+          isSwiperReady = true;
+        }, 500);
+      }
     }
 
     const maxScrollAmount = window.innerHeight - content.current?.clientHeight;
