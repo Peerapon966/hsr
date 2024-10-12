@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactBaseProps } from "@/interface";
-import Title from "@/components/Title";
+import { Title } from "@/components/Title";
 import { NewsThumbnail } from "@/[locale]/home/Content/NewsThumbnail";
 import { Carousel } from "@/[locale]/home/Content/Carousel";
 import { CarouselItem } from "@/[locale]/home/Content/CarouselItem";
