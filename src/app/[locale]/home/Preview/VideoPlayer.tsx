@@ -17,8 +17,8 @@ export function VideoPlayer() {
         <source
           src={
             optimalOrientation === "landscape"
-              ? "/home/main_video.mp4"
-              : "/home/main_video_portrait.mp4"
+              ? "/home/preview/main_video.mp4"
+              : "/home/preview/main_video_portrait.mp4"
           }
           type="video/mp4"
         />

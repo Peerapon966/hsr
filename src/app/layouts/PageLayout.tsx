@@ -6,6 +6,9 @@ import { useOrientation } from "@/hooks/useOrientation";
 import { ReactBaseProps, TOrientation } from "@/interface";
 import dynamic from "next/dynamic";
 import { createContext, Suspense, useState } from "react";
+import { AVAILABLE_PAGES } from "const";
+
+type Page = (typeof AVAILABLE_PAGES)[number];
 
 const ChangeOrientation = dynamic(() =>
   import("@/components/ChangeOrientation").then((module) => ({
@@ -15,17 +18,25 @@ const ChangeOrientation = dynamic(() =>
 
 export const OrientationContext = createContext<TOrientation | null>(null);
 
-export function PageLayout(props: ReactBaseProps) {
+export function PageLayout(props: ReactBaseProps & { page: Page }) {
   const [optimalOrientation, getCurrentOrientation] = useOrientation();
   const [isUserIgnore, setIsUserIgnore] = useState<boolean>(false);
 
   return (
     <OrientationContext.Provider value={optimalOrientation}>
-      <div className="bg-[url('/shared/star_bg.a353121.jpg')] bg-no-repeat bg-fixed sticky top-0 min-w-[1270px]">
+      <div
+        style={{
+          backgroundImage:
+            props.page === "home"
+              ? "url('/home/star_bg_home.jpg')"
+              : "url('/shared/star_bg_shared.png')",
+        }}
+        className="bg-no-repeat bg-fixed bg-cover bg-center sticky top-0 min-w-[1270px]"
+      >
         <Svg />
-        {!isUserIgnore && (
+        {/* {!isUserIgnore && (
           <ChangeOrientation setIsUserIgnore={setIsUserIgnore} />
-        )}
+        )} */}
         <Header />
         {props.children}
       </div>

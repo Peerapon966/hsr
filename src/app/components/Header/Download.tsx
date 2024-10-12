@@ -83,7 +83,7 @@ export default function Download({ openModal, closeModal }: modal) {
                       rel="noopener"
                     >
                       <Image
-                        src={"/header/ps5.png"}
+                        src="/header/ps5.png"
                         alt="ps5 logo"
                         width={256}
                         height={79}
@@ -98,7 +98,7 @@ export default function Download({ openModal, closeModal }: modal) {
                       rel="noopener"
                     >
                       <Image
-                        src={"/header/windows.png"}
+                        src="/header/windows.png"
                         alt="windows logo"
                         width={256}
                         height={79}
@@ -114,7 +114,7 @@ export default function Download({ openModal, closeModal }: modal) {
                       rel="noopener"
                     >
                       <Image
-                        src={"/header/app_store.png"}
+                        src="/header/app_store.png"
                         alt="apple app store logo"
                         width={256}
                         height={79}
@@ -128,7 +128,7 @@ export default function Download({ openModal, closeModal }: modal) {
                       rel="noopener"
                     >
                       <Image
-                        src={"/header/google_play.png"}
+                        src="/header/google_play.png"
                         alt="google play logo"
                         width={256}
                         height={79}
@@ -142,7 +142,7 @@ export default function Download({ openModal, closeModal }: modal) {
                       rel="noopener"
                     >
                       <Image
-                        src={"/header/epic_store.png"}
+                        src="/header/epic_store.png"
                         alt="epic store logo"
                         width={256}
                         height={79}
@@ -155,7 +155,7 @@ export default function Download({ openModal, closeModal }: modal) {
           </div>
           <div className="game-rating">
             <Image
-              src={"/shared/rating.png"}
+              src="/shared/rating.png"
               alt="game rating image"
               width={194}
               height={115}

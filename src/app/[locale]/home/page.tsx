@@ -2,14 +2,14 @@ import "@/assets/css/home.css";
 import { PageLayout } from "@/layouts/PageLayout";
 import { Sidebar } from "@/components/Sidebar";
 import { Footer } from "@/components/Footer/Footer";
-import { Preview } from "./Preview";
-import { Content } from "./Content";
-import { Swiper } from "./Swiper";
-import { Scroller } from "./Scroller";
+import { Preview } from "@/[locale]/home/Preview/Preview";
+import { Content } from "@/[locale]/home/Content/Content";
+import { Swiper } from "@/[locale]/home/Swiper";
+import { Scroller } from "@/[locale]/home/Scroller";
 
 export default function Home() {
   return (
-    <PageLayout>
+    <PageLayout page="home">
       <Sidebar />
       <Swiper>
         <Preview />

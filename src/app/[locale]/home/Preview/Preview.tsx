@@ -1,4 +1,4 @@
-import { HomeDownload } from "./HomeDownload";
+import { HomeDownload } from "@/[locale]/home/Preview/HomeDownload";
 import dynamic from "next/dynamic";
 
 /**
@@ -12,7 +12,7 @@ import dynamic from "next/dynamic";
  */
 const VideoPlayer = dynamic(
   () =>
-    import("./VideoPlayer").then((module) => ({
+    import("@/[locale]/home/Preview/VideoPlayer").then((module) => ({
       default: module.VideoPlayer,
     })),
   { ssr: false }
@@ -21,7 +21,9 @@ const VideoPlayer = dynamic(
 export function Preview() {
   return (
     <section className="flex relative">
-      <VideoPlayer />
+      <div className="w-screen h-screen">
+        <VideoPlayer />
+      </div>
       <HomeDownload />
     </section>
   );

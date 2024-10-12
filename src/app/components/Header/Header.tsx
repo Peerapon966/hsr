@@ -16,9 +16,10 @@ import LoginButton from "@/components/Header/LoginButton";
 import UserButton from "@/components/Header/UserButton";
 import { useDOMObject } from "@/hooks/useDOMObject";
 import { disableScroll } from "@/utils/disableScroll";
-import { useParams, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 // import Link from "next/link";
 import { Link } from "i18n/routing";
+import { useLocale } from "next-intl";
 
 type TPages = {
   pagename: string;
@@ -33,6 +34,7 @@ export function useLoginContext() {
 
 export function Header(): JSX.Element {
   const currentPage = usePathname().split("/").slice(2)[0];
+  const locale = useLocale();
   const pages: TPages[] = [
     { pagename: "Home", pathname: "home" },
     { pagename: "News", pathname: "news" },
@@ -105,7 +107,7 @@ export function Header(): JSX.Element {
                 data-flex
                 className={pathname === currentPage ? "active" : ""}
               >
-                <Link href={pathname}>
+                <Link href={`/${pathname}`} locale={locale} scroll={false}>
                   <div data-flex className="nav-item">
                     {pagename}
                   </div>

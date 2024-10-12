@@ -6,7 +6,7 @@ type Title = {
 
 export default function Title(props: Title) {
   return (
-    <div data-flex className="title-container">
+    <div data-flex className="title-container font-yahei">
       {props.title}
     </div>
   );

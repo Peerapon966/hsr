@@ -2,7 +2,7 @@
 
 import { ReactBaseProps } from "@/interface";
 import { useState, useContext, useRef, useEffect } from "react";
-import { SwiperContext, TSwiperContext } from "./Swiper";
+import { SwiperContext, TSwiperContext } from "@/[locale]/home/Swiper";
 
 export function Scroller({ children }: ReactBaseProps) {
   const [componentDidMount, setComponentDidMount] = useState<boolean>(false);
@@ -51,7 +51,6 @@ export function Scroller({ children }: ReactBaseProps) {
           scrollAmountPerScroll
         ));
     content.current.style.transform = `translate3d(0, ${scrollAmount}px, 0)`;
-    console.log(scrollAmount);
   };
   const setInitialClientY = (e: TouchEvent) => {
     initialClientY = e.touches[0].clientY;

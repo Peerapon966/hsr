@@ -34,7 +34,7 @@ body {
 /* nextjs default style */
 
 html {
-  font-size: clamp(50px, calc(100vw / 25.6), 60px);
+  font-size: clamp(50px, calc(100vw / 25.6), 64px);
   overflow-x: hidden;
 }
 
