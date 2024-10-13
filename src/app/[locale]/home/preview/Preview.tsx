@@ -1,4 +1,4 @@
-import { HomeDownload } from "@/[locale]/home/Preview/HomeDownload";
+import { HomeDownload } from "@/[locale]/home/preview/HomeDownload";
 import dynamic from "next/dynamic";
 
 /**
@@ -12,7 +12,7 @@ import dynamic from "next/dynamic";
  */
 const VideoPlayer = dynamic(
   () =>
-    import("@/[locale]/home/Preview/VideoPlayer").then((module) => ({
+    import("@/[locale]/home/preview/VideoPlayer").then((module) => ({
       default: module.VideoPlayer,
     })),
   { ssr: false }
