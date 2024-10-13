@@ -2,12 +2,16 @@ import { ReactBaseProps } from "@/interface";
 import { useLocale } from "next-intl";
 import Image from "next/image";
 import { Children, useEffect, useRef, useState } from "react";
-import { MoreBtn } from "@/[locale]/home/content/MoreBtn";
+import { Link } from "i18n/routing";
 
 export type CarouselProps = {
   infiniteLoop: boolean;
   slidesPerView: number;
   pathToDetailsPage: string;
+  additionalStyle?: {
+    list?: string;
+    options?: string;
+  };
 };
 
 export function Carousel({
@@ -15,6 +19,7 @@ export function Carousel({
   infiniteLoop,
   slidesPerView,
   pathToDetailsPage,
+  additionalStyle,
 }: ReactBaseProps & CarouselProps) {
   const locale = useLocale();
   const [isSwiperReady, setIsSwiperReady] = useState<boolean>(false);
@@ -248,7 +253,9 @@ export function Carousel({
             />
           </div>
         )}
-        <div className="overflow-hidden flex relative items-center mt-[.42rem] h-[7.08rem]">
+        <div
+          className={`overflow-hidden flex relative items-center mt-[.42rem] ${additionalStyle?.list}`}
+        >
           <div
             ref={slidesWrapper}
             style={{ width: slidesPerView * slideWidth.current }}
@@ -275,7 +282,7 @@ export function Carousel({
       <div
         className={`options flex ${
           infiniteLoop ? "justify-between" : "justify-center"
-        } items-center select-none font-[500]`}
+        } items-center select-none font-[500] ${additionalStyle?.options}`}
       >
         {infiniteLoop && (
           <div className="counter-text ml-[.4rem] text-[#989898] text-[.24rem]">
@@ -287,8 +294,14 @@ export function Carousel({
             <span ref={totalSlides}></span>
           </div>
         )}
-        <div className="mr-[3.78rem] ">
-          <MoreBtn href={pathToDetailsPage} locale={locale} />
+        <div className={`${infiniteLoop && "mr-[3.78rem]"}`}>
+          <Link
+            href={pathToDetailsPage}
+            locale={locale}
+            className="to-news flex justify-center items-center w-[2.6rem] h-[.48rem] text-[.2rem] text-[rgba(230,230,230,.5)] border border-[rgba(230,230,230,.5)] hover:bg-[rgba(230,230,230,.4)]"
+          >
+            <div>More +</div>
+          </Link>
         </div>
       </div>
     </>

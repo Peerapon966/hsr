@@ -6,11 +6,13 @@ import { Preview } from "@/[locale]/home/preview/Preview";
 import { Content } from "@/[locale]/home/content/Content";
 import { Swiper } from "@/[locale]/home/Swiper";
 import { Scroller } from "@/[locale]/home/Scroller";
+import { SpLine } from "@/[locale]/home/content/SpLine";
 
 export default function Home() {
   return (
     <PageLayout page="home">
       <Sidebar />
+      <SpLine />
       <Swiper>
         <Preview />
         <Scroller>

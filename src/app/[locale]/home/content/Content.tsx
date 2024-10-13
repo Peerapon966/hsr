@@ -1,6 +1,5 @@
 "use client";
 
-import { ReactBaseProps } from "@/interface";
 import { Title } from "@/components/Title";
 import { NewsThumbnail } from "@/[locale]/home/content/NewsThumbnail";
 import { Carousel } from "@/[locale]/home/content/Carousel";
@@ -10,9 +9,8 @@ import {
   CharacterBanner,
   CharacterBannerProps,
 } from "@/[locale]/home/content/CharacterBanner";
-import { MoreBtn } from "@/[locale]/home/content/MoreBtn";
 
-export function Content({ children }: ReactBaseProps) {
+export function Content() {
   const locale = useLocale();
   const ids = [22, 21, 20, 19, 18];
   const title = "『崩壊：スターレイル』霊砂キャラクターPV——「沈香を焚く」";
@@ -99,6 +97,7 @@ export function Content({ children }: ReactBaseProps) {
           infiniteLoop={true}
           slidesPerView={3}
           pathToDetailsPage="/news"
+          additionalStyle={{ list: "h-[7.08rem]" }}
         >
           {ids.map((id) => (
             <CarouselItem key={`item-${id}`}>
@@ -112,12 +111,16 @@ export function Content({ children }: ReactBaseProps) {
           ))}
         </Carousel>
       </div>
-      <div className="character-preview-section w-full max-w-[2000px] pl-[4rem] mt-[1.6rem]">
+      <div className="character-preview-section w-full max-w-[2000px] h-[11.6rem] pl-[4rem] mt-[1.6rem]">
         <Title title={"Characters"} />
         <Carousel
           infiniteLoop={false}
           slidesPerView={4}
           pathToDetailsPage="/character"
+          additionalStyle={{
+            list: "h-[8.59rem]",
+            options: "mt-[.65rem] ml-[-1.9rem]",
+          }}
         >
           {chars.map(({ name, images, worldIndex, charIndex, locale }, idx) => (
             <CarouselItem key={`char-banner-${idx}`}>
