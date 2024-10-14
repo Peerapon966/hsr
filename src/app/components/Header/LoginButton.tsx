@@ -29,6 +29,8 @@ export default function LoginButton(props: LogginButtonProps) {
             width={47}
             height={47}
             className="h-full w-auto logo-avatar"
+            priority
+            draggable={false}
           />
         </span>
       </div>

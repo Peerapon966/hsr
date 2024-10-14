@@ -28,7 +28,7 @@ export function PageLayout(props: ReactBaseProps & { page: Page }) {
         style={{
           backgroundImage:
             props.page === "home"
-              ? "url('/home/star_bg_home.jpg')"
+              ? "url('/home/content/star_bg_home.jpg')"
               : "url('/shared/star_bg_shared.png')",
         }}
         className="bg-no-repeat bg-fixed bg-cover bg-center sticky top-0 min-w-[1270px]"

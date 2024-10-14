@@ -25,10 +25,17 @@ export function Carousel({
   const [isSwiperReady, setIsSwiperReady] = useState<boolean>(false);
   const numberOfSlides = Children.count(children);
   const numberOfHeadDupSlides = infiniteLoop
-    ? Math.ceil(numberOfSlides / 2)
+    ? slidesPerView >= numberOfSlides
+      ? slidesPerView + 1
+      : Math.ceil(numberOfSlides / 2)
+    : 0;
+  const numberOfTailDupSlides = infiniteLoop
+    ? slidesPerView >= numberOfSlides
+      ? slidesPerView + 1
+      : Math.floor(numberOfSlides / 2)
     : 0;
   const currentPosition = useRef<number>(
-    infiniteLoop ? Math.ceil(numberOfSlides / 2) : 0
+    infiniteLoop ? numberOfHeadDupSlides : 0
   );
   const slideWidth = useRef<number>(0);
   const slides = useRef<Node[] | null>(null);
@@ -69,11 +76,10 @@ export function Carousel({
       (
         slides.current[currentPosition.current].firstChild as HTMLDivElement
       ).dataset.main = "true";
-      const newCurrentSlide = Math.abs(
-        (currentPosition.current + numberOfHeadDupSlides) % numberOfSlides
-      );
+      const newCurrentSlide =
+        (Number(currentSlide.current.innerText) + 1) % numberOfSlides;
       currentSlide.current.innerText = (
-        newCurrentSlide === 0 ? 5 : newCurrentSlide
+        newCurrentSlide === 0 ? numberOfSlides : newCurrentSlide
       )
         .toString()
         .padStart(2, "0");
@@ -97,11 +103,10 @@ export function Carousel({
       (
         slides.current[currentPosition.current].firstChild as HTMLDivElement
       ).dataset.main = "true";
-      const newCurrentSlide = Math.abs(
-        (currentPosition.current + numberOfHeadDupSlides) % numberOfSlides
-      );
+      const newCurrentSlide =
+        (Number(currentSlide.current.innerText) - 1) % numberOfSlides;
       currentSlide.current.innerText = (
-        newCurrentSlide === 0 ? 5 : newCurrentSlide
+        newCurrentSlide === 0 ? numberOfSlides : newCurrentSlide
       )
         .toString()
         .padStart(2, "0");
@@ -120,18 +125,19 @@ export function Carousel({
         (
           slides.current[currentPosition.current].firstChild as HTMLDivElement
         ).dataset.main = "false";
-        currentPosition.current = numberOfSlides;
+        currentPosition.current += numberOfSlides;
         (
           slides.current[currentPosition.current].firstChild as HTMLDivElement
         ).dataset.main = "true";
         slidesWrapper.current.style.transform = `translateX(${
           currentPosition.current * slideWidth.current * -1
         }px)`;
-      }
-
-      if (
+      } else if (
         currentPosition.current >=
-        numberOfSlides + numberOfHeadDupSlides - 1
+        numberOfHeadDupSlides +
+          numberOfSlides +
+          numberOfTailDupSlides -
+          slidesPerView
       ) {
         (
           slides.current[currentPosition.current].firstChild as HTMLDivElement
@@ -154,7 +160,8 @@ export function Carousel({
     if (
       infiniteLoop &&
       slides.current &&
-      slides.current?.length >= numberOfSlides * 2
+      slides.current?.length >=
+        numberOfSlides + numberOfHeadDupSlides + numberOfTailDupSlides
     )
       return;
 
@@ -172,34 +179,26 @@ export function Carousel({
     slideWidth.current = firstSlide.current.clientWidth;
 
     if (infiniteLoop && currentSlide.current && totalSlides.current) {
-      const dupCarouselItems = carouselItems.map((item) =>
-        item.cloneNode(true)
-      );
-      const firstHalfItems = dupCarouselItems.slice(
-        0,
-        Math.floor(dupCarouselItems.length / 2)
-      );
-      const secondHalfItems = dupCarouselItems.slice(
-        Math.floor(dupCarouselItems.length / 2)
-      );
+      for (let i = 0; i < numberOfHeadDupSlides; i++) {
+        const clonedItem =
+          carouselItems[numberOfSlides - (i % numberOfSlides) - 1].cloneNode(
+            true
+          );
+        slidesWrapper.current.prepend(clonedItem);
+        slides.current.unshift(clonedItem);
+      }
 
-      slidesWrapper.current.prepend(...secondHalfItems);
-      slidesWrapper.current.append(...firstHalfItems);
-      slides.current = [
-        ...secondHalfItems,
-        ...carouselItems,
-        ...firstHalfItems,
-      ];
+      for (let i = 0; i < numberOfTailDupSlides; i++) {
+        const clonedItem = carouselItems[i % numberOfSlides].cloneNode(true);
+        slidesWrapper.current.append(clonedItem);
+        slides.current.push(clonedItem);
+      }
 
       (
         slides.current[currentPosition.current].firstChild as HTMLDivElement
       ).dataset.main = "true";
 
-      currentSlide.current.innerText = Math.abs(
-        (currentPosition.current + numberOfHeadDupSlides) % numberOfSlides
-      )
-        .toString()
-        .padStart(2, "0");
+      currentSlide.current.innerText = "01";
       totalSlides.current.innerText = numberOfSlides
         .toString()
         .padStart(2, "0");
@@ -239,7 +238,7 @@ export function Carousel({
   return (
     <>
       <div className="flex items-center relative select-none">
-        {numberOfSlides > slidesPerView && (
+        {(infiniteLoop || numberOfSlides > slidesPerView) && (
           <div
             className="prev-btn-wrapper flex absolute items-center rotate-180 cursor-pointer h-[1.2rem] z-[9999] left-[-3.12rem]"
             onClick={goToPrevSlide}
@@ -250,6 +249,8 @@ export function Carousel({
               width={62}
               height={62}
               className="h-full w-auto"
+              priority
+              draggable={false}
             />
           </div>
         )}
@@ -264,7 +265,7 @@ export function Carousel({
             {children}
           </div>
         </div>
-        {numberOfSlides > slidesPerView && (
+        {(infiniteLoop || numberOfSlides > slidesPerView) && (
           <div
             className="next-btn-wrapper flex absolute items-center cursor-pointer z-[9999] h-[1.2rem] right-[2rem]"
             onClick={goToNextSlide}
@@ -275,6 +276,8 @@ export function Carousel({
               width={62}
               height={62}
               className="h-full w-auto"
+              priority
+              draggable={false}
             />
           </div>
         )}

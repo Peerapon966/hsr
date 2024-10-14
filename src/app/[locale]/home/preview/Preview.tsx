@@ -1,5 +1,6 @@
-import { HomeDownload } from "@/[locale]/home/preview/HomeDownload";
+import { DownloadMethods } from "@/components/DownloadMethods";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 
 /**
  * using dynamic import to force this component to be imported and rendered on the client after the current screen orientation is determined
@@ -21,10 +22,23 @@ const VideoPlayer = dynamic(
 export function Preview() {
   return (
     <section className="flex relative">
-      <div className="w-screen h-screen">
+      <div className="w-screen h-screen bg-[url('/home/preview/main_video_portrait_thumbnail.png')] min-[1920px]:bg-[url('/home/preview/main_video_thumbnail.png')] bg-cover bg-bottom">
         <VideoPlayer />
       </div>
-      <HomeDownload />
+      <Image
+        src="/shared/hsr_logo.png"
+        alt="honkai star rail logo"
+        width={333}
+        height={166}
+        className="w-[3.1rem] h-auto absolute left-[1.64rem] top-[1.4rem] z-[9999]"
+        priority
+        draggable={false}
+      ></Image>
+      <DownloadMethods
+        withESRB
+        containerStyles="absolute bottom-[1.21rem] left-[1.8rem] text-[100px]"
+        gapSize="0.12em"
+      />
     </section>
   );
 }

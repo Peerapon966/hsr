@@ -1,14 +1,25 @@
 import Image from "next/image";
 
-export function HomeDownload() {
+export type DownloadMethodsProps = {
+  withESRB: boolean;
+  containerStyles?: string;
+  gapSize?: string;
+};
+
+export function DownloadMethods({
+  withESRB,
+  containerStyles,
+  gapSize,
+}: DownloadMethodsProps) {
   return (
-    <div className="flex absolute bottom-[1.21rem] left-[2rem] text-[100px]">
-      <div className="h-[1.14em] w-[1.14em] relative mr-[0.12em]">
-        <Image src="/header/download_qr.png" alt="QR code" fill />
-      </div>
-      <div className="flex-col">
-        <div className="flex h-[0.51em] mb-[0.12em]">
-          <div className="mr-[0.12rem]">
+    <div className={`flex ${containerStyles}`}>
+      <div
+        style={{ marginRight: gapSize }}
+        className="w-[124px] bg-[image:var(--qr-code)] bg-no-repeat bg-contain bg-right"
+      ></div>
+      <div className="download-methods">
+        <div style={{ marginBottom: gapSize }} className="flex h-[51px]">
+          <div style={{ marginRight: gapSize }}>
             <a
               href="https://www.playstation.com/th-th/games/honkai-star-rail/"
               target="_blank"
@@ -19,7 +30,9 @@ export function HomeDownload() {
                 alt="ps5 logo"
                 width={256}
                 height={79}
-                className="h-full w-auto"
+                className="w-auto h-full"
+                priority
+                draggable={false}
               />
             </a>
           </div>
@@ -34,13 +47,15 @@ export function HomeDownload() {
                 alt="windows logo"
                 width={256}
                 height={79}
-                className="h-full w-auto"
+                className="w-auto h-full"
+                priority
+                draggable={false}
               />
             </a>
           </div>
         </div>
-        <div className="flex h-[0.51em]">
-          <div className="mr-[0.12rem]">
+        <div data-flex className="flex h-[51px]">
+          <div style={{ marginRight: gapSize }}>
             <a
               href="https://www.playstation.com/th-th/games/honkai-star-rail/"
               target="_blank"
@@ -51,11 +66,13 @@ export function HomeDownload() {
                 alt="apple app store logo"
                 width={256}
                 height={79}
-                className="h-full w-auto"
+                className="w-auto h-full"
+                priority
+                draggable={false}
               />
             </a>
           </div>
-          <div className="mr-[0.12rem]">
+          <div style={{ marginRight: gapSize }}>
             <a
               href="https://www.playstation.com/th-th/games/honkai-star-rail/"
               target="_blank"
@@ -66,7 +83,9 @@ export function HomeDownload() {
                 alt="google play logo"
                 width={256}
                 height={79}
-                className="h-full w-auto"
+                className="w-auto h-full"
+                priority
+                draggable={false}
               />
             </a>
           </div>
@@ -81,21 +100,27 @@ export function HomeDownload() {
                 alt="epic store logo"
                 width={256}
                 height={79}
-                className="h-full w-auto"
+                className="w-auto h-full"
+                priority
+                draggable={false}
               />
             </a>
           </div>
         </div>
       </div>
-      <div className="flex ml-[0.12em]">
-        <Image
-          src="/shared/rating.png"
-          alt="game rating image"
-          width={194}
-          height={115}
-          className="h-[1.14em] w-auto"
-        />
-      </div>
+      {withESRB && (
+        <div style={{ marginLeft: gapSize }} className="flex">
+          <Image
+            src="/shared/rating.png"
+            alt="game rating image"
+            width={194}
+            height={115}
+            className="h-[1.14em] w-auto"
+            priority
+            draggable={false}
+          />
+        </div>
+      )}
     </div>
   );
 }

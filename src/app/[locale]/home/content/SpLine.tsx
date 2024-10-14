@@ -9,6 +9,8 @@ export function SpLine() {
         width={87}
         height={1210}
         className="w-auto h-full"
+        priority
+        draggable={false}
       ></Image>
     </div>
   );

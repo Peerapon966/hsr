@@ -49,7 +49,7 @@ export function CharacterBanner({
           alt={name}
           width={images.active.width}
           height={images.active.height}
-          className="active-char w-auto h-full"
+          className="active-char w-full h-auto"
         />
         <div className="w-full absolute bottom-[.9rem] text-[.3rem] font-[500] text-white text-center">
           {name}
