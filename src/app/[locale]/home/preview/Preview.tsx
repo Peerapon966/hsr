@@ -34,6 +34,10 @@ export function Preview() {
         priority
         draggable={false}
       ></Image>
+      <div className="flex flex-col items-center absolute bottom-[.5rem] h-[138px] text-[.23rem] text-[#e6e6e6] select-none font-yahei font-[500] left-0 ">
+        <div className="text-[12px] rotate-90">Scroll Down</div>
+        <div className="line w-px h-[80px] mt-[36px] ml-[-3px] bg-[#e6e6e6]"></div>
+      </div>
       <DownloadMethods
         withESRB
         containerStyles="absolute bottom-[1.21rem] left-[1.8rem] text-[100px]"

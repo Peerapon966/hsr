@@ -9,3 +9,16 @@
 .swiper-wrapper.active {
     transform: translate3d(0, -100vh, 0);
 }
+
+.line {
+  animation: line-animation linear 2s alternate infinite;
+}
+
+@keyframes line-animation {
+  from {
+    height: 40px;
+  }
+  to {
+    height: 80px
+  }
+}
