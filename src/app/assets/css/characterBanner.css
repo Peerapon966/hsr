@@ -1,0 +1,11 @@
+.active-char {
+  display: none;
+}
+
+.char-banner-wrapper:hover .normal-char {
+  display: none;
+}
+
+.char-banner-wrapper:hover .active-char {
+  display: block;
+}

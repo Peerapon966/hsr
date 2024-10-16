@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic";
+import Image from "next/image";
 
 const LoginModal = dynamic(
   () =>
@@ -22,7 +23,15 @@ export default function LoginButton(props: LogginButtonProps) {
       <div data-flex className="login-content">
         Log In
         <span data-flex id="login-logo">
-          <img className="logo-avatar" src={"/header/logo_avatar.png"}></img>
+          <Image
+            src="/header/logo_avatar.png"
+            alt="user avatar icon"
+            width={47}
+            height={47}
+            className="h-full w-auto logo-avatar"
+            priority
+            draggable={false}
+          />
         </span>
       </div>
       {props.showLoginModal && (

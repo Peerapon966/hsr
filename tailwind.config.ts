@@ -26,6 +26,8 @@ const config: Config = {
       inter: "Inter, Microsoft YaHei, sans-serif",
       yahei: '"Microsoft YaHei", "Arial", "Helvetica", sans-serif',
       sans: "sans-serif",
+      yuugo:
+        '"游ゴシック体", YuGothic, "游ゴシック Medium", "Yu Gothic Medium", "游ゴシック", "Yu Gothic", sans-serif',
     },
   },
   plugins: [],

@@ -6,6 +6,7 @@ import { useDOMObject } from "@/hooks/useDOMObject";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { disableScroll, enableScroll } from "@/utils/disableScroll";
+import { DownloadMethods } from "@/components/DownloadMethods";
 
 interface modal {
   openModal: boolean;
@@ -69,96 +70,17 @@ export default function Download({ openModal, closeModal }: modal) {
             <div className="download-dialog-header">
               <span>Download</span>
             </div>
-            <div data-flex className="download-dialog-content">
-              <div className="download-qr"></div>
-              <div className="download-methods">
-                <div
-                  data-flex
-                  className="download-methods-row download-methods-upper-row"
-                >
-                  <div className="mr-22">
-                    <a
-                      href="https://www.playstation.com/th-th/games/honkai-star-rail/"
-                      target="_blank"
-                      rel="noopener"
-                    >
-                      <Image
-                        src={"/header/ps5.png"}
-                        alt="ps5 logo"
-                        width={256}
-                        height={79}
-                        loading="lazy"
-                      />
-                    </a>
-                  </div>
-                  <div>
-                    <a
-                      href="https://www.playstation.com/th-th/games/honkai-star-rail/"
-                      target="_blank"
-                      rel="noopener"
-                    >
-                      <Image
-                        src={"/header/windows.png"}
-                        alt="windows logo"
-                        width={256}
-                        height={79}
-                      />
-                    </a>
-                  </div>
-                </div>
-                <div data-flex className="download-methods-row">
-                  <div className="mr-22">
-                    <a
-                      href="https://www.playstation.com/th-th/games/honkai-star-rail/"
-                      target="_blank"
-                      rel="noopener"
-                    >
-                      <Image
-                        src={"/header/app_store.png"}
-                        alt="apple app store logo"
-                        width={256}
-                        height={79}
-                      />
-                    </a>
-                  </div>
-                  <div className="mr-22">
-                    <a
-                      href="https://www.playstation.com/th-th/games/honkai-star-rail/"
-                      target="_blank"
-                      rel="noopener"
-                    >
-                      <Image
-                        src={"/header/google_play.png"}
-                        alt="google play logo"
-                        width={256}
-                        height={79}
-                      />
-                    </a>
-                  </div>
-                  <div>
-                    <a
-                      href="https://www.playstation.com/th-th/games/honkai-star-rail/"
-                      target="_blank"
-                      rel="noopener"
-                    >
-                      <Image
-                        src={"/header/epic_store.png"}
-                        alt="epic store logo"
-                        width={256}
-                        height={79}
-                      />
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <DownloadMethods withESRB={false} gapSize="22px" />
           </div>
           <div className="game-rating">
             <Image
-              src={"/shared/rating.png"}
+              src="/shared/rating.png"
               alt="game rating image"
               width={194}
               height={115}
+              className="w-auto h-full"
+              priority
+              draggable={false}
             />
           </div>
         </div>

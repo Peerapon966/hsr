@@ -1,6 +1,7 @@
 "use client";
 
 import "@/assets/css/changeorientation.css";
+import Image from "next/image";
 import { useOrientation } from "@/hooks/useOrientation";
 import { useContext, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
@@ -57,7 +58,13 @@ export function ChangeOrientation({
         </svg>
       </div>
       <div className="content-wrapper">
-        <img src={"/change_view/phone_icon.png"} className="phone-icon"></img>
+        <Image
+          src="/change_view/phone_icon.png"
+          alt="Phone Icon"
+          width={236}
+          height={329}
+          className="h-full w-auto phone-icon"
+        />
         <span className="text">端末を縦にして閲覧してください</span>
       </div>
     </div>

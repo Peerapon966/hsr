@@ -4,10 +4,6 @@ type Title = {
   title: string;
 };
 
-export default function Title(props: Title) {
-  return (
-    <div data-flex className="title-container">
-      {props.title}
-    </div>
-  );
+export function Title(props: Title) {
+  return <div className="title-container flex font-yahei">{props.title}</div>;
 }

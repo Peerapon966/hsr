@@ -59,45 +59,9 @@
   padding-bottom: 47px;
 }
 
-.download-dialog-content {
-  margin: 0 auto;
-}
-
-.download-qr {
-  width: 124px;
-  height: 124px;
-  background-image: var(--qr-code);
-  background-repeat: no-repeat;
-  background-size: contain;
-  margin-right: 22px;
-}
-
-.download-methods-row {
-  height: 51px;
-  font-size: 0;
-}
-
-.download-methods-upper-row {
-  margin-bottom: 23px;
-}
-
-.download-methods-row img {
-  width: auto;
-  height: 100%;
-}
-
 .game-rating {
   position: absolute;
   right: 42px;
   bottom: 162px;
   max-height: 160px;
-}
-
-.game-rating img {
-  width: auto;
-  height: 100%;
-}
-
-.mr-22 {
-  margin-right: 22px;
 }

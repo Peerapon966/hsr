@@ -54,7 +54,6 @@ export function Swiper({ children }: ReactBaseProps) {
     }
 
     if (isSwiperActive && scrollDistance <= -minimumScrollDistance) {
-      console.log(scrollDistance);
       swiper.current?.classList.remove("active");
       isSwiperActive = false;
     }
