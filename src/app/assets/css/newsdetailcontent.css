@@ -1,0 +1,20 @@
+.news-detail-content p {
+  white-space: pre-wrap;
+  margin-bottom: .2rem;
+  min-height: 1.5em;
+}
+
+.news-detail-content p:has(iframe) {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+}
+
+.news-detail-content p:has(iframe) iframe {
+  width: 100% !important;
+  height: 100% !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}

@@ -2,26 +2,17 @@ import "@/assets/css/characterBanner.css";
 import { Link } from "i18n/routing";
 import Image from "next/image";
 import { AVAILABLE_LOCALES } from "const";
-
-type TImages = {
-  normal: {
-    path: string;
-    width: number;
-    height: number;
-  };
-  active: {
-    path: string;
-    width: number;
-    height: number;
-  };
-};
+import { type TLocale, type TImages } from "@/interface";
 
 export type CharacterBannerProps = {
   name: string;
-  images: TImages;
+  images: {
+    normal: TImages;
+    active: TImages;
+  };
   worldIndex: number;
   charIndex: number;
-  locale: (typeof AVAILABLE_LOCALES)[keyof typeof AVAILABLE_LOCALES];
+  locale: TLocale;
 };
 
 export function CharacterBanner({

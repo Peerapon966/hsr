@@ -16,14 +16,19 @@ import LoginButton from "@/components/Header/LoginButton";
 import UserButton from "@/components/Header/UserButton";
 import { useDOMObject } from "@/hooks/useDOMObject";
 import { disableScroll } from "@/utils/disableScroll";
-import { usePathname } from "next/navigation";
 // import Link from "next/link";
 import { Link } from "i18n/routing";
 import { useLocale } from "next-intl";
+import {
+  PageContext,
+  type TPageContext,
+  type TPages,
+} from "@/layouts/PageLayout";
+import { AVAILABLE_PAGES } from "const";
 
-type TPages = {
-  pagename: string;
-  pathname: string;
+type TPageList = {
+  pathname: TPages;
+  pagename: Capitalize<TPages>;
 };
 
 const LoginContext = createContext<Function>(() => void 0);
@@ -33,14 +38,13 @@ export function useLoginContext() {
 }
 
 export function Header(): JSX.Element {
-  const currentPage = usePathname().split("/").slice(2)[0];
+  const { currentPage } = useContext(PageContext) as TPageContext;
   const locale = useLocale();
-  const pages: TPages[] = [
-    { pagename: "Home", pathname: "home" },
-    { pagename: "News", pathname: "news" },
-    { pagename: "Characters", pathname: "characters" },
-    { pagename: "Worlds", pathname: "worlds" },
-  ];
+  const pagelist: TPageList[] = AVAILABLE_PAGES.map((page) => ({
+    pathname: page,
+    pagename: (page.charAt(0).toUpperCase() +
+      page.slice(1)) as Capitalize<TPages>,
+  }));
   const header = useRef<HTMLDivElement | null>(null);
   const [isAuth, setIsAuth] = useState<boolean>(false);
   const [audioRectangles] = useDOMObject<[HTMLDivElement[]]>([
@@ -101,7 +105,7 @@ export function Header(): JSX.Element {
             </div>
           </div>
           <div data-flex className="flex-item nav-list">
-            {pages.map(({ pagename, pathname }) => (
+            {pagelist.map(({ pagename, pathname }) => (
               <div
                 key={pathname}
                 data-flex

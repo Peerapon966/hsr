@@ -9,9 +9,10 @@ import {
   CharacterBanner,
   CharacterBannerProps,
 } from "@/[locale]/home/content/CharacterBanner";
+import { type TLocale } from "@/interface";
 
-export function Content() {
-  const locale = useLocale();
+export function HomeContent() {
+  const locale: TLocale = useLocale() as TLocale;
   const ids = [22, 21, 20, 19, 18];
   const title = "『崩壊：スターレイル』霊砂キャラクターPV——「沈香を焚く」";
   const chars: CharacterBannerProps[] = [

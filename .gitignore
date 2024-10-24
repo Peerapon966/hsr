@@ -38,3 +38,6 @@ next-env.d.ts
 
 # prisma
 prisma
+
+# seeder
+db/node_modules

@@ -1,28 +1,15 @@
-"use client";
-
-import dynamic from "next/dynamic";
 import { PageLayout } from "@/layouts/PageLayout";
-import { enableScrollWithKeyDown } from "@/utils/disableScroll";
-import { useEffect, useState } from "react";
 import { Footer } from "@/components/Footer/Footer";
-import { Title } from "@/components/Title";
+import { NewsContent } from "@/[locale]/news/content/NewsContent";
+import { type TLocale } from "@/interface";
+import { useLocale } from "next-intl";
 
 export default function News() {
-  const [componentDidMount, setComponentDidMount] = useState<boolean>(false);
-  useEffect(() => {
-    setComponentDidMount(true);
-    enableScrollWithKeyDown();
-  }, []);
+  const locale: TLocale = useLocale() as TLocale;
 
   return (
-    <PageLayout page="news">
-      <div className="pt-[1.6rem]">
-        <div className="flex justity-center">
-          <div>
-            <Title title="Voice of the Galaxy" />
-          </div>
-        </div>
-      </div>
+    <PageLayout>
+      <NewsContent locale={locale} />
       <Footer />
     </PageLayout>
   );

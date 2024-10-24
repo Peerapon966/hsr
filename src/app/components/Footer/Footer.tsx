@@ -6,13 +6,15 @@ import { InputField } from "@/features/authentication/components/InputField/Inpu
 import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import { AVAILABLE_LOCALES } from "const";
-import { FormEvent, useRef, useState } from "react";
+import { FormEvent, useContext, useRef, useState } from "react";
 import { useRouter } from "i18n/routing";
+import { PageContext, type TPageContext } from "@/layouts/PageLayout";
 
 export function Footer() {
-  const currLocale = useLocale();
   const router = useRouter();
+  const currentLocale = useLocale();
   const t = useTranslations("Footer");
+  const { currentPage, queryString } = useContext(PageContext) as TPageContext;
   const [isLocaleListVisible, setIsLocaleListVisible] =
     useState<boolean>(false);
   const localeSelector = useRef<HTMLDivElement | null>(null);
@@ -65,7 +67,7 @@ export function Footer() {
                     </span>
                     <a
                       target="__blank"
-                      href={`https://hsr.hoyoverse.com/${currLocale}/company/privacy`}
+                      href={`https://hsr.hoyoverse.com/${currentLocale}/company/privacy`}
                     >
                       &nbsp;Read details &gt;&gt;
                     </a>
@@ -99,7 +101,7 @@ export function Footer() {
                 ></Image>
               </a>
               <a
-                href={`https://hsr.hoyoverse.com/worldtour?lang=${currLocale}&utm_source=officialweb&utm_medium=footer`}
+                href={`https://hsr.hoyoverse.com/worldtour?lang=${currentLocale}&utm_source=officialweb&utm_medium=footer`}
                 rel="noopener noreferrer"
                 target="_blank"
               >
@@ -115,7 +117,7 @@ export function Footer() {
             <div className="footer-details flex justify-center items-center mt-[10px] max-w-full">
               <div className="flex flex-wrap justify-between">
                 <a
-                  href={`https://hsr.hoyoverse.com/${currLocale}/company/privacy`}
+                  href={`https://hsr.hoyoverse.com/${currentLocale}/company/privacy`}
                   rel="noopener noreferrer"
                   target="_blank"
                   className="text-[#bbb] mx-[10px] no-underline hover:underline cursor-pointer"
@@ -123,7 +125,7 @@ export function Footer() {
                   Privacy Policy
                 </a>
                 <a
-                  href={`https://hsr.hoyoverse.com/${currLocale}/company/terms`}
+                  href={`https://hsr.hoyoverse.com/${currentLocale}/company/terms`}
                   rel="noopener noreferrer"
                   target="_blank"
                   className="text-[#bbb] mx-[10px] no-underline hover:underline cursor-pointer"
@@ -131,7 +133,7 @@ export function Footer() {
                   Terms of Service
                 </a>
                 <a
-                  href={`https://hsr.hoyoverse.com/${currLocale}/about-us?utm_source=hsr&utm_medium=footer`}
+                  href={`https://hsr.hoyoverse.com/${currentLocale}/about-us?utm_source=hsr&utm_medium=footer`}
                   rel="noopener noreferrer"
                   target="_blank"
                   className="text-[#bbb] mx-[10px] no-underline hover:underline cursor-pointer"
@@ -147,7 +149,7 @@ export function Footer() {
                   Contact Us
                 </a>
                 <a
-                  href={`https://cs.hoyoverse.com/static/hoyoverse-new-csc-service-hall-fe/index.html?page_id=19&login_type=visitor&game_biz=platform_hyvpass&lang=${currLocale}&utm_source=genshin&utm_medium=footer#/home`}
+                  href={`https://cs.hoyoverse.com/static/hoyoverse-new-csc-service-hall-fe/index.html?page_id=19&login_type=visitor&game_biz=platform_hyvpass&lang=${currentLocale}&utm_source=genshin&utm_medium=footer#/home`}
                   rel="noopener noreferrer"
                   target="_blank"
                   className="text-[#bbb] mx-[10px] no-underline hover:underline cursor-pointer"
@@ -182,7 +184,7 @@ export function Footer() {
             </div>
             <div className="footer-details flex justify-center items-center mt-[10px] max-w-full">
               <a
-                href={`https://www.hoyoverse.com/${currLocale}?utm_source=hsr&utm_medium=footer`}
+                href={`https://www.hoyoverse.com/${currentLocale}?utm_source=hsr&utm_medium=footer`}
                 rel="noopener noreferrer"
                 target="_blank"
               >
@@ -214,11 +216,15 @@ export function Footer() {
                     <div
                       key={locale}
                       className={`locale-option relative pl-[12px] cursor-pointer leading-[2.57] ${
-                        currLocale === locale
+                        currentLocale === locale
                           ? "text-white active"
                           : "text-[#919191]"
                       } hover:text-white`}
-                      onClick={() => router.push("/home", { locale: locale })}
+                      onClick={() =>
+                        router.push(`/${currentPage + queryString}`, {
+                          locale: locale,
+                        })
+                      }
                     >
                       {lang}
                     </div>
