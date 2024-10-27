@@ -1,7 +1,8 @@
 version: "3.9"
 
 services:
-  db_seeder:
+  seeder:
+    container_name: seeder
     build:
       context: .
       dockerfile: Dockerfile
@@ -11,5 +12,6 @@ services:
     volumes:
       - ./tsconfig.json:/usr/src/app/tsconfig.json:ro
       - ./seeder:/usr/src/app/seeder:ro
+      - ./sql:/usr/src/app/sql:ro
     env_file:
       - ./.env

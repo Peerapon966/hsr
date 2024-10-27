@@ -26,19 +26,25 @@ CREATE TABLE IF NOT EXISTS news (
   news_id BIGINT NOT NULL,
   locale VARCHAR(16) NOT NULL,
   news_type VARCHAR(16) NOT NULL,
+  title VARCHAR(512) NOT NULL,
+  intro VARCHAR(512) NOT NULL,
+  image VARCHAR(512) NOT NULL,
   content TEXT NOT NULL,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   FOREIGN KEY (news_type) REFERENCES news_type (news_type),
   FOREIGN KEY (locale) REFERENCES locale (locale),
-  CONSTRAINT UQ_Newstype_Locale UNIQUE(news_type, locale)
+  CONSTRAINT UQ_Newsid_Locale UNIQUE(news_id, locale)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
-CREATE UNIQUE INDEX idx_news_type
+CREATE INDEX idx_news_id
+ON news (news_id)
+
+CREATE INDEX idx_news_type
 ON news (news_type);
 
-CREATE UNIQUE INDEX idx_locale
+CREATE INDEX idx_locale
 ON news (locale);
 
 CREATE TABLE IF NOT EXISTS register_user (
