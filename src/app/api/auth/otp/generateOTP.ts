@@ -10,7 +10,7 @@ export async function generateOTP(email: string): Promise<ApiSuccessResponse> {
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
   try {
-    await prisma.register_users.upsert({
+    await prisma.register_user.upsert({
       where: {
         email: email,
       },

@@ -13,8 +13,9 @@ CREATE UNIQUE INDEX idx_fk_news_type
 ON news_type (news_type);
 
 CREATE TABLE IF NOT EXISTS locale (
-  id BIGINT NOT NULL AUTO_INCREMENT,
+  id INT NOT NULL AUTO_INCREMENT,
   locale VARCHAR(16) NOT NULL,
+  language VARCHAR(16) NOT NULL,
   PRIMARY KEY (id)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
@@ -22,15 +23,15 @@ CREATE UNIQUE INDEX idx_fk_locale
 ON locale (locale);
 
 CREATE TABLE IF NOT EXISTS news (
-  id BIGINT NOT NULL AUTO_INCREMENT,
-  news_id BIGINT NOT NULL,
+  id INT NOT NULL AUTO_INCREMENT,
+  news_id INT NOT NULL,
   locale VARCHAR(16) NOT NULL,
   news_type VARCHAR(16) NOT NULL,
   title VARCHAR(512) NOT NULL,
   intro VARCHAR(512) NOT NULL,
   image VARCHAR(512) NOT NULL,
-  content TEXT NOT NULL,
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  content LONGTEXT NOT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   FOREIGN KEY (news_type) REFERENCES news_type (news_type),
@@ -39,7 +40,7 @@ CREATE TABLE IF NOT EXISTS news (
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
 CREATE INDEX idx_news_id
-ON news (news_id)
+ON news (news_id);
 
 CREATE INDEX idx_news_type
 ON news (news_type);

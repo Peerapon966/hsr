@@ -7,14 +7,17 @@ import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import { AVAILABLE_LOCALES } from "const";
 import { FormEvent, useContext, useRef, useState } from "react";
-import { useRouter } from "i18n/routing";
+import { usePathname, useRouter } from "i18n/routing";
 import { PageContext, type TPageContext } from "@/layouts/PageLayout";
+import { TLocale } from "@/interface";
 
 export function Footer() {
   const router = useRouter();
   const currentLocale = useLocale();
   const t = useTranslations("Footer");
-  const { currentPage, queryString } = useContext(PageContext) as TPageContext;
+  const locale = useLocale() as TLocale;
+  const pathname = usePathname();
+  const { queryString } = useContext(PageContext) as TPageContext;
   const [isLocaleListVisible, setIsLocaleListVisible] =
     useState<boolean>(false);
   const localeSelector = useRef<HTMLDivElement | null>(null);
@@ -212,7 +215,7 @@ export function Footer() {
             >
               <div className="bg-[#1c1c1c] p-[8px] rounded-[6px] w-full">
                 <div className="locale-options pl-[8px] text-[12px]">
-                  {Object.entries(AVAILABLE_LOCALES).map(([lang, locale]) => (
+                  {Object.entries(AVAILABLE_LOCALES).map(([locale, lang]) => (
                     <div
                       key={locale}
                       className={`locale-option relative pl-[12px] cursor-pointer leading-[2.57] ${
@@ -221,7 +224,7 @@ export function Footer() {
                           : "text-[#919191]"
                       } hover:text-white`}
                       onClick={() =>
-                        router.push(`/${currentPage + queryString}`, {
+                        router.push(`/${pathname + queryString}`, {
                           locale: locale,
                         })
                       }
@@ -242,7 +245,7 @@ export function Footer() {
                   <div className="globe-icon bg-[url('/footer/globe_icon.png')]"></div>
                 </div>
                 <div className="locale text-[#919191] text-[12px] leading flex items-center justify-between">
-                  English
+                  {AVAILABLE_LOCALES[locale]}
                   <div
                     className={`arrow-icon ${
                       isLocaleListVisible && "rotate-180"

@@ -19,12 +19,9 @@ import { disableScroll } from "@/utils/disableScroll";
 // import Link from "next/link";
 import { Link } from "i18n/routing";
 import { useLocale } from "next-intl";
-import {
-  PageContext,
-  type TPageContext,
-  type TPages,
-} from "@/layouts/PageLayout";
+import { PageContext, type TPageContext } from "@/layouts/PageLayout";
 import { AVAILABLE_PAGES } from "const";
+import { TPages } from "@/interface";
 
 type TPageList = {
   pathname: TPages;

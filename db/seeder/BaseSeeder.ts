@@ -7,8 +7,8 @@ class BaseSeeder extends Base {
   }
 
   public async locale() {
-    const columns = ["locale"];
-    const values = Object.values(AVAILABLE_LOCALES).map((locale) => [locale]);
+    const columns = ["language", "locale"];
+    const values = Object.entries(AVAILABLE_LOCALES).map((locale) => locale);
 
     await this.writeToDatabase(Table.locale, columns, values);
   }

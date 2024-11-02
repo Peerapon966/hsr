@@ -1,4 +1,4 @@
-.news-detail-content p {
+.news-detail-content p, .news-detail-intro p {
   white-space: pre-wrap;
   margin-bottom: .2rem;
   min-height: 1.5em;

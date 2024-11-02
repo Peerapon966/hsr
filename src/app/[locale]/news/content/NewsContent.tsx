@@ -1,48 +1,65 @@
-"use server";
+"use client";
 
 import "@/assets/css/newscontent.css";
-import { headers } from "next/headers";
 import { Title } from "@/components/Title";
 import { NewsItem } from "@/[locale]/news/content/NewsItem";
 import { Link } from "i18n/routing";
-import { type TLocale } from "@/interface";
+import { TNewsType, type TLocale } from "@/interface";
+import { AVAILABLE_NEWS_TYPE } from "const";
+import { notFound, useSearchParams } from "next/navigation";
+import { useLocale } from "next-intl";
+import { useEffect, useRef, useState } from "react";
+import { type news as TNews } from "@prisma/client";
+import {
+  fetchNewsItems,
+  type FetchNewsItemsProps,
+} from "@/utils/fetchNewsItems";
 
-export async function NewsContent({ locale }: { locale: TLocale }) {
-  const url = headers().get("x-url");
-  const queries = url
-    ?.split("?")[1]
-    .split("&")
-    .reduce((acc: { [key: string]: string | string[] }, query) => {
-      const [key, value] = query.split("=");
-      Object.keys(acc).includes(key)
-        ? (acc[key] =
-            typeof acc[key] === "string"
-              ? [acc[key], value]
-              : [...acc[key], value])
-        : (acc[key] = value);
-      return acc;
-    }, {});
-  const type = queries
-    ? typeof queries.type === "string"
-      ? queries.type
-      : queries.type[0]
-    : null;
-  const title =
-    "Keeping up with Star Rail — Rappa: Whiteowl Ninja's Bursting Scroll | Honkai: Star Rail";
-  const date = "10/16/2024";
-  const content = `
-    The studio is ablaze.
+type TNewsContents = Pick<
+  TNews,
+  "news_id" | "title" | "intro" | "image" | "created_at"
+>;
 
-    "Hee-yah!" Mr. Silvergun Shura bursts into the studio set and casts Whiteowl Ninja into the provisions concoction cauldron.
+export function NewsContent() {
+  const params = useSearchParams();
+  const currentNewsType = (params.get("type") as TNewsType) ?? "news_all";
 
-    How merciless! Even the Great Lan has avoided THEIR gaze.
+  if (!Object.values(AVAILABLE_NEWS_TYPE).includes(currentNewsType)) notFound();
 
-    Can Whiteowl Ninja thwart Mr. Silvergun Shura's incursion and forfend the outcome of becoming delicious avian wing tip?
+  const locale = useLocale() as TLocale;
+  const initialized = useRef(false);
+  const prevNewsType = useRef<TNewsType>(currentNewsType);
+  const [newsContents, setNewsContents] = useState<TNewsContents[]>([]);
+  const [currendNewsId, setCurrentNewsId] = useState<number>();
+  const getNewsItems = async (
+    locale: TLocale,
+    newsType: TNewsType,
+    startFromId?: number
+  ) => {
+    const fetchedNewsContents = await fetchNewsItems({
+      locale,
+      startFromId,
+      newsType: newsType === "news_all" ? undefined : newsType,
+    });
 
-    Thank you for tuning in to this special Interastral Peace Entertainment program, Keeping up with Star Rail — Rappa: Whiteowl Ninja's Bursting Scroll
+    newsType === prevNewsType.current
+      ? setNewsContents((newsContents) =>
+          newsContents.concat(fetchedNewsContents)
+        )
+      : setNewsContents(fetchedNewsContents);
+    setCurrentNewsId(
+      fetchedNewsContents[fetchedNewsContents.length - 1].news_id
+    );
+    prevNewsType.current = newsType;
+  };
 
-    This is another side of the ninja world.
-  `;
+  useEffect(() => {
+    if (!initialized.current) {
+      initialized.current = true;
+
+      getNewsItems(locale, currentNewsType);
+    }
+  }, [currentNewsType]);
 
   return (
     <div className="flex justify-center">
@@ -51,138 +68,54 @@ export async function NewsContent({ locale }: { locale: TLocale }) {
           <Title title="Voice of the Galaxy" />
         </div>
         <div className="w-full flex font-[500] font-yahei text-[#e6e6e6] text-[.3rem]">
-          <Link
-            className="star flex items-center"
-            href={`/news?type=news_all`}
-            locale={locale}
-          >
-            <div
-              data-type="news_all"
-              className={`${
-                (type === "news_all" || !type) && "text-[#dbbf91]"
-              } ml-[.42rem] w-[1.5rem] mr-[.5rem]`}
+          {Object.entries(AVAILABLE_NEWS_TYPE).map(([menu, newsType], idx) => (
+            <Link
+              key={newsType}
+              onClick={() => (initialized.current = false)}
+              className="star flex items-center select-none"
+              href={`/news?type=${newsType}`}
+              locale={locale}
             >
-              Latest
-            </div>
-          </Link>
-          <Link
-            className="star flex items-center"
-            href={`/news?type=news`}
-            locale={locale}
-          >
-            <div
-              data-type="news"
-              className={`${
-                type === "news" && "text-[#dbbf91]"
-              } text-center ml-[.42rem] w-[2rem] mr-[.5rem]`}
-            >
-              News
-            </div>
-          </Link>
-          <Link
-            className="star flex items-center"
-            href={`/news?type=events`}
-            locale={locale}
-          >
-            <div
-              data-type="events"
-              className={`${
-                type === "events" && "text-[#dbbf91]"
-              } text-center ml-[.42rem] w-[2rem] mr-[.5rem]`}
-            >
-              Events
-            </div>
-          </Link>
-          <Link
-            className="flex items-center"
-            href={`/news?type=notices`}
-            locale={locale}
-          >
-            <div
-              data-type="notices"
-              className={`${
-                type === "notices" && "text-[#dbbf91]"
-              } text-center ml-[.42rem] w-[2rem] mr-[.5rem]`}
-            >
-              Notices
-            </div>
-          </Link>
+              <div
+                data-type={newsType}
+                className={`${
+                  currentNewsType === newsType && "text-[#dbbf91]"
+                } ${
+                  idx !== 0
+                    ? "text-center ml-[.42rem] w-[2rem] mr-[.5rem]"
+                    : "ml-[.42rem] w-[1.5rem] mr-[.5rem]"
+                }`}
+              >
+                {menu}
+              </div>
+            </Link>
+          ))}
         </div>
-        <div className="mt-[.37rem]">
-          <NewsItem
-            image={{
-              path: `/news/${locale}/22.png`,
-              width: 1920,
-              height: 1080,
-            }}
-            title={title}
-            info={{ date }}
-            content={content}
-            id={22}
-            locale={locale}
-          />
-          <NewsItem
-            image={{
-              path: `/news/${locale}/22.png`,
-              width: 1920,
-              height: 1080,
-            }}
-            title={title}
-            info={{ date }}
-            content={content}
-            id={22}
-            locale={locale}
-          />
-          <NewsItem
-            image={{
-              path: `/news/${locale}/22.png`,
-              width: 1920,
-              height: 1080,
-            }}
-            title={title}
-            info={{ date }}
-            content={content}
-            id={22}
-            locale={locale}
-          />
-          <NewsItem
-            image={{
-              path: `/news/${locale}/22.png`,
-              width: 1920,
-              height: 1080,
-            }}
-            title={title}
-            info={{ date }}
-            content={content}
-            id={22}
-            locale={locale}
-          />
-          <NewsItem
-            image={{
-              path: `/news/${locale}/22.png`,
-              width: 1920,
-              height: 1080,
-            }}
-            title={title}
-            info={{ date }}
-            content={content}
-            id={22}
-            locale={locale}
-          />
-          <NewsItem
-            image={{
-              path: `/news/${locale}/22.png`,
-              width: 1920,
-              height: 1080,
-            }}
-            title={title}
-            info={{ date }}
-            content={content}
-            id={22}
-            locale={locale}
-          />
+        <div className="mt-[.37rem] min-h-[calc(2.79rem*5)]">
+          {newsContents.map(({ news_id, title, intro, image, created_at }) => {
+            const [y, m, d] = created_at.toLocaleDateString().split("/");
+            const date = [m, d, y].join("/");
+            return (
+              <NewsItem
+                key={news_id}
+                image={{
+                  path: image,
+                  width: 1920,
+                  height: 1080,
+                }}
+                title={title}
+                info={{ date }}
+                content={intro}
+                id={news_id}
+                locale={locale}
+              />
+            );
+          })}
         </div>
-        <div className="flex justify-center items-center w-[17.47rem] h-[.48rem] mt-[.6rem] mb-[1rem] cursor-pointer select-none bg-[rgba(74,74,74,.5)] font-yahei text-[#e6e6e6] text-[.2rem] border border-[rgba(230,230,230,.5)]">
+        <div
+          onClick={() => getNewsItems(locale, currentNewsType, currendNewsId)}
+          className="flex justify-center items-center w-[17.47rem] h-[.48rem] mt-[.6rem] mb-[1rem] cursor-pointer select-none bg-[rgba(74,74,74,.5)] font-yahei text-[#e6e6e6] text-[.2rem] border border-[rgba(230,230,230,.5)]"
+        >
           Read more
         </div>
       </div>

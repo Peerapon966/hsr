@@ -1,5 +1,4 @@
-import { TImages } from "@/interface";
-import { AVAILABLE_LOCALES } from "const";
+import { TImages, TLocale } from "@/interface";
 import { Link } from "i18n/routing";
 import Image from "next/image";
 
@@ -12,7 +11,7 @@ export type NewsItemProps = {
     label?: string;
   };
   id: number;
-  locale: (typeof AVAILABLE_LOCALES)[keyof typeof AVAILABLE_LOCALES];
+  locale: TLocale;
 };
 
 export function NewsItem({
@@ -38,7 +37,7 @@ export function NewsItem({
               />
             </div>
           </div>
-          <div className="font-yahei h-full pl-[.7rem]">
+          <div className="font-yahei w-full h-full pl-[.7rem]">
             <div className="h-[1.2rem] overflow-hidden text-ellipsis pt-[.41rem] pr-[.4rem] text-[#e9e9e9] text-[.3rem] font-[500] leading-[.38rem]">
               {title}
             </div>

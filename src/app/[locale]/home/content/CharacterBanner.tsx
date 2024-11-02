@@ -1,7 +1,6 @@
 import "@/assets/css/characterBanner.css";
 import { Link } from "i18n/routing";
 import Image from "next/image";
-import { AVAILABLE_LOCALES } from "const";
 import { type TLocale, type TImages } from "@/interface";
 
 export type CharacterBannerProps = {

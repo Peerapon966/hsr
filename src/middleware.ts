@@ -7,7 +7,6 @@ const handleI18nRouting = createMiddleware(routing);
 
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
-
   // Check if the request is for a static asset or an api. If it's a static asset, don't apply the i18n middleware
   if (
     pathname.includes(".") // This catches most file extensions

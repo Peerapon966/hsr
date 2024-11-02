@@ -7,6 +7,7 @@ const nextConfig = {
   experimental: {
     serverComponentsExternalPackages: ["pino", "pino-pretty"], // tell webpack to include these packages when building or else, MODULE_NOT_FOUND error
   },
+  // reactStrictMode: false,
   assetPrefix: process.env.ASSET_PREFIX,
   images: {
     remotePatterns: [
@@ -19,6 +20,12 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "hsr.hoyoverse.click",
+        port: "",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "webstatic.hoyoverse.com",
         port: "",
         pathname: "**",
       },

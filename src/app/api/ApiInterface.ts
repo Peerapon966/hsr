@@ -1,4 +1,4 @@
-import type { register_users as RegisterUsers } from "@prisma/client";
+import type { register_user as RegisterUsers } from "@prisma/client";
 
 export type RegistrantData = Pick<
   RegisterUsers,

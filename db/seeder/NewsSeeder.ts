@@ -52,7 +52,7 @@ type TColumns = keyof TProcessedData;
 
 const TARGET_PAGE_BASE_URL = "https://hsr.hoyoverse.com/<locale>/news";
 const VERBOSE = Number(process.env.VERBOSE) === 1;
-const LOCALES: TLocales[] = ["en-us", "ja-jp"];
+const LOCALES: TLocales[] = Object.values(AVAILABLE_LOCALES);
 const BUFFER_ITEMS = 10;
 
 class NewsSeeder extends Base {
@@ -62,21 +62,21 @@ class NewsSeeder extends Base {
 
   public async news() {
     for (let locale of LOCALES) {
-      console.log(`Current locale: ${locale}`);
+      console.log(`[INFO] Current locale: ${locale}`);
       const newsIds = await this.scrapNewsIds([locale]);
       await this.scrapNewsContents(newsIds);
     }
   }
 
   protected async scrapNewsIds(locales: TLocales[]): Promise<TNewsIds> {
-    console.log("Launching a browser ...");
+    console.log("[INFO] Launching a browser ...");
     const browser = await puppeteer.launch({
       executablePath: "/usr/bin/google-chrome",
     });
-    console.log("Opening a new browser page ...");
+    console.log("[INFO] Opening a new browser page ...");
     const page = await browser.newPage();
 
-    console.log("Setting viewport ...");
+    console.log("[INFO] Setting viewport ...");
     await page.setViewport({ width: 1920, height: 1080 });
 
     const newsIds: TNewsIds = locales.reduce(
@@ -108,10 +108,10 @@ class NewsSeeder extends Base {
     for (let locale of locales) {
       const targetPage = TARGET_PAGE_BASE_URL.replace("<locale>", locale);
 
-      console.log(`Navigating to the target page: ${targetPage} ...`);
+      console.log(`[INFO] Navigating to the target page: ${targetPage} ...`);
       await page.goto(targetPage);
 
-      console.log("Searching for the 'Read more' button ...");
+      console.log("[INFO] Searching for the 'Read more' button ...");
       let hasMoreNews = true;
       let count = 0;
       const moreBtn = await page.waitForSelector(
@@ -120,7 +120,7 @@ class NewsSeeder extends Base {
       );
 
       console.log(
-        "Clicking on the 'Read more' button to fetch all news item ..."
+        "[INFO] Clicking on the 'Read more' button to fetch all news item ..."
       );
       while (hasMoreNews) {
         try {
@@ -134,7 +134,7 @@ class NewsSeeder extends Base {
 
         if (VERBOSE) {
           count++;
-          console.log(`Clicked on the "Read more" button (${count})`);
+          console.log(`[TRACE] Clicked on the "Read more" button (${count})`);
         }
 
         hasMoreNews =
@@ -145,12 +145,12 @@ class NewsSeeder extends Base {
         await this.wait(1000);
       }
 
-      console.log(`Scraped all news item for locale: ${locale}`);
+      console.log(`[INFO] Scraped all news item for locale: ${locale}`);
       const newsContainer = await page.waitForSelector(
         "xpath/html/body/div[1]/div/div/div[2]/div[1]/div[3]"
       );
 
-      console.log("Extracting news ids ...");
+      console.log("[INFO] Extracting news ids ...");
       const localeNewsIds = await page.evaluate((element) => {
         if (element)
           return Array.from(element.children).map((news) => {
@@ -159,14 +159,14 @@ class NewsSeeder extends Base {
           });
       }, newsContainer);
 
-      console.log(`Successfully extract news ids for locale: ${locale}`);
+      console.log(`[INFO] Successfully extract news ids for locale: ${locale}`);
       if (localeNewsIds) newsIds[locale] = localeNewsIds;
 
-      console.log("Closing the page ...");
+      console.log("[INFO] Closing the page ...");
       await page.close();
     }
 
-    console.log("NewsId scraped successfully, closing the browser ...");
+    console.log("[INFO] NewsId scraped successfully, closing the browser ...");
     await browser.close();
 
     return newsIds;
@@ -184,7 +184,7 @@ class NewsSeeder extends Base {
 
               if (VERBOSE)
                 console.log(
-                  `Scraping news content for locale: ${locale} and id: ${id} ...`
+                  `[TRACE] Scraping news content for locale: ${locale} and id: ${id} ...`
                 );
               const response = await fetch(endpoint, {
                 headers: {
@@ -206,7 +206,7 @@ class NewsSeeder extends Base {
         );
 
         console.log(
-          `Writing items to the database | locale: ${locale} | ids: ${JSON.stringify(
+          `[INFO] Writing items to the database | locale: ${locale} | ids: ${JSON.stringify(
             chunk
           )}`
         );
@@ -258,8 +258,12 @@ class NewsSeeder extends Base {
         } = news;
         const filteredContent = sContent.match(/(?<=img src.*>)(<p style.*)/g);
         const content = filteredContent ? filteredContent[0] : sContent;
-        const filteredExt = sExt.match(/https.*.(jpg|png)/g);
+        const filteredExt = sExt.match(/https.*.(jpg|jpeg|webp|png)/g);
         const ext = filteredExt ? filteredExt[0] : sExt;
+        const utc0DtStartTime = new Date(dtStartTime)
+          .toISOString()
+          .substring(0, 19)
+          .replace("T", " ");
         const value = [
           iInfoId,
           locale,
@@ -268,7 +272,7 @@ class NewsSeeder extends Base {
           sIntro,
           ext,
           content,
-          dtStartTime,
+          utc0DtStartTime,
         ];
 
         return value;

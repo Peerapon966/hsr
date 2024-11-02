@@ -13,5 +13,6 @@ services:
       - ./tsconfig.json:/usr/src/app/tsconfig.json:ro
       - ./seeder:/usr/src/app/seeder:ro
       - ./sql:/usr/src/app/sql:ro
+      - /etc/localtime:/etc/localtime:ro
     env_file:
       - ./.env
