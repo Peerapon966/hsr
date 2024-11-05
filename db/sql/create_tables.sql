@@ -42,11 +42,8 @@ CREATE TABLE IF NOT EXISTS news (
 CREATE INDEX idx_news_id
 ON news (news_id);
 
-CREATE INDEX idx_news_type
-ON news (news_type);
-
-CREATE INDEX idx_locale
-ON news (locale);
+CREATE INDEX idx_news
+ON news (locale, news_type, news_id);
 
 CREATE TABLE IF NOT EXISTS register_user (
   id INT NOT NULL AUTO_INCREMENT,

@@ -16,6 +16,7 @@ export async function TopNewsItem({ locale, currentNewsId }: TopNewsItemProps) {
     .filter((item) => item.news_id !== currentNewsId)
     .map(({ news_id, title, image, created_at }) => (
       <Link
+        key={news_id}
         className="flex flex-col font-yahei px-[.24rem] mt-[.33rem] mb-[.37rem]"
         href={`/news/${news_id}`}
         locale={locale}

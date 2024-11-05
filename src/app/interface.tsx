@@ -1,4 +1,5 @@
 import { AVAILABLE_LOCALES, AVAILABLE_PAGES, AVAILABLE_NEWS_TYPE } from "const";
+import { type news as TNews } from "@prisma/client";
 import { ReactNode } from "react";
 
 export type ReactBaseProps = {
@@ -20,3 +21,8 @@ export type TPages = (typeof AVAILABLE_PAGES)[number];
 
 export type TNewsType =
   (typeof AVAILABLE_NEWS_TYPE)[keyof typeof AVAILABLE_NEWS_TYPE];
+
+export type TNewsItems = Pick<
+  TNews,
+  "news_id" | "title" | "intro" | "image" | "created_at"
+>;

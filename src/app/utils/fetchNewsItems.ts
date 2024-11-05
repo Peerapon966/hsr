@@ -1,7 +1,8 @@
 "use server";
 
 import { prisma } from "@/api/utils/prisma";
-import { TLocale, TNewsType } from "@/interface";
+import { TLocale, TNewsItems, TNewsType } from "@/interface";
+import { createClient } from "redis";
 
 export type FetchNewsItemsProps = {
   locale: TLocale;
@@ -9,11 +10,19 @@ export type FetchNewsItemsProps = {
   newsType?: TNewsType;
 };
 
+// 'latestItems' JSON.stringify(results) ttl=300
+
 export async function fetchNewsItems({
   locale,
   startFromId,
   newsType,
-}: FetchNewsItemsProps) {
+}: FetchNewsItemsProps): Promise<TNewsItems[]> {
+  // try {
+  //   const client = createClient()
+  //   await client.connect()
+  // } catch (error) {
+
+  // }
   const newsItems = await prisma.news.findMany({
     select: {
       news_id: true,
@@ -26,11 +35,11 @@ export async function fetchNewsItems({
       locale: {
         equals: locale,
       },
-      news_id: {
-        lt: startFromId,
-      },
       news_type: {
         equals: newsType,
+      },
+      news_id: {
+        lt: startFromId,
       },
     },
     orderBy: [

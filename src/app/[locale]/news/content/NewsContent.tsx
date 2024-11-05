@@ -4,21 +4,15 @@ import "@/assets/css/newscontent.css";
 import { Title } from "@/components/Title";
 import { NewsItem } from "@/[locale]/news/content/NewsItem";
 import { Link } from "i18n/routing";
-import { TNewsType, type TLocale } from "@/interface";
+import { TNewsType, type TLocale, type TNewsItems } from "@/interface";
 import { AVAILABLE_NEWS_TYPE } from "const";
 import { notFound, useSearchParams } from "next/navigation";
 import { useLocale } from "next-intl";
 import { useEffect, useRef, useState } from "react";
-import { type news as TNews } from "@prisma/client";
 import {
   fetchNewsItems,
   type FetchNewsItemsProps,
 } from "@/utils/fetchNewsItems";
-
-type TNewsContents = Pick<
-  TNews,
-  "news_id" | "title" | "intro" | "image" | "created_at"
->;
 
 export function NewsContent() {
   const params = useSearchParams();
@@ -29,27 +23,23 @@ export function NewsContent() {
   const locale = useLocale() as TLocale;
   const initialized = useRef(false);
   const prevNewsType = useRef<TNewsType>(currentNewsType);
-  const [newsContents, setNewsContents] = useState<TNewsContents[]>([]);
+  const [newsItems, setNewsItems] = useState<TNewsItems[]>([]);
   const [currendNewsId, setCurrentNewsId] = useState<number>();
   const getNewsItems = async (
     locale: TLocale,
     newsType: TNewsType,
     startFromId?: number
   ) => {
-    const fetchedNewsContents = await fetchNewsItems({
+    const fetchedNewsItems = await fetchNewsItems({
       locale,
       startFromId,
       newsType: newsType === "news_all" ? undefined : newsType,
     });
 
     newsType === prevNewsType.current
-      ? setNewsContents((newsContents) =>
-          newsContents.concat(fetchedNewsContents)
-        )
-      : setNewsContents(fetchedNewsContents);
-    setCurrentNewsId(
-      fetchedNewsContents[fetchedNewsContents.length - 1].news_id
-    );
+      ? setNewsItems((newsItems) => newsItems.concat(fetchedNewsItems))
+      : setNewsItems(fetchedNewsItems);
+    setCurrentNewsId(fetchedNewsItems[fetchedNewsItems.length - 1].news_id);
     prevNewsType.current = newsType;
   };
 
@@ -92,7 +82,7 @@ export function NewsContent() {
           ))}
         </div>
         <div className="mt-[.37rem] min-h-[calc(2.79rem*5)]">
-          {newsContents.map(({ news_id, title, intro, image, created_at }) => {
+          {newsItems.map(({ news_id, title, intro, image, created_at }) => {
             const [y, m, d] = created_at.toLocaleDateString().split("/");
             const date = [m, d, y].join("/");
             return (
