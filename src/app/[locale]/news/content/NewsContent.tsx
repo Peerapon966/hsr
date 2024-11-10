@@ -83,7 +83,9 @@ export function NewsContent() {
         </div>
         <div className="mt-[.37rem] min-h-[calc(2.79rem*5)]">
           {newsItems.map(({ news_id, title, intro, image, created_at }) => {
-            const [y, m, d] = created_at.toLocaleDateString().split("/");
+            const [y, m, d] = new Date(created_at)
+              .toLocaleDateString()
+              .split("/");
             const date = [m, d, y].join("/");
             return (
               <NewsItem

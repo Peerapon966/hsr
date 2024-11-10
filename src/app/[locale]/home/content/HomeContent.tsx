@@ -19,7 +19,6 @@ export function HomeContent() {
   const [newsItems, setNewsItems] = useState<TNewsItems[]>([]);
   const getNewsItems = async (locale: TLocale) => {
     const newsItems = await fetchNewsItems({ locale });
-    console.log(newsItems);
     setNewsItems(newsItems);
   };
   const chars: CharacterBannerProps[] = [
@@ -120,7 +119,7 @@ export function HomeContent() {
               <CarouselItem key={news_id}>
                 <NewsThumbnail
                   poster={image}
-                  date={created_at.toLocaleDateString()}
+                  date={new Date(created_at).toLocaleDateString()}
                   id={news_id}
                   title={title}
                 />
