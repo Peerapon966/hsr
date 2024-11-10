@@ -1,0 +1,10 @@
+.star::after {
+  content: "";
+  display: block;
+  width: .18rem;
+  height: .18rem;
+  background-image: url('/news/star.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}

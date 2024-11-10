@@ -15,7 +15,7 @@ export default function Character() {
   }, []);
 
   return (
-    <PageLayout page="characters">
+    <PageLayout>
       <div className="pt-[1.6rem]">
         <div className="flex justity-center">
           <div>

@@ -29,7 +29,7 @@ export async function verifyEmail(
 
   // check if there's no existing user with the email
   try {
-    const user = await prisma.users.findFirst({
+    const user = await prisma.user.findFirst({
       select: {
         email: true,
       },

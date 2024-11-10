@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  seeder:
+    container_name: seeder
+    build:
+      context: .
+      dockerfile: Dockerfile
+    init: true
+    cap_add:
+      - SYS_ADMIN
+    volumes:
+      - ./tsconfig.json:/usr/src/app/tsconfig.json:ro
+      - ./seeder:/usr/src/app/seeder:ro
+      - ./sql:/usr/src/app/sql:ro
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - ./.env

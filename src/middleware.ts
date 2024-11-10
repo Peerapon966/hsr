@@ -7,14 +7,10 @@ const handleI18nRouting = createMiddleware(routing);
 
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
-
-  // Check if the request is for a static asset or an api
+  // Check if the request is for a static asset or an api. If it's a static asset, don't apply the i18n middleware
   if (
-    pathname.includes(".") || // This catches most file extensions
-    pathname.startsWith("/_next") ||
-    pathname.startsWith("/api")
+    pathname.includes(".") // This catches most file extensions
   ) {
-    // If it's a static asset, don't apply the i18n middleware
     return NextResponse.next();
   }
 
@@ -23,17 +19,21 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL(`/home`, request.url));
   }
 
-  // This is for learning, experimenting purposes
-  if (pathname === "/test/content") {
-    if (!cookies().get("sid")) {
-      return NextResponse.redirect(new URL("/test/login", request.url));
-    }
-  }
+  // Add custom header to the request before passing it to the next-intl middleware
+  const response = handleI18nRouting(request);
+  response.headers.set("x-url", request.url);
 
-  return handleI18nRouting(request);
+  // This is for learning, experimental purposes
+  // if (pathname === "/test/content") {
+  //   if (!cookies().get("sid")) {
+  //     return NextResponse.redirect(new URL("/test/login", request.url));
+  //   }
+  // }
+
+  return response;
 }
 
 export const config = {
-  // This matcher will run the middleware on all routes
+  // Match all route that isn't start with api, _next/static, _next/image, favicon.ico
   matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };

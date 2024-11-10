@@ -9,11 +9,18 @@ import {
   CharacterBanner,
   CharacterBannerProps,
 } from "@/[locale]/home/content/CharacterBanner";
+import { TNewsItems, type TLocale } from "@/interface";
+import { useEffect, useRef, useState } from "react";
+import { fetchNewsItems } from "@/utils/fetchNewsItems";
 
-export function Content() {
-  const locale = useLocale();
-  const ids = [22, 21, 20, 19, 18];
-  const title = "『崩壊：スターレイル』霊砂キャラクターPV——「沈香を焚く」";
+export function HomeContent() {
+  const initialized = useRef(false);
+  const locale: TLocale = useLocale() as TLocale;
+  const [newsItems, setNewsItems] = useState<TNewsItems[]>([]);
+  const getNewsItems = async (locale: TLocale) => {
+    const newsItems = await fetchNewsItems({ locale });
+    setNewsItems(newsItems);
+  };
   const chars: CharacterBannerProps[] = [
     {
       name: "Himeko",
@@ -89,27 +96,37 @@ export function Content() {
     },
   ];
 
+  useEffect(() => {
+    if (!initialized.current) {
+      initialized.current = true;
+
+      getNewsItems(locale);
+    }
+  }, []);
+
   return (
     <div className="pt-[1.6rem] font-[yahei]">
       <div className="news-thumbnail-section w-full max-w-[2000px] h-[9.6rem] pl-[4rem]">
         <Title title={"Voice of the Galaxy"} />
-        <Carousel
-          infiniteLoop={true}
-          slidesPerView={3}
-          pathToDetailsPage="/news"
-          additionalStyle={{ list: "h-[7.08rem]" }}
-        >
-          {ids.map((id) => (
-            <CarouselItem key={`item-${id}`}>
-              <NewsThumbnail
-                poster={`/news/${locale}/${id}.png`}
-                date="2024/9/27"
-                id={id}
-                title={title}
-              />
-            </CarouselItem>
-          ))}
-        </Carousel>
+        {newsItems.length > 0 && (
+          <Carousel
+            infiniteLoop={true}
+            slidesPerView={3}
+            pathToDetailsPage="/news"
+            additionalStyle={{ list: "h-[7.08rem]" }}
+          >
+            {newsItems.map(({ news_id, title, image, created_at }) => (
+              <CarouselItem key={news_id}>
+                <NewsThumbnail
+                  poster={image}
+                  date={new Date(created_at).toLocaleDateString()}
+                  id={news_id}
+                  title={title}
+                />
+              </CarouselItem>
+            ))}
+          </Carousel>
+        )}
       </div>
       <div className="character-preview-section w-full max-w-[2000px] h-[11.6rem] pl-[4rem] mt-[1.6rem]">
         <Title title={"Characters"} />
