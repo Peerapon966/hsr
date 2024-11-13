@@ -33,5 +33,5 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  return NextResponse.redirect(new URL("/api/auth/login", req.url));
+  return NextResponse.json(response.success());
 }

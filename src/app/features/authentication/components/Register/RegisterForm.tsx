@@ -1,5 +1,4 @@
 import { useState, useEffect, FormEvent, useCallback, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import { InputField } from "@/features/authentication/components/InputField/InputField";
 import {
   RegisterFormProps,
@@ -11,6 +10,9 @@ import { callPopupToast } from "@/features/authentication/utils/callPopupToast";
 import { RegisterAgreePrompt } from "@/features/authentication/components/Register/RegisterAgreePrompt";
 import { LoginPrompt } from "@/features/authentication/components/Register/LoginPrompt";
 import { Checkbox } from "@/features/authentication/components/InputField/Checkbox";
+import { signIn } from "next-auth/react";
+import { useLoginContext } from "@/components/Header/Header";
+import { useLoadingContext } from "@/features/authentication/components/Login/LoginModal";
 
 export function RegisterForm(props: RegisterFormProps) {
   const emailInput = InputField({
@@ -69,6 +71,8 @@ export function RegisterForm(props: RegisterFormProps) {
       },
     },
   });
+  const setIsAuth = useLoginContext();
+  const setIsLoading = useLoadingContext();
   const [promptUserAgreement, setPromptUserAgreement] =
     useState<boolean>(false);
   const [promptLogin, setPromptLogin] = useState<boolean>(false);
@@ -144,14 +148,27 @@ export function RegisterForm(props: RegisterFormProps) {
     e.preventDefault();
     if (document.getElementById("toast")) return;
     if (!form.current) return;
+
+    setIsLoading(true);
+
+    /**
+     * type FormData = {
+     *   "register-email": string
+     *   "register-verification-code": number
+     *   "register-password": string
+     *   "register-confirm-password": string
+     *   "register-policy-agreement": "on" | undefined
+     * }
+     */
     const formData = new FormData(form.current);
 
     if (!formData.has("register-policy-agreement")) {
+      setIsLoading(false);
       setPromptUserAgreement(true);
       return;
     }
 
-    let registerFormData: RegisterFormData = {
+    const registerFormData: RegisterFormData = {
       email: "",
       verification_code: "",
       password: "",
@@ -187,6 +204,22 @@ export function RegisterForm(props: RegisterFormProps) {
 
       return;
     }
+
+    const res = await signIn("Credential", {
+      redirect: false,
+      username: registerFormData.email,
+      password: registerFormData.password,
+    });
+
+    if (res?.error) {
+      setIsLoading(false);
+      callPopupToast("An error occurred, please try again later");
+
+      return;
+    }
+
+    setIsLoading(false);
+    setIsAuth(true);
   }
 
   useEffect(

@@ -69,7 +69,7 @@ export function Header(): JSX.Element {
   }, []);
 
   useEffect(
-    function resetLoginModal() {
+    function closeLoginModal() {
       if (isAuth) {
         setShowLoginModal(false);
       }

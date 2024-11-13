@@ -22,7 +22,9 @@ export const authOptions: AuthOptions = {
       async authorize(credentials, req) {
         console.log("heyyyyyyyyyy");
         console.log(credentials);
+        console.log("heyyyyyyyyyy");
         console.log(req);
+        console.log("heyyyyyyyyyy");
         return { id: "" };
       },
     }),

@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import { Loader } from "@/features/authentication/components/Login/Loader";
 
 const LoginModal = dynamic(
   () =>
@@ -8,7 +9,7 @@ const LoginModal = dynamic(
         default: module.LoginModal,
       })
     ),
-  { loading: () => <h1 style={{ fontSize: "72px" }}>Loading</h1> }
+  { loading: () => <Loader /> }
 );
 
 type LogginButtonProps = {

@@ -1,7 +1,9 @@
+"use server";
+
 import { RegisterFormData } from "@/features/authentication/interface";
 
 export async function register(registerData: RegisterFormData) {
-  const response = await fetch("/api/auth/register", {
+  const response = await fetch(`${process.env.BASE_URL}/api/auth/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/JSON",
