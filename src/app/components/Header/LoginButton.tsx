@@ -1,6 +1,10 @@
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { Loader } from "@/features/authentication/components/Login/Loader";
+import {
+  TLoginModalContext,
+  useLoginModalContext,
+} from "@/components/Header/Header";
 
 const LoginModal = dynamic(
   () =>
@@ -12,15 +16,12 @@ const LoginModal = dynamic(
   { loading: () => <Loader /> }
 );
 
-type LogginButtonProps = {
-  showLoginModal: boolean;
-  closeLoginModal: Function;
-  setShowLoginModal: Function;
-};
+export default function LoginButton() {
+  const { showLoginModal, setShowLoginModal } =
+    useLoginModalContext() as TLoginModalContext;
 
-export default function LoginButton(props: LogginButtonProps) {
   return (
-    <div data-flex onClick={() => props.setShowLoginModal(true)}>
+    <div data-flex onClick={() => setShowLoginModal(true)}>
       <div data-flex className="login-content">
         Log In
         <span data-flex id="login-logo">
@@ -35,12 +36,7 @@ export default function LoginButton(props: LogginButtonProps) {
           />
         </span>
       </div>
-      {props.showLoginModal && (
-        <LoginModal
-          showModal={props.showLoginModal}
-          closeModal={props.closeLoginModal}
-        />
-      )}
+      {showLoginModal && <LoginModal />}
     </div>
   );
 }

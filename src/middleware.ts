@@ -1,5 +1,4 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { cookies, headers } from "next/headers";
 import { routing } from "./i18n/routing";
 import createMiddleware from "next-intl/middleware";
 
@@ -9,7 +8,8 @@ export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   // Check if the request is for a static asset or an api. If it's a static asset, don't apply the i18n middleware
   if (
-    pathname.includes(".") // This catches most file extensions
+    pathname.includes(".") || // This catches most file extensions
+    pathname.includes("test")
   ) {
     return NextResponse.next();
   }
@@ -22,13 +22,6 @@ export function middleware(request: NextRequest) {
   // Add custom header to the request before passing it to the next-intl middleware
   const response = handleI18nRouting(request);
   response.headers.set("x-url", request.url);
-
-  // This is for learning, experimental purposes
-  // if (pathname === "/test/content") {
-  //   if (!cookies().get("sid")) {
-  //     return NextResponse.redirect(new URL("/test/login", request.url));
-  //   }
-  // }
 
   return response;
 }

@@ -53,6 +53,7 @@ services:
       - TZ='Asia/Bangkok'
     ports:
       - 3308:3306
+    command: mysqld --log_bin_trust_function_creators=1
     healthcheck:
       test: "mysql -h127.0.0.1 -u$$MYSQL_USER -p$$MYSQL_PASSWORD -e'show databases;'"
       interval: 10s

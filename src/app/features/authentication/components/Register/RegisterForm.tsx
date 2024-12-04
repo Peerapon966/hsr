@@ -11,13 +11,21 @@ import { RegisterAgreePrompt } from "@/features/authentication/components/Regist
 import { LoginPrompt } from "@/features/authentication/components/Register/LoginPrompt";
 import { Checkbox } from "@/features/authentication/components/InputField/Checkbox";
 import { signIn } from "next-auth/react";
-import { useLoginContext } from "@/components/Header/Header";
 import { useLoadingContext } from "@/features/authentication/components/Login/LoginModal";
+import {
+  TLoginModalContext,
+  useLoginModalContext,
+} from "@/components/Header/Header";
+import {
+  For,
+  RegisterFieldNames,
+} from "@/features/authentication/components/InputField/InputField";
+import { ApiSuccessResponse } from "@/api/utils/response/apiResponse";
 
-export function RegisterForm(props: RegisterFormProps) {
+export function RegisterForm({ isOpen, swapFormContent }: RegisterFormProps) {
   const emailInput = InputField({
-    for: "register",
-    fieldName: "email",
+    for: For.register,
+    fieldName: RegisterFieldNames.email,
     label: "Email",
     type: "text",
     options: {
@@ -30,20 +38,23 @@ export function RegisterForm(props: RegisterFormProps) {
     },
   });
   const verificationInput = InputField({
-    for: "register",
-    fieldName: "verification-code",
+    for: For.register,
+    fieldName: RegisterFieldNames.verificationCode,
     label: "Verification Code",
     type: "text",
     options: {
       realtimeUpdate: false,
       constraints: ["numericOnly"],
       maxLength: 6,
-      callback: sendOTPHandler,
+    },
+    otpOptions: {
+      function: sendOTPHandler,
+      throttle: 60,
     },
   });
   const passwordInput = InputField({
-    for: "register",
-    fieldName: "password",
+    for: For.register,
+    fieldName: RegisterFieldNames.password,
     label: "Enter Password",
     type: "password",
     options: {
@@ -57,8 +68,8 @@ export function RegisterForm(props: RegisterFormProps) {
     },
   });
   const confirmPasswordInput = InputField({
-    for: "register",
-    fieldName: "confirm-password",
+    for: For.register,
+    fieldName: RegisterFieldNames.confirmPassword,
     label: "Please enter password again",
     type: "password",
     options: {
@@ -71,7 +82,7 @@ export function RegisterForm(props: RegisterFormProps) {
       },
     },
   });
-  const setIsAuth = useLoginContext();
+  const { setShowLoginModal } = useLoginModalContext() as TLoginModalContext;
   const setIsLoading = useLoadingContext();
   const [promptUserAgreement, setPromptUserAgreement] =
     useState<boolean>(false);
@@ -103,10 +114,10 @@ export function RegisterForm(props: RegisterFormProps) {
     setPromptLogin(false);
   }, [promptLogin]);
   const agreeToLoginHandler = useCallback(() => {
-    props.swapFormContent(emailInput.value);
+    swapFormContent(emailInput.value);
   }, [promptLogin]);
 
-  async function sendOTPHandler() {
+  async function sendOTPHandler(): Promise<ApiSuccessResponse | undefined> {
     if (document.getElementById("toast")) return;
 
     const email = emailInput.value;
@@ -139,7 +150,7 @@ export function RegisterForm(props: RegisterFormProps) {
       return;
     }
 
-    callPopupToast(response.messageToUser);
+    if (response.messageToUser) callPopupToast(response.messageToUser);
 
     return response;
   }
@@ -196,6 +207,7 @@ export function RegisterForm(props: RegisterFormProps) {
     const registerResult = await register(registerFormData);
 
     if (!registerResult.success) {
+      setIsLoading(false);
       if (registerResult.causes.isEmailTaken) {
         setPromptLogin(true);
       } else {
@@ -205,7 +217,7 @@ export function RegisterForm(props: RegisterFormProps) {
       return;
     }
 
-    const res = await signIn("Credential", {
+    const res = await signIn("credential", {
       redirect: false,
       username: registerFormData.email,
       password: registerFormData.password,
@@ -219,7 +231,7 @@ export function RegisterForm(props: RegisterFormProps) {
     }
 
     setIsLoading(false);
-    setIsAuth(true);
+    setShowLoginModal(false);
   }
 
   useEffect(
@@ -240,7 +252,7 @@ export function RegisterForm(props: RegisterFormProps) {
     [errors, values]
   );
 
-  !props.isOpen
+  !isOpen
     ? registerForm.current?.classList.add("hidden")
     : registerForm.current?.classList.remove("hidden");
 
@@ -259,7 +271,7 @@ export function RegisterForm(props: RegisterFormProps) {
         {verificationInput.component}
         {passwordInput.component}
         {confirmPasswordInput.component}
-        <Checkbox for="register" fieldName="policy-agreement">
+        <Checkbox for={For.register} fieldName="policy-agreement">
           <span>I have read and agree to the </span>
           <span>
             <a
@@ -282,7 +294,7 @@ export function RegisterForm(props: RegisterFormProps) {
           </span>
         </Checkbox>
         <Checkbox
-          for="register"
+          for={For.register}
           fieldName="promotions"
           options={{ checkedByDefault: true }}
         >
@@ -304,7 +316,7 @@ export function RegisterForm(props: RegisterFormProps) {
         <div data-flex className="hyv-link hyv-login-link">
           <span>Already have an account?&nbsp;</span>
           <span>
-            <a onClick={() => props.swapFormContent()}>Log In</a>
+            <a onClick={() => swapFormContent()}>Log In</a>
           </span>
         </div>
       </form>

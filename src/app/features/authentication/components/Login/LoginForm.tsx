@@ -1,24 +1,35 @@
 import { useState, useEffect, FormEvent, useCallback, useRef } from "react";
 import { InputField } from "@/features/authentication/components/InputField/InputField";
 import { LoginFormProps } from "@/features/authentication/interface";
-import { useLoginContext } from "@/components/Header/Header";
 import { useLoadingContext } from "@/features/authentication/components/Login/LoginModal";
 import { LoginProblems } from "@/features/authentication/components/Login/LoginProblems";
 import { signIn } from "next-auth/react";
 import { callPopupToast } from "@/features/authentication/utils/callPopupToast";
+import {
+  TLoginModalContext,
+  useLoginModalContext,
+} from "@/components/Header/Header";
+import {
+  For,
+  LoginFieldNames,
+} from "@/features/authentication/components/InputField/InputField";
 
-export function LoginForm(props: LoginFormProps & { username?: string }) {
+export function LoginForm({
+  isOpen,
+  swapFormContent,
+  username,
+}: LoginFormProps) {
   const [showLoginProblemsModal, setShowLoginProblemsModal] =
     useState<boolean>(false);
-  const setIsAuth = useLoginContext();
+  const { setShowLoginModal } = useLoginModalContext() as TLoginModalContext;
   const setIsLoading = useLoadingContext();
   const usernameInput = InputField({
-    for: "login",
-    fieldName: "username",
+    for: For.login,
+    fieldName: LoginFieldNames.username,
     label: "Username/Email",
     type: "text",
     options: {
-      initialValue: props.username,
+      initialValue: username,
       realtimeUpdate: false,
       regex: ["not-empty"],
       errorMsg: {
@@ -27,8 +38,8 @@ export function LoginForm(props: LoginFormProps & { username?: string }) {
     },
   });
   const passwordInput = InputField({
-    for: "login",
-    fieldName: "password",
+    for: For.login,
+    fieldName: LoginFieldNames.password,
     label: "Password",
     type: "password",
     options: {
@@ -64,23 +75,25 @@ export function LoginForm(props: LoginFormProps & { username?: string }) {
         value as string;
     }
 
-    // console.log(loginCredentials);
-
-    const res = await signIn("Credential", {
+    const res = await signIn("credential", {
       redirect: false,
       username: loginCredentials.username,
       password: loginCredentials.password,
     });
 
     if (res?.error) {
+      const errMsg =
+        res.error === "CredentialsSignin"
+          ? "An error occurred, please try again later"
+          : res.error;
       setIsLoading(false);
-      callPopupToast("An error occurred, please try again later");
+      callPopupToast(errMsg);
 
       return;
     }
 
-    setIsLoading(true);
-    setIsAuth(true);
+    setIsLoading(false);
+    setShowLoginModal(false);
   };
   const closeLoginProblemsModal = useCallback(() => {
     setShowLoginProblemsModal(false);
@@ -104,7 +117,7 @@ export function LoginForm(props: LoginFormProps & { username?: string }) {
     [errors, values]
   );
 
-  !props.isOpen
+  !isOpen
     ? loginFormContainer.current?.classList.add("hidden")
     : loginFormContainer.current?.classList.remove("hidden");
 
@@ -138,7 +151,7 @@ export function LoginForm(props: LoginFormProps & { username?: string }) {
             </a>
           </span>
           <span>
-            <a onClick={() => props.swapFormContent()}>Register Now</a>
+            <a onClick={() => swapFormContent()}>Register Now</a>
           </span>
         </div>
       </form>

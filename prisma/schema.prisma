@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model news {
+  id                                  Int       @id @default(autoincrement())
+  news_id                             Int
+  locale                              String    @db.VarChar(16)
+  news_type                           String    @db.VarChar(16)
+  title                               String    @db.VarChar(512)
+  intro                               String    @db.VarChar(512)
+  image                               String    @db.VarChar(512)
+  content                             String    @db.LongText
+  created_at                          DateTime  @default(now()) @db.DateTime(0)
+  updated_at                          DateTime? @default(now()) @db.DateTime(0)
+  news_type_news_news_typeTonews_type news_type @relation("news_news_typeTonews_type", fields: [news_type], references: [news_type], onDelete: NoAction, onUpdate: NoAction, map: "news_ibfk_1")
+  locale_news_localeTolocale          locale    @relation("news_localeTolocale", fields: [locale], references: [locale], onDelete: NoAction, onUpdate: NoAction, map: "news_ibfk_2")
+
+  @@unique([news_id, locale], map: "UQ_Newsid_Locale")
+  @@index([locale, news_type, news_id], map: "idx_news")
+  @@index([news_type], map: "news_type")
+  @@index([locale], map: "idx_locale")
+}
+
+model locale {
+  id                       Int    @id
+  locale                   String @unique(map: "idx_fk_locale") @db.VarChar(16)
+  language                 String @db.VarChar(16)
+  news_news_localeTolocale news[] @relation("news_localeTolocale")
+}
+
+model news_type {
+  id                             Int    @id @default(autoincrement())
+  news_type                      String @unique(map: "idx_fk_news_type") @db.VarChar(16)
+  news_news_news_typeTonews_type news[] @relation("news_news_typeTonews_type")
+}
+
+model registrant {
+  id                Int       @id @default(autoincrement())
+  email             String    @unique(map: "UQ_Email") @db.VarChar(255)
+  verification_code String?   @db.VarChar(16)
+  verified          Boolean   @default(false)
+  created_at        DateTime? @default(now()) @db.DateTime(0)
+  updated_at        DateTime? @default(now()) @db.DateTime(0)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  username      String?   @unique
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  password      String?
+  accounts      Account?
+  sessions      Session[]
+}
+
+model Account {
+  id                       String   @id @default(cuid())
+  userId                   String   @unique
+  type                     String
+  provider                 String
+  providerAccountId        String
+  refresh_token            String?  @db.Text
+  access_token             String?  @db.Text
+  expires_at               Int?
+  token_type               String?
+  scope                    String?
+  id_token                 String?  @db.Text
+  session_state            String?
+  refresh_token_expires_in Int?
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+  user                     User     @relation(fields: [userId], references: [id])
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}

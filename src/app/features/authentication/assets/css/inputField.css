@@ -84,6 +84,15 @@
     user-select: none;
 }
 
+.throttled-send-email {
+    font-size: 14px;
+    font-weight: 400;
+    margin: 0 10px;
+    color: #b9bcc6;
+    cursor: not-allowed;
+    user-select: none;
+}
+
 .register-send-email:hover {
     color: var(--account-button-text-hover-color);
 }

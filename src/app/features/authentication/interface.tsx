@@ -8,7 +8,6 @@ export type inputConstraints = "numericOnly";
 
 export type Form = {
   isOpen: boolean;
-  closeModal: Function;
   swapFormContent: Function;
 };
 

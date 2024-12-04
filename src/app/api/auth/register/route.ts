@@ -8,11 +8,11 @@ import { ApiResponse } from "@/api/utils/response/apiResponse";
 export async function POST(req: NextRequest) {
   const response = new ApiResponse();
   const registerError = new RegisterError();
-  const registerData: RegisterFormData = await req.json();
+  const registrantData: RegisterFormData = await req.json();
 
   // validate data filled in the register form
   try {
-    const checkDataValidity = await verifyData(registerData);
+    const checkDataValidity = await verifyData(registrantData);
     if (!checkDataValidity.success) {
       return NextResponse.json(checkDataValidity, { status: 400 });
     }
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
 
   // register the registrant
   try {
-    await registerUser(registerData);
+    await registerUser(registrantData);
   } catch (error) {
     return NextResponse.json(
       response.error(registerError).internalErrorOccurred(),

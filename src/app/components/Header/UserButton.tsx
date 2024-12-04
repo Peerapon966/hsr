@@ -1,9 +1,10 @@
 import "@/assets/css/header.css";
+import { signOut } from "next-auth/react";
 
 type UserButtonProps = {
-  username: string
-  setIsAuth: Function
-}
+  username: string;
+  setIsAuth: Function;
+};
 
 export default function UserButton(props: UserButtonProps) {
   return (
@@ -13,21 +14,21 @@ export default function UserButton(props: UserButtonProps) {
           <div className="user-options-wrapper items-center absolute w-20 h-8 -translate-x-3/7 z-20 ">
             <div className="flex items-center h-[.82rem] bg-[#212121] bg-opacity-70 mt-[.1rem] leading-snug">
               <div className="mr-[.2rem] px-[.3rem] text-center">
-                <a href="" target="_blank" rel="noopener noreferrer">HoYoverse Account</a>
+                <a href="" target="_blank" rel="noopener noreferrer">
+                  HoYoverse Account
+                </a>
               </div>
-              <div className="text-[#c9c9c9]">
-                |
-              </div>
+              <div className="text-[#c9c9c9]">|</div>
               <div className="ml-[.2rem] px-[.3rem] text-center text-[#c9c9c9]">
-                <span onClick={() => props.setIsAuth(false)}>Log Out</span>
+                <span onClick={() => signOut({ redirect: false })}>
+                  Log Out
+                </span>
               </div>
             </div>
           </div>
         </div>
-        <div className="text-[#c9c9c9]">
-          {props.username}
-        </div>
+        <div className="text-[#c9c9c9]">{props.username}</div>
       </div>
     </>
-  )
+  );
 }

@@ -9,7 +9,7 @@ import {
   type TPages,
 } from "@/interface";
 import dynamic from "next/dynamic";
-import { createContext, Suspense, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { usePathname } from "i18n/routing";
 import { useSearchParams } from "next/navigation";
 import { enableScrollWithKeyDown } from "@/utils/disableScroll";
@@ -56,9 +56,9 @@ export function PageLayout(props: ReactBaseProps) {
           className="bg-no-repeat bg-fixed bg-cover bg-center min-w-[1270px]"
         >
           <Svg />
-          {/* {!isUserIgnore && (
-          <ChangeOrientation setIsUserIgnore={setIsUserIgnore} />
-        )} */}
+          {!isUserIgnore && (
+            <ChangeOrientation setIsUserIgnore={setIsUserIgnore} />
+          )}
           <Header />
           {props.children}
         </div>
