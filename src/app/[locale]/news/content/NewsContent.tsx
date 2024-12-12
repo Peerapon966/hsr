@@ -9,10 +9,7 @@ import { AVAILABLE_NEWS_TYPE } from "const";
 import { notFound, useSearchParams } from "next/navigation";
 import { useLocale } from "next-intl";
 import { useEffect, useRef, useState } from "react";
-import {
-  fetchNewsItems,
-  type FetchNewsItemsProps,
-} from "@/utils/fetchNewsItems";
+import { fetchNewsItems } from "@/services/content/fetchNewsItems";
 
 export function NewsContent() {
   const params = useSearchParams();
@@ -25,21 +22,24 @@ export function NewsContent() {
   const prevNewsType = useRef<TNewsType>(currentNewsType);
   const [newsItems, setNewsItems] = useState<TNewsItems[]>([]);
   const [currendNewsId, setCurrentNewsId] = useState<number>();
+  const [hasMore, setHasMore] = useState<boolean>(false);
   const getNewsItems = async (
     locale: TLocale,
     newsType: TNewsType,
     startFromId?: number
   ) => {
-    const fetchedNewsItems = await fetchNewsItems({
+    const { newsItems: fetchedNewsItems, hasMore } = await fetchNewsItems({
       locale,
       startFromId,
       newsType: newsType === "news_all" ? undefined : newsType,
     });
 
+    setHasMore(hasMore);
     newsType === prevNewsType.current
       ? setNewsItems((newsItems) => newsItems.concat(fetchedNewsItems))
       : setNewsItems(fetchedNewsItems);
-    setCurrentNewsId(fetchedNewsItems[fetchedNewsItems.length - 1].news_id);
+    if (hasMore)
+      setCurrentNewsId(fetchedNewsItems[fetchedNewsItems.length - 1].news_id);
     prevNewsType.current = newsType;
   };
 
@@ -104,12 +104,14 @@ export function NewsContent() {
             );
           })}
         </div>
-        <div
-          onClick={() => getNewsItems(locale, currentNewsType, currendNewsId)}
-          className="flex justify-center items-center w-[17.47rem] h-[.48rem] mt-[.6rem] mb-[1rem] cursor-pointer select-none bg-[rgba(74,74,74,.5)] font-yahei text-[#e6e6e6] text-[.2rem] border border-[rgba(230,230,230,.5)]"
-        >
-          Read more
-        </div>
+        {hasMore && (
+          <div
+            onClick={() => getNewsItems(locale, currentNewsType, currendNewsId)}
+            className="flex justify-center items-center w-[17.47rem] h-[.48rem] mt-[.6rem] mb-[1rem] cursor-pointer select-none bg-[rgba(74,74,74,.5)] font-yahei text-[#e6e6e6] text-[.2rem] border border-[rgba(230,230,230,.5)]"
+          >
+            Read more
+          </div>
+        )}
       </div>
     </div>
   );

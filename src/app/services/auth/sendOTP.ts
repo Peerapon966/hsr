@@ -17,7 +17,6 @@ export async function sendOTP(
     method: "POST",
     headers: {
       "Content-Type": "application/JSON",
-      "X-Test-Header": "test header",
     },
     body: JSON.stringify(payload),
     cache: "no-cache",

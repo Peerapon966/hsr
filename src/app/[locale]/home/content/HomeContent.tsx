@@ -11,14 +11,14 @@ import {
 } from "@/[locale]/home/content/CharacterBanner";
 import { TNewsItems, type TLocale } from "@/interface";
 import { useEffect, useRef, useState } from "react";
-import { fetchNewsItems } from "@/utils/fetchNewsItems";
+import { fetchNewsItems } from "@/services/content/fetchNewsItems";
 
 export function HomeContent() {
   const initialized = useRef(false);
   const locale: TLocale = useLocale() as TLocale;
   const [newsItems, setNewsItems] = useState<TNewsItems[]>([]);
   const getNewsItems = async (locale: TLocale) => {
-    const newsItems = await fetchNewsItems({ locale });
+    const { newsItems } = await fetchNewsItems({ locale });
     setNewsItems(newsItems);
   };
   const chars: CharacterBannerProps[] = [
