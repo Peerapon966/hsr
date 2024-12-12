@@ -228,6 +228,7 @@ code {
   --download-bg: url("/header/download_bg.png");
   --rating: url("/shared/rating.png");
   --qr-code: url("/header/download_qr.png");
+  --rotating-loader-image: url("./features/authentication/assets/media/rotating_loader.png");
 }
 
 :root {

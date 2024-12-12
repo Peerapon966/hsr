@@ -36,7 +36,7 @@ export async function TopNewsItem({ locale, currentNewsId }: TopNewsItemProps) {
           </div>
         </div>
         <div className="mr-[.25rem] text-right text-[#9c9c9c] text-[.16rem]">
-          {created_at.toLocaleDateString()}
+          {new Date(created_at).toLocaleDateString()}
         </div>
       </Link>
     ));

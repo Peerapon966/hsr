@@ -8,10 +8,37 @@ import {
   inputRegex,
   inputConstraints,
 } from "@/features/authentication/interface";
+import {
+  SendOTPButton,
+  SendOTPButtonProps as OTPOptions,
+} from "@/features/authentication/components/InputField/SendOTPButton";
 
-interface InputFieldProps {
-  for: "login" | "register";
-  fieldName: string;
+export enum For {
+  login = "login",
+  register = "register",
+}
+
+export enum LoginFieldNames {
+  username = "username",
+  password = "password",
+}
+
+export enum RegisterFieldNames {
+  email = "email",
+  verificationCode = "verification-code",
+  password = "password",
+  confirmPassword = "confirm-password",
+  promotion = "promotion",
+  newsletter = "newsletter",
+}
+
+type FieldName<T extends For> = T extends For.login
+  ? LoginFieldNames
+  : RegisterFieldNames;
+
+type InputFieldProps<T extends For, U extends FieldName<T>> = {
+  for: T;
+  fieldName: U;
   label: string;
   type: "text" | "password";
   options?: {
@@ -22,11 +49,22 @@ interface InputFieldProps {
     errorMsg?: errorMsg;
     constraints?: inputConstraints[];
     maxLength?: number;
-    callback?: Function;
   };
+} & (U extends RegisterFieldNames.verificationCode
+  ? {
+      otpOptions: OTPOptions;
+    }
+  : {});
+
+function isVerificationCodeField<T extends For>(
+  props: InputFieldProps<T, FieldName<T>>
+): props is InputFieldProps<T, FieldName<T>> {
+  return props.fieldName === RegisterFieldNames.verificationCode;
 }
 
-export function InputField(props: InputFieldProps) {
+export function InputField<T extends For, U extends FieldName<T>>(
+  props: InputFieldProps<T, U>
+) {
   const [componentDidMount, setComponentDidMount] = useState<boolean>(false);
   const inputFieldWrapper = useRef<HTMLDivElement | null>(null);
   const inputField = useRef<HTMLInputElement | null>(null);
@@ -67,26 +105,6 @@ export function InputField(props: InputFieldProps) {
           }
         ></use>
       </svg>
-    </span>
-  );
-  const sendEmail = (
-    <span data-flex className="suffix-icon">
-      <span
-        data-flex
-        className="register-send-email-container cross-axis-center"
-      >
-        <a
-          type="button"
-          className="register-send-email"
-          onClick={() =>
-            props.options?.callback
-              ? props.options?.callback()
-              : console.error("Error, no callback function to be invoked")
-          }
-        >
-          Send
-        </a>
-      </span>
     </span>
   );
   const showPwdHandler = () => {
@@ -210,7 +228,13 @@ export function InputField(props: InputFieldProps) {
         <span data-flex className="input-suffix">
           {value ? clearInputIcon : null}
           {props.type === "password" ? showPwdIcon : null}
-          {props.fieldName === "verification-code" ? sendEmail : null}
+          {props.fieldName === RegisterFieldNames.verificationCode &&
+            isVerificationCodeField(props) && (
+              <SendOTPButton
+                function={props.otpOptions.function}
+                throttle={props.otpOptions.throttle}
+              />
+            )}
         </span>
       </div>
       <label

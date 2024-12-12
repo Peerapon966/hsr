@@ -10,6 +10,10 @@ import { FormEvent, useContext, useRef, useState } from "react";
 import { usePathname, useRouter } from "i18n/routing";
 import { PageContext, type TPageContext } from "@/layouts/PageLayout";
 import { TLocale } from "@/interface";
+import {
+  For,
+  RegisterFieldNames,
+} from "@/features/authentication/components/InputField/InputField";
 
 export function Footer() {
   const router = useRouter();
@@ -23,8 +27,8 @@ export function Footer() {
   const localeSelector = useRef<HTMLDivElement | null>(null);
   const submitBtn = useRef<HTMLButtonElement | null>(null);
   const { component } = InputField({
-    for: "register",
-    fieldName: "newsletter",
+    for: For.register,
+    fieldName: RegisterFieldNames.newsletter,
     label: "Email",
     type: "text",
     options: {

@@ -17,7 +17,7 @@ export type TImages = {
 
 export type TLocale = keyof typeof AVAILABLE_LOCALES;
 
-export type TPages = (typeof AVAILABLE_PAGES)[number];
+export type TPages = (typeof AVAILABLE_PAGES)[keyof typeof AVAILABLE_PAGES];
 
 export type TNewsType =
   (typeof AVAILABLE_NEWS_TYPE)[keyof typeof AVAILABLE_NEWS_TYPE];

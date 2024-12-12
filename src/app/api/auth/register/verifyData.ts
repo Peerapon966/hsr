@@ -78,9 +78,9 @@ export async function verifyData(
   }
 
   // Get registrant information for checking email and otp
-  // Try to get user information with the same email (expect user to be null if the email is not already taken yet)
+  // Try to get user information with the same email (expect the user to be null if the email is not already taken yet)
   try {
-    registrant = await prisma.register_user.findUnique({
+    registrant = await prisma.registrant.findUnique({
       where: {
         email: formData.email,
       },

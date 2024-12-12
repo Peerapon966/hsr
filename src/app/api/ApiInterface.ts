@@ -1,4 +1,4 @@
-import type { register_user as RegisterUsers } from "@prisma/client";
+import type { registrant as RegisterUsers } from "@prisma/client";
 
 export type RegistrantData = Pick<
   RegisterUsers,
@@ -20,7 +20,7 @@ export type UserLoginData = {
 
 export interface UserData {
   email: string;
-  username: string;
+  username: string | null;
   password: string;
   token: string;
   token_issued_at: Date;

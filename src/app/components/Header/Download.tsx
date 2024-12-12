@@ -7,22 +7,22 @@ import { createPortal } from "react-dom";
 import Image from "next/image";
 import { disableScroll, enableScroll } from "@/utils/disableScroll";
 import { DownloadMethods } from "@/components/DownloadMethods";
+import {
+  TDownloadModalContext,
+  useDownloadModalContext,
+} from "@/components/Header/Header";
 
-interface modal {
-  openModal: boolean;
-  closeModal: Function;
-  auxiliary?: any;
-}
-
-export default function Download({ openModal, closeModal }: modal) {
+export default function Download() {
   const [componentDidMount, setComponentDidMount] = useState<boolean>(false);
+  const { showDownloadModal, setShowDownloadModal } =
+    useDownloadModalContext() as TDownloadModalContext;
   const [downloadModal] = useDOMObject<[HTMLDivElement]>([
     { from: "id", value: "download-dialog-container" },
   ]);
   const overlay = useRef<HTMLDivElement | null>(null);
   const closeModalHandler = () => {
     setTimeout(() => {
-      closeModal();
+      setShowDownloadModal(false);
     }, 300);
     downloadModal?.classList.remove("download-dialog-animation");
     overlay.current?.classList.remove("download-overlay-dialog-animation");
@@ -31,7 +31,7 @@ export default function Download({ openModal, closeModal }: modal) {
     }
   };
 
-  if (openModal) {
+  if (showDownloadModal) {
     downloadModal?.classList.add("download-dialog-animation");
     overlay.current?.classList.add("download-overlay-dialog-animation");
   }
@@ -41,10 +41,10 @@ export default function Download({ openModal, closeModal }: modal) {
   }, []);
 
   useEffect(() => {
-    if (openModal && overlay.current) {
+    if (showDownloadModal && overlay.current) {
       disableScroll(overlay.current);
     }
-  }, [openModal]);
+  }, [showDownloadModal]);
 
   const component = (
     <div
