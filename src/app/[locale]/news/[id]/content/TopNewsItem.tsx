@@ -1,9 +1,7 @@
-"use server";
-
 import { Link } from "i18n/routing";
 import Image from "next/image";
 import { type TLocale } from "@/interface";
-import { fetchNewsItems } from "@/utils/fetchNewsItems";
+import { fetchNewsItems } from "@/services/content/fetchNewsItems";
 
 export type TopNewsItemProps = {
   locale: TLocale;
@@ -11,7 +9,7 @@ export type TopNewsItemProps = {
 };
 
 export async function TopNewsItem({ locale, currentNewsId }: TopNewsItemProps) {
-  const newsItems = await fetchNewsItems({ locale });
+  const { newsItems } = await fetchNewsItems({ locale });
   return newsItems
     .filter((item) => item.news_id !== currentNewsId)
     .map(({ news_id, title, image, created_at }) => (

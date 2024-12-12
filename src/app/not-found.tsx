@@ -1,7 +1,6 @@
 "use client";
 
-import "./globals.css";
-import { useRouter } from "next/navigation";
+import { useRouter } from "i18n/routing";
 
 export default function NotFound() {
   const router = useRouter();
@@ -13,7 +12,7 @@ export default function NotFound() {
         <div className="pt-[.6rem]">404</div>
         <div
           className="cursor-pointer w-[2.6rem] h-[.48rem] mt-[1.35rem] border-[.01rem] border-solid border-[#e6e6e6] text-[.2rem] flex justify-center items-center font-400"
-          onClick={() => router.push("/home")}
+          onClick={() => router.back()}
         >
           Back
         </div>
