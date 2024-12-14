@@ -7,10 +7,6 @@ on:
       - synchronize
     branches:
       - main
-      - feature/**
-      - bugfix/**
-  # pull_request_target:
-  #   branches: main
 
 jobs:
   run_integ_test:
