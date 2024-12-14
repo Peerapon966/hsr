@@ -1,4 +1,4 @@
-name: Test PR to main created by @${{ github.actor }}
+run-name: Test PR to main created by @${{ github.actor }}
 
 on:
   push:
