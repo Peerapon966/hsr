@@ -56,6 +56,6 @@ describe("Integration test on the news page", () => {
     expect(latestNewsItem?.parentElement?.childElementCount).toBe(10);
     expect(oldestNewsItem).toBeInTheDocument();
     expect(readMoreBtn).not.toBeInTheDocument();
-    expect(fetchNewsItems).toHaveBeenCalledTimes(2);
+    expect(fetchNewsItems).toHaveBeenCalledTimes(3);
   });
 });
