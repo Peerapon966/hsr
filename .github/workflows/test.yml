@@ -1,6 +1,11 @@
 name: Test PR to main created by @${{ github.actor }}
 
 on:
+  push:
+    branches:
+      - main
+      - feature/**
+      - bugfix/**
   pull_request_target:
     branches: main
 
