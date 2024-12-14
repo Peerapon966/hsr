@@ -1,0 +1,15 @@
+name: Test PR to main created by @${{ github.actor }}
+
+on:
+  pull_request_target:
+    branches: main
+
+jobs:
+  run_integ_test:
+    name: Run integration test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v4
+      - name: Install Dependencies
+        run: npm ci
