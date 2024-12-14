@@ -6,6 +6,7 @@ on:
       - opened
       - synchronize
     branches:
+      - main
       - feature/**
       - bugfix/**
   # pull_request_target:
