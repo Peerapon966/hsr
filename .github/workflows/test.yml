@@ -1,8 +1,14 @@
 run-name: Test PR to main created by @${{ github.actor }}
 
 on:
-  pull_request_target:
-    branches: main
+  pull_request:
+    types:
+      - opened
+    branches:
+      - feature/**
+      - bugfix/**
+  # pull_request_target:
+  #   branches: main
 
 jobs:
   run_integ_test:
