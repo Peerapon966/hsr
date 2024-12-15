@@ -11,7 +11,7 @@ on:
 jobs:
   run_integ_test:
     name: Run integration test
-    environment: staging_environment
+    environment: production_environment
     strategy:
       matrix:
         # os: [ubuntu-20.04, ubuntu-22.04, ubuntu-latest]
