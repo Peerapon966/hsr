@@ -34,8 +34,8 @@ jobs:
         run: npm run lint
       - name: Run integration tests
         run: npm run test
-  deploy_to_staging:
-    name: Deploy to staging
+  build_image:
+    name: Build and push the image
     environment: staging_environment
     if: ${{ success() }}
     needs:
