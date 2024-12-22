@@ -14,6 +14,9 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+RUN cat .dockerignore
+RUN ls -la
+
 RUN npx prisma generate
 RUN npm run build
 
