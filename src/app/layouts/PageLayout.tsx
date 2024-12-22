@@ -41,7 +41,7 @@ export function PageLayout(props: ReactBaseProps) {
 
   useEffect(() => {
     if (currentPage !== "home") enableScrollWithKeyDown();
-  }, []);
+  }, [currentPage]);
 
   return (
     <PageContext.Provider value={{ currentPage, queryString } as TPageContext}>

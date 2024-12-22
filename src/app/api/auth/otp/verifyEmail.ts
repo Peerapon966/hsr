@@ -4,12 +4,11 @@ import {
 } from "@/api/utils/response/apiResponse";
 import { OtpError } from "@/api/utils/response/otpError";
 import { prisma } from "@/api/utils/prisma";
-import { Logger } from "@/logger";
 
 /**
  * Check if an email is valid and not taken yet or not
  *
- * @param {email} email an email to be registered
+ * @param {string} email an email to be registered
  * @returns {ApiSuccessResponse | OtpError}
  */
 export async function verifyEmail(
@@ -42,8 +41,7 @@ export async function verifyEmail(
       return response.error(otpError).emailTaken();
     }
   } catch (error) {
-    Logger.error(error, "An error occurred at: verifyEmail.ts");
-    return response.error(otpError).internalErrorOccurred();
+    throw error;
   }
 
   return response.success();

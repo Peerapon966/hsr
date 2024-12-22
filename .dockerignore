@@ -1,0 +1,17 @@
+# Build artifact
+.next
+
+# GitHub workflows
+.github
+
+# Jest
+coverage
+
+# Log file
+logs
+
+# node_modules
+node_modules
+
+# build cache
+.cache

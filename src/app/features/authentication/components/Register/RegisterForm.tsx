@@ -21,6 +21,7 @@ import {
   RegisterFieldNames,
 } from "@/features/authentication/components/InputField/InputField";
 import { ApiSuccessResponse } from "@/api/utils/response/apiResponse";
+import { Logger } from "@/logger";
 
 export function RegisterForm({ isOpen, swapFormContent }: RegisterFormProps) {
   const emailInput = InputField({

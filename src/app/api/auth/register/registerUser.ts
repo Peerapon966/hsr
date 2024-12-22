@@ -32,7 +32,6 @@ export async function registerUser(
       },
     });
   } catch (error) {
-    Logger.error(error, "An error occurred at registerUser.ts");
     throw error;
   } finally {
     await prisma.$disconnect();
