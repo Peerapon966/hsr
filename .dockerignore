@@ -1,10 +1,11 @@
 # Build artifact
 .next
 
-# GitHub workflows
+# GHA workflows
 .github
 
 # Jest
+jest
 coverage
 
 # Log file
@@ -13,5 +14,8 @@ logs
 # node_modules
 node_modules
 
-# build cache
+# Build cache
 .cache
+
+# Seeder
+db
