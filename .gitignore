@@ -42,6 +42,3 @@ prisma/.env
 # seeder
 db/node_modules
 db/dump
-
-# build cache
-.cache
