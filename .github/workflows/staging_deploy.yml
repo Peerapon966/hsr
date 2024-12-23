@@ -12,6 +12,9 @@ jobs:
   deploy_to_staging:
     name: Deploy build artifact to staging environment
     environment: staging_environment
+    permissions:
+      contents: read
+      issues: write
     runs-on: ubuntu-22.04
     steps:
       - name: Post image ID to PR
