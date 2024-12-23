@@ -7,15 +7,6 @@ const nextConfig = {
   experimental: {
     // tell webpack to include these packages (pino, pino-pretty and its dependencies) when building or else, MODULE_NOT_FOUND error
     serverComponentsExternalPackages: ["pino", "pino-pretty"],
-    outputFileTracingExcludes: [
-      ".cache/**",
-      ".github/workflows/**",
-      ".next/**",
-      "coverage/**",
-      "db/**",
-      "jest/**",
-      "logs/**",
-    ],
     outputFileTracingIncludes: {
       "/api/auth/*": [
         "node_modules/args/**",
