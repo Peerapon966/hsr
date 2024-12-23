@@ -19,7 +19,6 @@ jobs:
         with:
           script: |
             const imageId = '${{ vars.APP_ENV }}';
-            const { context, github } = require('@actions/github');
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
