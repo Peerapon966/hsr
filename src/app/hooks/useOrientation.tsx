@@ -9,13 +9,24 @@ export function useOrientation(): [
   const [optimalOrientation, setOptimalOrientation] =
     useState<TOrientation>("landscape");
 
-  useEffect(() => {
-    const innerWidth = window.innerWidth;
-    setOptimalOrientation(innerWidth >= 1920 ? "landscape" : "portrait");
-  }, []);
   const getCurrentOrientation = (window: Window) => {
-    return window.innerWidth > window.innerHeight ? "landscape" : "portrait";
+    const height = window.screen.height;
+    const width = window.screen.width;
+
+    return width > height ? "landscape" : "portrait";
   };
+
+  useEffect(() => {
+    const getOptimalOrientation = (): TOrientation => {
+      const height = window.screen.height;
+      const width = window.screen.width;
+
+      if (width / height < 16 / 9) return "portrait";
+
+      return width > height ? "landscape" : "portrait";
+    };
+    setOptimalOrientation(getOptimalOrientation());
+  }, []);
 
   return [optimalOrientation, getCurrentOrientation];
 }

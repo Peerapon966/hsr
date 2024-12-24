@@ -34,6 +34,10 @@ export function PageLayout(props: ReactBaseProps) {
   const searchParams = useSearchParams();
   const [optimalOrientation, getCurrentOrientation] = useOrientation();
   const [isUserIgnore, setIsUserIgnore] = useState<boolean>(false);
+  const ignorePromptHandler = () => {
+    setIsUserIgnore(true);
+    window.sessionStorage.setItem("isUserIgnore", "true");
+  };
 
   searchParams.forEach((value, key) => {
     queryString += queryString === "" ? `?${key}=${value}` : `&${key}=${value}`;
@@ -41,6 +45,9 @@ export function PageLayout(props: ReactBaseProps) {
 
   useEffect(() => {
     if (currentPage !== "home") enableScrollWithKeyDown();
+
+    const isUserIgnore = window.sessionStorage.getItem("isUserIgnore");
+    if (isUserIgnore) setIsUserIgnore(true);
   }, [currentPage]);
 
   return (
@@ -57,7 +64,7 @@ export function PageLayout(props: ReactBaseProps) {
         >
           <Svg />
           {!isUserIgnore && (
-            <ChangeOrientation setIsUserIgnore={setIsUserIgnore} />
+            <ChangeOrientation setIsUserIgnore={ignorePromptHandler} />
           )}
           <Header />
           {props.children}

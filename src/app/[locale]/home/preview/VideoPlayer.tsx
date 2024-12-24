@@ -9,7 +9,9 @@ export function VideoPlayer() {
   return (
     <div className="bg-black overflow-hidden">
       <video
-        className="min-w-[1270px] w-screen h-screen object-bottom object-cover"
+        className={`${
+          optimalOrientation === "landscape" && "min-w-[1270px]"
+        } w-screen h-screen object-bottom object-cover`}
         autoPlay={true}
         loop={true}
         muted={true}
