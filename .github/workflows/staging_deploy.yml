@@ -28,7 +28,7 @@ jobs:
               repo: context.repo.repo,
             });
             console.log(`repoVars: ${repoVars}`);
-            const commentId = repoVars.find((var) => var.name === context.ref_name);
+            const commentId = repoVars.find((v) => v.name === context.ref_name);
             console.log(`commentId: ${commentId}`);
             if (commentId) {
               await github.rest.issues.updateComment({
