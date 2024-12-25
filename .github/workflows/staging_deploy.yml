@@ -12,7 +12,9 @@ jobs:
   deploy_to_staging:
     name: Deploy build artifact to staging environment
     environment: staging_environment
-    permissions: write-all
+    permissions:
+      contents: read
+      pull-requests: write
     runs-on: ubuntu-22.04
     steps:
       - name: Post image ID to PR
@@ -21,12 +23,16 @@ jobs:
           script: |
             const imageId = '${{ vars.APP_ENV }}';
             console.log(`ref_name: ${context.ref_name}`);
-            const repoVars = await github.rest.actions.listRepoVariables({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-            });
-            console.log(`repoVars: ${repoVars}`);
-            const commentId = repoVars.find((v) => v.name === context.ref_name);
+            let commendId;
+            try {
+              commentId = await github.rest.actions.getRepoVariable({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                variable_name: context.ref_name
+              });
+            } catch (error) {
+              console.log(`error: ${error}`);
+            }
             console.log(`commentId: ${commentId}`);
             if (commentId) {
               await github.rest.issues.updateComment({
