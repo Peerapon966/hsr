@@ -12,9 +12,6 @@ jobs:
   deploy_to_staging:
     name: Deploy build artifact to staging environment
     environment: staging_environment
-    # permissions:
-    #   contents: read
-    #   pull-requests: write
     runs-on: ubuntu-22.04
     steps:
       - name: Post image ID to PR
@@ -24,20 +21,28 @@ jobs:
           script: |
             const imageId = '${{ vars.APP_ENV }}';
             const varName = context.ref.replaceAll('/', '_').toUpperCase();
-            console.log(`ref: ${varName}`);
             const repoVars = await github.rest.actions.listRepoVariables({
               owner: context.repo.owner,
               repo: context.repo.repo
             });
-            console.log(`repoVars: ${JSON.stringify(repoVars)}`);
             const commentId = repoVars.data.variables.find(v => v.name === varName)?.value;
-            console.log(`commentId: ${commentId}`);
             if (commentId) {
-              await github.rest.issues.updateComment({
+              await github.rest.issues.deleteComment({
+                comment_id: Number(commentId),
+                owner: context.repo.owner,
+                repo: context.repo.repo
+              });
+              const {data} = await github.rest.issues.createComment({
                 comment_id: Number(commentId),
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 body: `The Docker image ID for this build is: ${imageId}`
+              });
+              await github.rest.actions.updateRepoVariable({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: varName,
+                value	: data.id.toString()
               });
             } else {
               const { data } = await github.rest.issues.createComment({
@@ -46,7 +51,6 @@ jobs:
                 repo: context.repo.repo,
                 body: `The Docker image ID for this build is: ${imageId}`
               });
-              console.log(`commentId2: ${data.id}`);
               await github.rest.actions.createRepoVariable({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
