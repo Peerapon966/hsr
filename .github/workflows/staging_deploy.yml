@@ -25,16 +25,12 @@ jobs:
             const imageId = '${{ vars.APP_ENV }}';
             const varName = context.ref.replaceAll('/', '_');
             console.log(`ref: ${varName}`);
-            let commentId;
-            try {
-              commentId = await github.rest.actions.getRepoVariable({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                variable_name: varName
-              });
-            } catch (error) {
-              console.log(`error: ${error}`);
-            }
+            const repoVars = await github.rest.actions.listRepoVariables({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+            console.log(`repoVars: ${repoVars}`);
+            const commentId = repoVars.data.find(v => v.name === varName)?.value;
             console.log(`commentId: ${commentId}`);
             if (commentId) {
               await github.rest.issues.updateComment({
