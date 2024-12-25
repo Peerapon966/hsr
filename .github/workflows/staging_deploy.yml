@@ -23,7 +23,7 @@ jobs:
           script: |
             const imageId = '${{ vars.APP_ENV }}';
             console.log(`ref: ${context.ref}`);
-            let commendId;
+            let commentId;
             try {
               commentId = await github.rest.actions.getRepoVariable({
                 owner: context.repo.owner,
