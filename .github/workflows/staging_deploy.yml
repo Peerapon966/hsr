@@ -29,8 +29,8 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo
             });
-            console.log(`repoVars: ${repoVars}`);
-            const commentId = repoVars.data.find(v => v.name === varName)?.value;
+            console.log(`repoVars: ${JSON.stringify(repoVars)}`);
+            const commentId = repoVars.find(v => v.name === varName)?.value;
             console.log(`commentId: ${commentId}`);
             if (commentId) {
               await github.rest.issues.updateComment({
