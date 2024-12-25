@@ -23,7 +23,7 @@ jobs:
           github-token: ${{ secrets.GHA_PAT }}
           script: |
             const imageId = '${{ vars.APP_ENV }}';
-            const varName = context.ref.replaceAll('/', '_');
+            const varName = context.ref.replaceAll('/', '_').toUpperCase();
             console.log(`ref: ${varName}`);
             const repoVars = await github.rest.actions.listRepoVariables({
               owner: context.repo.owner,
