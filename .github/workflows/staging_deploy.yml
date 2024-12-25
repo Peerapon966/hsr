@@ -22,11 +22,13 @@ jobs:
         with:
           script: |
             const imageId = '${{ vars.APP_ENV }}';
-            const commentId = await github.rest.actions.getRepoVariable({
+            console.log(`ref_name: ${context.ref_name}`);
+            const repoVars = await github.rest.actions.listRepoVariables({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              variable_name: context.ref
             });
+            console.log(`repoVars: ${repoVars}`);
+            const commentId = repoVars.find((var) => var.name === context.ref_name);
             console.log(`commentId: ${commentId}`);
             if (commentId) {
               await github.rest.issues.updateComment({
@@ -45,7 +47,7 @@ jobs:
               await github.rest.actions.createRepoVariable({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                name: context.ref,
+                name: context.ref_name,
                 value	: data.id
               });
             }
