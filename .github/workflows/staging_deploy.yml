@@ -23,13 +23,14 @@ jobs:
           github-token: ${{ secrets.GHA_PAT }}
           script: |
             const imageId = '${{ vars.APP_ENV }}';
-            console.log(`ref: ${context.ref}`);
+            const varName = context.ref.replaceAll('/', '_');
+            console.log(`ref: ${varName}`);
             let commentId;
             try {
               commentId = await github.rest.actions.getRepoVariable({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                variable_name: context.ref
+                variable_name: varName
               });
             } catch (error) {
               console.log(`error: ${error}`);
@@ -53,7 +54,7 @@ jobs:
               await github.rest.actions.createRepoVariable({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                name: context.ref,
+                name: varName,
                 value	: data.id.toString()
               });
             }
