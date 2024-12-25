@@ -37,7 +37,7 @@ jobs:
             console.log(`commentId: ${commentId}`);
             if (commentId) {
               await github.rest.issues.updateComment({
-                comment_id: commentId,
+                comment_id: Number(commentId),
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 body: `The Docker image ID for this build is: ${imageId}`
@@ -54,6 +54,6 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 name: context.ref,
-                value	: data.id
+                value	: data.id.toString()
               });
             }
