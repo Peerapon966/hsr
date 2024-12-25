@@ -22,13 +22,13 @@ jobs:
         with:
           script: |
             const imageId = '${{ vars.APP_ENV }}';
-            console.log(`ref_name: ${context.ref_name}`);
+            console.log(`ref: ${context.ref}`);
             let commendId;
             try {
               commentId = await github.rest.actions.getRepoVariable({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                variable_name: context.ref_name
+                variable_name: context.ref
               });
             } catch (error) {
               console.log(`error: ${error}`);
@@ -51,7 +51,7 @@ jobs:
               await github.rest.actions.createRepoVariable({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                name: context.ref_name,
+                name: context.ref,
                 value	: data.id
               });
             }
