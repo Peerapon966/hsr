@@ -19,9 +19,8 @@ jobs:
     steps:
       - name: Post image ID to PR
         uses: actions/github-script@v7
-        env:
-          PAT: ${{ secrets.GHA_PAT }}
         with:
+          github-token: ${{ secrets.GHA_PAT }}
           script: |
             const imageId = '${{ vars.APP_ENV }}';
             console.log(`ref: ${context.ref}`);
@@ -51,8 +50,7 @@ jobs:
                 body: `The Docker image ID for this build is: ${imageId}`
               });
               console.log(`commentId2: ${data.id}`);
-              const octokit = github.getOctokit(process.env.PAT);
-              await octokit.rest.actions.createRepoVariable({
+              await github.rest.actions.createRepoVariable({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 name: context.ref,
