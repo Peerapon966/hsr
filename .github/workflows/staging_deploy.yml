@@ -33,7 +33,7 @@ jobs:
                 repo: context.repo.repo
               });
               const {data} = await github.rest.issues.createComment({
-                comment_id: Number(commentId),
+                issue_number: context.issue.number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 body: `The Docker image ID for this build is: ${imageId}`
