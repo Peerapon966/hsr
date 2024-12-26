@@ -25,4 +25,5 @@ jobs:
             await script({
               github,
               context,
+              imageId: '${{ vars.APP_ENV }}'
             })

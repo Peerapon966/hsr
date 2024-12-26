@@ -1,5 +1,4 @@
-module.exports = async ({ github, context }) => {
-  const imageId = "abc123";
+module.exports = async ({ github, context, imageId }) => {
   const varName = context.ref.replaceAll("/", "_").toUpperCase();
   console.log(`varName: ${varName}`);
   const repoVars = await github.rest.actions.listRepoVariables({
