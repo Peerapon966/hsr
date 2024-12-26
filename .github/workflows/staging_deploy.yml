@@ -22,10 +22,7 @@ jobs:
           github-token: ${{ secrets.GHA_PAT }}
           script: |
             const script = require('.github/scripts/writeComment.js')
-            const imageId = ${{ vars.APP_ENV }}
-            console.log('script loaded')
             await script({
               github,
               context,
-              imageId
             })
