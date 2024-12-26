@@ -41,5 +41,6 @@ module.exports = async ({ github, context, imageId }) => {
       value: data.id.toString(),
     });
   }
-  return context.payload.client_payload.value;
+
+  return true;
 };
