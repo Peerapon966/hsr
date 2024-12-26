@@ -14,6 +14,8 @@ jobs:
     environment: staging_environment
     runs-on: ubuntu-22.04
     steps:
+      - name: Checkout the code
+        uses: actions/checkout@v4
       - name: Post image ID to PR
         uses: actions/github-script@v7
         with:
