@@ -21,7 +21,7 @@ jobs:
         with:
           github-token: ${{ secrets.GHA_PAT }}
           script: |
-            const script = require('./scripts/writeComment.js')
+            const script = require('.github/scripts/writeComment.js')
             await script({
               context,
               github,
