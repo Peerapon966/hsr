@@ -1,9 +1,12 @@
+name: Open PR workflow
 run-name: Test, build, and deploy the PR to main created by @${{ github.actor }} to staging environment
 
 on:
   pull_request:
     types:
       - opened
+      - reopened
+      - ready_for_review
     branches:
       - main
 
@@ -11,6 +14,7 @@ jobs:
   run_integ_test:
     name: Run integration test
     environment: staging_environment
+    if: ${{ !github.event.pull_request.draft }}
     strategy:
       matrix:
         # os: [ubuntu-20.04, ubuntu-22.04, ubuntu-latest]

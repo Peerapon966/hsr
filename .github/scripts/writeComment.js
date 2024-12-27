@@ -1,6 +1,5 @@
 module.exports = async ({ github, context, imageId }) => {
   const varName = context.ref.replaceAll("/", "_").toUpperCase();
-  console.log(`varName: ${varName}`);
   const repoVars = await github.rest.actions.listRepoVariables({
     owner: context.repo.owner,
     repo: context.repo.repo,
@@ -8,7 +7,6 @@ module.exports = async ({ github, context, imageId }) => {
   const commentId = repoVars.data.variables.find(
     (v) => v.name === varName
   )?.value;
-  console.log(`commentId: ${commentId}`);
   if (commentId) {
     await github.rest.issues.deleteComment({
       comment_id: Number(commentId),
