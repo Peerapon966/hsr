@@ -3,7 +3,6 @@ import {
   ApiSuccessResponse,
 } from "@/api/utils/response/apiResponse";
 import { prisma } from "@/api/utils/prisma";
-import { Logger } from "@/logger";
 
 export async function generateOTP(email: string): Promise<ApiSuccessResponse> {
   const response = new ApiResponse();
@@ -23,7 +22,6 @@ export async function generateOTP(email: string): Promise<ApiSuccessResponse> {
       },
     });
   } catch (error) {
-    Logger.error(error, "An error occurred at: generateOTP.ts");
     throw error;
   } finally {
     await prisma.$disconnect();

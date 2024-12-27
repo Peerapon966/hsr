@@ -48,7 +48,6 @@ export function useDownloadModalContext() {
 export function Header(): JSX.Element {
   const { currentPage } = useContext(PageContext) as TPageContext;
   const { data: session, status } = useSession();
-  console.log("session: ", session);
   const locale = useLocale();
   const header = useRef<HTMLDivElement | null>(null);
   const [isAuth, setIsAuth] = useState<boolean>(status === "authenticated");

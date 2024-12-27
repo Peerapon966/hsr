@@ -4,6 +4,7 @@ import { prisma } from "@/api/utils/prisma";
 import { createClient, RedisClientType } from "redis";
 import { createHash } from "crypto";
 import { FetchNewsItemsResponse } from "@/services/content/fetchNewsItems";
+import { Logger } from "@/logger";
 
 export async function GET(
   req: NextRequest
@@ -31,7 +32,7 @@ export async function GET(
 
     try {
       client = createClient({
-        url: "redis://default:P@ssw0rd@localhost:6379",
+        url: process.env.REDIS_URL,
       });
       await client.connect();
 
@@ -51,7 +52,6 @@ export async function GET(
     }
   }
 
-  console.log("queryyyyyyyyyyyyyyyyyyyyyyyyyy");
   const newsItems = await prisma.news.findMany({
     select: {
       news_id: true,

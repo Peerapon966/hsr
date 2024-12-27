@@ -1,6 +1,5 @@
 import nodemailer from "nodemailer";
 import sendOtpEmail from "@/assets/email/sendOtpEmail";
-import { Logger } from "@/logger";
 
 type sendEmail = {
   email: string;
@@ -32,7 +31,6 @@ export async function sendOTP(props: sendEmail) {
     const transporter = nodemailer.createTransport(transportConfigs);
     await transporter.sendMail(mailConfigs);
   } catch (error) {
-    Logger.error(error, "An error occurred at: sendOTP.ts");
     throw new Error(error as string);
   }
 }

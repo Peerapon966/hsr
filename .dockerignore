@@ -1,0 +1,21 @@
+# Build artifact
+.next
+
+# GHA workflows
+.github
+
+# Jest
+jest
+coverage
+
+# Log file
+logs
+
+# node_modules
+node_modules
+
+# Build cache
+.cache
+
+# Seeder
+db

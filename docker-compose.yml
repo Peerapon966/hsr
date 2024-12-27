@@ -1,20 +1,20 @@
-version: "3.9"
+version: "2.4"
 
 services:
   # next:
   #   container_name: next
-  #   build: .
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
   #   ports:
   #     - 3000:3000
-  #   volumes:
-  #     - ./src:/app/src
-  #     - ./public:/app/public
-  #   restart: always
-  #   env_file:
-  #     - .env.local
-  #     - .env.development
-  #     - .env.test
-  #     - .env.production
+  #   restart: unless-stopped
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         cpus: 2
+  #       reservations:
+  #         cpus: 0.5
   #   depends_on:
   #     mysql:
   #       condition: service_healthy

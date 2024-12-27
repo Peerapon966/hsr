@@ -73,7 +73,6 @@ export async function verifyData(
       });
     }
   } catch (error) {
-    Logger.error(error, "An error occurred at: verifyData.ts");
     throw error;
   }
 
@@ -101,16 +100,11 @@ export async function verifyData(
       },
     });
   } catch (error) {
-    Logger.error(error, "An error occurred at: verifyData.ts");
     throw error;
   }
 
   // If this runs, it means the registrant information doesn't get recorded properly when the registrant requests an otp
   if (!registrant) {
-    Logger.info(
-      formData,
-      "Registrant with the specified email/username not found"
-    );
     return response.error(registerError).internalErrorOccurred();
   }
 

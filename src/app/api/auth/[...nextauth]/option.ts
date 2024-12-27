@@ -2,8 +2,9 @@ import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "@/api/utils/prisma";
-import { AuthOptions } from "next-auth";
+import { AuthOptions, Session } from "next-auth";
 import argon2 from "argon2";
+import { Logger } from "@/logger";
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -91,6 +92,16 @@ export const authOptions: AuthOptions = {
   },
   jwt: {
     maxAge: 2 * 60 * 60,
+  },
+  events: {
+    async signIn({ user }) {
+      Logger.info(`User '${user.id}' logged in at ${new Date().toISOString()}`);
+    },
+    async signOut({ token }) {
+      Logger.info(
+        `User '${token.id}' logged out at ${new Date().toISOString()}`
+      );
+    },
   },
   adapter: PrismaAdapter(prisma),
 };

@@ -5,11 +5,36 @@ const withNextIntl = createNextIntlPlugin();
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    serverComponentsExternalPackages: ["pino", "pino-pretty"], // tell webpack to include these packages when building or else, MODULE_NOT_FOUND error
+    // tell webpack to include these packages (pino, pino-pretty and its dependencies) when building or else, MODULE_NOT_FOUND error
+    serverComponentsExternalPackages: ["pino", "pino-pretty"],
+    outputFileTracingIncludes: {
+      "/api/auth/*": [
+        "node_modules/args/**",
+        "node_modules/camelcase/**",
+        "node_modules/chalk/**",
+        "node_modules/colorette/**",
+        "node_modules/dateformat/**",
+        "node_modules/end-of-stream/**",
+        "node_modules/fast-copy/**",
+        "node_modules/fast-safe-stringify/**",
+        "node_modules/joycon/**",
+        "node_modules/leven/**",
+        "node_modules/mri/**",
+        "node_modules/pino-pretty/**",
+        "node_modules/pump/**",
+        "node_modules/once/**",
+        "node_modules/rfdc/**",
+        "node_modules/secure-json-parse/**",
+        "node_modules/strip-json-comments/**",
+        "node_modules/wrappy/**",
+      ],
+    },
   },
-  // reactStrictMode: false,
+
+  output: "standalone",
   assetPrefix: process.env.ASSET_PREFIX,
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",

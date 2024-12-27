@@ -80,6 +80,7 @@ export async function NewsDetailContent({
             dangerouslySetInnerHTML={{ __html: content }}
           ></div>
           <div className="flex h-[.67rem] my-[.67rem] px-[.98rem]">
+            {/* TODO: on the last page, prev btn appears instead of next btn */}
             {nextNewsId && (
               <Link
                 className="select-none"
