@@ -1,27 +1,29 @@
-version: "2.4"
-
 services:
-  # next:
-  #   container_name: next
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - 3000:3000
-  #   restart: unless-stopped
-  #   deploy:
-  #     resources:
-  #       limits:
-  #         cpus: 2
-  #       reservations:
-  #         cpus: 0.5
-  #   depends_on:
-  #     mysql:
-  #       condition: service_healthy
-  #     redis:
-  #       condition: service_healthy
-  #   networks:
-  #     - app-network
+  next:
+    container_name: next
+    build:
+      context: .
+      dockerfile: Dockerfile
+      no_cache: true
+    image: next:latest
+    ports:
+      - 3000:3000
+    env_file:
+      - .env.production.local
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: 2
+        reservations:
+          cpus: 0.5
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - app-network
 
   phpmyadmin:
     container_name: phpmyadmin
